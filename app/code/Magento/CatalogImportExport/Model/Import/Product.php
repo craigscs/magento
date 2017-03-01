@@ -2405,17 +2405,19 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     $this->urlKeys[$storeId][$urlPath] = $rowData[self::COL_SKU];
                     $this->rowNumbers[$storeId][$urlPath] = $rowNum;
                 } else {
-                    $message = sprintf(
-                        $this->retrieveMessageTemplate(ValidatorInterface::ERROR_DUPLICATE_URL_KEY),
-                        $urlKey,
-                        $this->urlKeys[$storeId][$urlPath]
-                    );
-                    $this->addRowError(
-                        ValidatorInterface::ERROR_DUPLICATE_URL_KEY,
-                        $rowNum,
-                        $rowData[self::COL_NAME],
-                        $message
-                    );
+                    $this->urlKeys[$storeId][$urlPath] = $rowData[self::COL_SKU]."---".rand(1,10000);
+                    $this->rowNumbers[$storeId][$urlPath] = $rowNum;
+//                    $message = sprintf(
+//                        $this->retrieveMessageTemplate(ValidatorInterface::ERROR_DUPLICATE_URL_KEY),
+//                        $urlKey,
+//                        $this->urlKeys[$storeId][$urlPath]
+//                    );
+//                    $this->addRowError(
+//                        ValidatorInterface::ERROR_DUPLICATE_URL_KEY,
+//                        $rowNum,
+//                        $rowData[self::COL_NAME],
+//                        $message
+//                    );
                 }
             }
         }
