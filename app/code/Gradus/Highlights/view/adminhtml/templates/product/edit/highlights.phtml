@@ -1,0 +1,47 @@
+<?php
+$tech = $this->getProduct()->getData('highlights');
+$info = json_decode($tech, true);
+$count = 0;
+?>
+<div id="highlight_container" style="width:900px; margin:auto;">
+    <?php if (count($info) > 0) : ?>
+    <?php foreach ($info as $i) : ?>
+            <?php if (!is_null($i)) : ?>
+        <div class="specs_row" id="highlight_<?= $count ?>">
+            <div class="draggable-handle"></div>
+            <label for="highlight_<?= $count ?>">Highlight <?= $count++ ?></label>
+            <input id="hightlight_<?= $count ?>" style="width:90%;" data-form-part="product_form" value="<?= $i ?>" name="highlights[<?= $count ?>]" />
+        <a class="delete_icon" src="javascript:void(0)" onclick="deleteHighlight('highlight_<?= $count ?>')"></a>
+        </div>
+        <?php $count++ ?>
+            <?php endif ?>
+    <?php endforeach ?>
+    <?php endif ?>
+</div>
+<button onclick="addHighlight()">Add Highlight</button>
+
+<script>
+    var $q = jQuery.noConflict();
+    $q( document ).ready(function() {
+        $q('#highlight_container').sortable({
+            handle: '.draggable-handle',
+            revert: 300,
+            placeholder: "ui-state-highlight myHover",
+            tolerance: "intersect",
+        }).disableSelection();
+    });
+    function addHighlight()
+    {
+        var counts = $q('#highlight_container input').length;
+        var clb = counts+1;
+        $q('#highlight_container').append
+        ('<div class="specs_row" id="highlight_'+counts+'"><div class="draggable-handle"></div><label for=-"highlight_'+counts+'">Highlight '+clb+'</label>' +
+            '<input id="highlight_'+counts+'" style="width:90%;" data-form-part=\'product_form\' name=\'highlights["'+clb+'"]\' />' +
+            "<a class=\"delete_icon\" src=\"javascript:void(0)\" onclick=\"deleteHighlight('highlight_"+counts+"')\"></a><br/></div>");
+    }
+
+    function deleteHighlight(h)
+    {
+        $q('#'+h).remove();
+    }
+</script>

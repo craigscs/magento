@@ -1,0 +1,53 @@
+<?php
+$tech = $this->getProduct()->getData('in_the_box');
+$info = json_decode($tech, true);
+var_dump($info);
+$count = 1;
+?>
+<div id="in_the_box_container" style="width:900px; margin:auto;">
+    <?php if (count($info) > 0) : ?>
+    <?php foreach ($info as $i) : ?>
+            <?php if (!is_null($i)) : ?>
+        <div class="specs_row" id="in_the_box_<?= $count ?>">
+            <div class="draggable-handle"></div>
+            <label for="in_the_box_value_<?= $count ?>">In The Box <?= $count ?></label>
+            <input id="in_the_box_value_<?= $count ?>" style="width:30%;" data-form-part="product_form" value="<?= $i['value'] ?>" name="in_the_box[<?= $count ?>][value]" />
+            <label for="in_the_box_count_<?= $count ?>">Amount <?= $count ?></label>
+            <input id="in_the_box_count_<?= $count ?>" style="width:30%;" data-form-part="product_form" value="<?= $i['count'] ?>" name="in_the_box[<?= $count ?>][count]" />
+        <a class="delete_icon" src="javascript:void(0)" onclick="deleteinthebox('in_the_box_<?= $count ?>//////')"></a>
+        </div>
+        <?php $count++ ?>
+            <?php endif ?>
+    <?php endforeach ?>
+    <?php endif ?>
+</div>
+<button onclick="addinthebox()">Add In The Box</button>
+
+<script>
+    var $q = jQuery.noConflict();
+    $q( document ).ready(function() {
+        $q('#in_the_box_container').sortable({
+            handle: '.draggable-handle',
+            revert: 300,
+            placeholder: "ui-state-in_the_box myHover",
+            tolerance: "intersect",
+        }).disableSelection();
+    });
+    function addinthebox()
+    {
+        var counts = $q('#in_the_box_container input').length;
+        var clb = counts+1;
+        $q('#in_the_box_container').append
+        ('<div class="in_the_box_row" id="in_the_box_'+counts+'"><div class="draggable-handle"></div>' +
+            '<label for=-"in_the_box_value'+counts+'">In The Box '+clb+'</label>' +
+            '<input id="in_the_box_value_'+counts+'" style="width:30%;" data-form-part=\'product_form\' name=\'in_the_box['+clb+'][value]\' />' +
+            '<label for=-"in_the_box_count_'+counts+'">Amount '+clb+'</label>' +
+            '<input id="in_the_box_count_'+counts+'" style="width:30%;" data-form-part=\'product_form\' name=\'in_the_box['+clb+'][count]\' />' +
+            "<a class=\"delete_icon\" src=\"javascript:void(0)\" onclick=\"deleteinthebox('in_the_box_"+counts+"')\"></a><br/></div>");
+    }
+
+    function deleteinthebox(h)
+    {
+        $q('#'+h).remove();
+    }
+</script>

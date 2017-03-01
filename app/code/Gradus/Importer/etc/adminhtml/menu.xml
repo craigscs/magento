@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Gradus_Importer::importt_new" title="Custom Import" module="Gradus_Importer"
+             sortOrder="11" parent="Magento_Backend::system_convert" action="importer/import/new" resource="Gradus_Importer::import"/>
+        <add id="Gradus_Importer::importt" title="Custom Import History" module="Gradus_Importer"
+             sortOrder="12" parent="Magento_Backend::system_convert" action="importer/import" resource="Gradus_Importer::import"/>
+    </menu>
+</config>

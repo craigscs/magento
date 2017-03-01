@@ -1,0 +1,64 @@
+.draggable-handle, .draggable-handle2 {
+    display:inline-block; cursor:move;
+    width: 15px; height:15px;
+    background-image: url("../images/draggable.png");
+    background-size: 15px;
+    padding: 5px;
+    margin-right:10px;
+    margin-left:5px;
+}
+.header_txt {
+    margin-left: 15px;
+    display:inline-block;
+}
+.delete_icon {
+    float:right;
+    width:20px;
+    height:20px;
+    background-image: url("../images/trash.png");
+    background-size: 20px 20px;
+}
+.tech_spec_table {
+    max-width:1200px;
+}
+.delete_icon img {
+    cursor: hand;
+}
+.header_row {
+    margin-bottom:10px;
+}
+.ui-state-highlight {
+    background: #cc0000;
+}
+.specs_row {
+    border-bottom:1px solid;
+    padding-bottom:13px;
+    padding-top:13px;
+    margin-left:35px;
+}
+.specs_row label {
+    padding: 0px 10px;
+}
+.specs_row input {
+    width: 25%;
+    padding: 3px;
+    margin-bottom:5px;
+}
+.specs_row textarea {
+    width:40%;
+    height:80px;
+    padding: 3px;
+    vertical-align: top;
+    margin-bottom:5px;
+}
+.header_div table {
+    width: 100%;
+}
+.header_div button {
+    margin-top:10px;
+}
+.ui-state-highlight, .myHover {
+    border: 3px #FF0000 dotted !important;
+    height: 25px;
+    background: #FF4545;
+}
