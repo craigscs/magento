@@ -43,23 +43,31 @@ while (($row = fgetcsv($file)) !== FALSE) {
 }
 fclose($file);
 foreach ($productData as $sku => $value) {
-
     try {
         if (isset($links[$sku])) {
             $sku = $links[$sku];
         }
         $p = $pr->get($sku);
-        $url = $value[1]['file'];
-        $img = 'pub/media/bhimp/' . $value[1]['name'];
-        file_put_contents($img, file_get_contents($url));
-        $p->addImageToMediaGallery('/bhimp/' . $value[1]['name'], array('image', 'small_image', 'thumbnail'), false, false);
-
-        $gallery = $p->getData('media_gallery');
-        $lastimg = array_pop($gallery['images']);
-        $process->updateImage($p, $lastimg['file'], array('label' => $value[1]['caption'], 'label_default' => $value[1]['caption'], 'position' => $value[1]['pos']));
-        $p->save();
-        var_dump($p->getMediaGallery());
-        printf("SKU saved: ".$sku);
+        foreach ($value as $v) {
+            $g = $p->getMediaGallery();
+            foreach ($g['images'] as $gg) {
+                if ($gg['label'] == $v['caption']) {
+                    printf("We found the image already, skipping\n");
+                    continue;
+                }
+            }
+            $url = $v['file'];
+            $img = 'pub/media/bhimp/' . $v['name'];
+            file_put_contents($img, file_get_contents($url));
+            $p->addImageToMediaGallery('/bhimp/' . $v['name'], array('image', 'small_image', 'thumbnail'), false, false);
+            $gallery = $p->getData('media_gallery');
+            $lastimg = array_pop($gallery['images']);
+            $process->updateImage($p, $lastimg['file'], array('label' => $v['caption'], 'label_default' => $v['caption'], 'position' => $v['pos']));
+            printf("Added image: ".$v['caption'].' to sku '.$sku."\n");
+            unlink('pub/media/bhimp/' . $v['name']);
+        }
+            $p->save();
+        printf("SKU saved: ".$sku."\n");
     } catch (\Exception $e) {
         printf($e->getMessage()." :: ".$sku);
     }
