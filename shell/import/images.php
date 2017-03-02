@@ -11,7 +11,7 @@ $state->setAreaCode('adminhtml');
 
 $pr = $obj->create('Magento\Catalog\Model\ProductRepository');
 $process = $obj->create('Magento\Catalog\Model\Product\Gallery\Processor');
-$file = fopen('shell/import/images.csv', 'r');
+$file = fopen('shell/import/csv/images.csv', 'r');
 $c = 0;
 $cc = 0;
 
