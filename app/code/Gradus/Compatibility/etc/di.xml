@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Magento\Catalog\Model\Product"
+                type="Gradus\Compatibility\Model\Product"/>
+    <preference for="Magento\Catalog\Model\Product\Link"
+                type="Gradus\Compatibility\Model\Catalog\Product\Link"/>
+    <preference for="Magento\Catalog\Model\Product\Link\Proxy"
+                type="Gradus\Compatibility\Model\Catalog\Product\Link\Proxy"/>
+
+    <type name="Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks">
+        <plugin sortOrder="4" name="afterInitializeLinks"
+                type="Gradus\Compatibility\Model\Product\Initialization\Helper\ProductLinks"/>
+    </type>
+
+    <!--For version 2.1.2-->
+    <preference for="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Related"
+                type="Gradus\Compatibility\Ui\DataProvider\Product\Form\Modifier\Related"/>
+
+    <type name="Magento\Catalog\Model\Product\LinkTypeProvider">
+        <arguments>
+            <argument name="linkTypes" xsi:type="array">
+                <item name="compatibility" xsi:type="const">Gradus\Compatibility\Model\Catalog\Product\Link::LINK_TYPE_COMPATIBILITY</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Catalog\Model\ProductLink\CollectionProvider">
+        <arguments>
+            <argument name="providers" xsi:type="array">
+                <item name="compatibility" xsi:type="object">Gradus\Compatibility\Model\Product\Link\CollectionProvider\Compatibility</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
