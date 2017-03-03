@@ -8,7 +8,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
         <add id="Magento_Catalog::catalog" title="Products" translate="title" module="Magento_Catalog" sortOrder="20" dependsOnModule="Magento_Catalog" resource="Magento_Catalog::catalog"/>
-        <add id="Magento_Catalog::catalog_products" title="Catalog" translate="title" module="Magento_Catalog" sortOrder="10" parent="Magento_Catalog::inventory" resource="Magento_Catalog::products"/>
+        <add id="Magento_Catalog::catalog_products" title="Catalog" translate="title" module="Magento_Catalog" sortOrder="10" parent="Magento_Catalog::inventory" action="catalog/product" resource="Magento_Catalog::products"/>
         <add id="Magento_Catalog::catalog_products_product" title="Products" translate="title" module="Magento_Catalog" sortOrder="10" parent="Magento_Catalog::inventory" action="catalog/product/product" resource="Magento_Catalog::products"/>
         <add id="Magento_Catalog::catalog_products_part" title="Part" translate="title" module="Magento_Catalog" sortOrder="10" parent="Magento_Catalog::inventory" action="catalog/product/part/" resource="Magento_Catalog::products"/>
         <add id="Magento_Catalog::catalog_products_compatible" title="Compatible" translate="title" module="Magento_Catalog" sortOrder="10" parent="Magento_Catalog::inventory" action="catalog/product/compatible/" resource="Magento_Catalog::products"/>

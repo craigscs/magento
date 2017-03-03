@@ -170,6 +170,7 @@
                 </item>
             </argument>
         </column>
+
         <column name="price" class="Magento\Catalog\Ui\Component\Listing\Columns\Price">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">

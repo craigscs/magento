@@ -614,6 +614,20 @@ class Related extends AbstractModifier
             'attribute_set' => $this->getTextColumn('attribute_set', false, __('Attribute Set'), 40),
             'sku' => $this->getTextColumn('sku', true, __('SKU'), 50),
             'price' => $this->getTextColumn('price', true, __('Price'), 60),
+            'actionRequirement' => [
+                'arguments' => [
+                    'data' => [
+                        'config' => [
+                            'additionalClasses' => 'data-grid-actions-cell',
+                            'componentType' => 'actionDelete',
+                            'dataType' => Text::NAME,
+                            'label' => __('Requirements'),
+                            'sortOrder' => 61,
+                            'fit' => true,
+                        ],
+                    ],
+                ],
+            ],
             'actionDelete' => [
                 'arguments' => [
                     'data' => [
