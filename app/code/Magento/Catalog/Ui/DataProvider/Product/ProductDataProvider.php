@@ -56,6 +56,7 @@ class ProductDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         if (isset($data['config']['filter_name'])) {
             $this->collection->addAttributeToFilter($data['config']['filter_name'], $data['config']['filter_value']);
         }
+        var_dump($this->collection->getData()); die();
         $this->addFieldStrategies = $addFieldStrategies;
         $this->addFilterStrategies = $addFilterStrategies;
     }
