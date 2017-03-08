@@ -19,7 +19,7 @@
             </action>
         </referenceBlock>
         <referenceContainer name="content">
-            <uiComponent name="product_listing_part"/>
+            <uiComponent name="product_listing_compatible"/>
             <block class="Magento\Catalog\Block\Adminhtml\Product" name="products_list"/>
         </referenceContainer>
     </body>

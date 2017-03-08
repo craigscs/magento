@@ -65,10 +65,10 @@ class Related extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Rel
     protected function getCompatibilityFieldset()
     {
         $content = __(
-            'Compatibility products are shown to customers in addition to the item the customer is looking at.'
+            'Compatibility products are shown to customers in addition to the item the customer is looking at.  \'<a target="_blank" href="/admin/requires/requires/new/">Add a new compatible require</a>.'
         );
         $content2 = __(
-            'Add compatible requirement.'
+            '<a target="_blank" href="/admin/requires/requires/new/">Add a new compatible require</a>.'
         );
 
         return [
