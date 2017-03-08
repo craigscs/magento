@@ -67,6 +67,9 @@ class Related extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Rel
         $content = __(
             'Compatibility products are shown to customers in addition to the item the customer is looking at.'
         );
+        $content2 = __(
+            'Add compatible requirement.'
+        );
 
         return [
             'children' => [
