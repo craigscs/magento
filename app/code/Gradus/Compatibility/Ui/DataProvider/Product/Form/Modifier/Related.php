@@ -64,8 +64,9 @@ class Related extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Rel
      */
     protected function getCompatibilityFieldset()
     {
+        $url = $this->urlBuilder->getUrl('require/require/new');
         $content = __(
-            'Compatibility products are shown to customers in addition to the item the customer is looking at.  \'<a target="_blank" href="/admin/requires/requires/new/">Add a new compatible require</a>.'
+            'Compatibility products are shown to customers in addition to the item the customer is looking at.  \'<a target="_blank" href="'.$url.'">Add a new compatible require</a>.'
         );
         $content2 = __(
             '<a target="_blank" href="/admin/requires/requires/new/">Add a new compatible require</a>.'
