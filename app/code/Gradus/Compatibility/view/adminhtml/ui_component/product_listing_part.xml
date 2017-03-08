@@ -15,7 +15,7 @@
     </argument>
     <dataSource name="product_listing_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Gradus\Compatibility\Ui\DataProvider\Product\ProductDataProvider</argument>
+            <argument name="class" xsi:type="string">Magento\Catalog\Ui\DataProvider\Product\ProductDataProvider</argument>
             <argument name="name" xsi:type="string">product_listing_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
@@ -235,17 +235,17 @@
                 </item>
             </argument>
         </column>
-        <!--<column name="websites" class="Magento\Catalog\Ui\Component\Listing\Columns\Websites">-->
-            <!--<argument name="data" xsi:type="array">-->
-                <!--<item name="options" xsi:type="object">Magento\Store\Model\ResourceModel\Website\Collection</item>-->
-                <!--<item name="config" xsi:type="array">-->
-                    <!--<item name="add_field" xsi:type="boolean">true</item>-->
-                    <!--<item name="dataType" xsi:type="string">text</item>-->
-                    <!--<item name="label" xsi:type="string" translate="true">Websites</item>-->
-                    <!--<item name="sortOrder" xsi:type="number">100</item>-->
-                <!--</item>-->
-            <!--</argument>-->
-        <!--</column>-->
+        <column name="websites" class="Magento\Catalog\Ui\Component\Listing\Columns\Websites">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magento\Store\Model\ResourceModel\Website\Collection</item>
+                <item name="config" xsi:type="array">
+                    <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Websites</item>
+                    <item name="sortOrder" xsi:type="number">100</item>
+                </item>
+            </argument>
+        </column>
         <actionsColumn name="actions" class="Magento\Catalog\Ui\Component\Listing\Columns\ProductActions">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
