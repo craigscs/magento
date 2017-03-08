@@ -4,7 +4,7 @@
     <body>
         <referenceContainer name="content">
             <block class="Gradus\Requires\Block\Adminhtml\Requires\Edit" name="requires_edit"/>
-            <uiComponent name="requires_requires_listing"/>
+            <uiComponent name="product_listing"/>
         </referenceContainer>
         <referenceContainer name="left">
             <block class="Gradus\Requires\Block\Adminhtml\Requires\Edit\Tabs" name="requires_edit_tabs">

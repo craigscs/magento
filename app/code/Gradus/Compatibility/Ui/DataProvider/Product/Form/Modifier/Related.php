@@ -66,7 +66,7 @@ class Related extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Rel
     {
         $url = $this->urlBuilder->getUrl('requires/requires/new');
         $content = __(
-            'Compatibility products are shown to customers in addition to the item the customer is looking at.  \'<a target="_blank" href="'.$url.'">Add a new compatible require</a>.'
+            'Compatibility products are shown to customers in addition to the item the customer is looking at.  <b><a target="_blank" href="'.$url.'">Add a new compatible require</a></b>.'
         );
         $content2 = __(
             '<a target="_blank" href="/admin/requires/requires/new/">Add a new compatible require</a>.'
