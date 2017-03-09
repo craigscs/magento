@@ -70,12 +70,12 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
         );
 
         $fieldset->addField(
-            'required_skus',
+            'require_skus',
             'text',
             [
                 'name' => 'require_skus',
-                'label' => __('Required Skus'),
-                'title' => __('Required Skus')
+                'label' => __('Required Ids'),
+                'title' => __('Required Ids')
             ]
         );
 
