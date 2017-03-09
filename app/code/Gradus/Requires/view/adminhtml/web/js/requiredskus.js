@@ -3,8 +3,9 @@ var val = [];
 q( document ).ready(function() {
     q('#page_entity_sku').chosen({width: "100%"});
     var vals =  q('#page_require_skus').val();
-    val = vals.split(',');
-    console.log(val);
+    if (vals != '') {
+        val = vals.split(',');
+    }
 });
 q(document).on('click', ':checkbox', function(){
     var vall = q(this).val();
