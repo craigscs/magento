@@ -57,15 +57,25 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             $fieldset->addField('id', 'hidden', ['name' => 'id']);
         }
         $fieldset->addField(
-            'process',
+            'entity_sku',
             'select',
             [
                 'name' => 'entity_sku',
-                'label' => __('Main Entity'),
-                'title' => __('Main Entity'),
+                'label' => __('Compatible Product'),
+                'title' => __('Compatible Product'),
                 'required' => true,
                 'disabled' => $isElementDisabled,
                 'options' => $this->getFiles()
+            ]
+        );
+
+        $fieldset->addField(
+            'required_skus',
+            'text',
+            [
+                'name' => 'require_skus',
+                'label' => __('Required Skus'),
+                'title' => __('Required Skus')
             ]
         );
 

@@ -1,6 +1,12 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="editor"/>
+    <head>
+        <link src="Gradus_Require::js/jquery.min.js"/>
+        <link src="Gradus_Require::js/chosen.jquery.js"/>
+        <link src="Gradus_Require::js/requiredskus.js"/>
+        <link src="Gradus_Require::css/chosen.min.css"/>
+    </head>
     <body>
         <referenceContainer name="content">
             <block class="Gradus\Requires\Block\Adminhtml\Requires\Edit" name="requires_edit"/>

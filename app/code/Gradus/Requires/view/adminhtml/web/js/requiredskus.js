@@ -1,4 +1,4 @@
 var q = jQuery.noConflict();
 q( document ).ready(function() {
-    q('#process').select2();
+    q('#page_entity_sku').chosen();
 });
