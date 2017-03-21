@@ -17,7 +17,8 @@ while (($rowData = fgetcsv($file)) !== FALSE) {
         $c++;
         continue;
     }
-    {   if(!isset($productData[$row[2]]))
+    {
+        if(!isset($productData[$row[2]]))
     {
         $productData[$row[2]] = array();
         $productIndexes[$row[2]] = 1;

@@ -1,1 +1,39 @@
-fasdfasdfasdfasdfasd
+<?php
+$im = $this->getImport();
+$message = $im->getData('messages');
+$mes = json_decode($message);
+?>
+<div style="font-size:140%"><b>Process: </b><?= $im->getData('process') ?></div>
+
+<table id="messages">
+    <thead>
+    <tr>
+        <th>Time</th>
+        <th>SKU</th>
+        <th>Type</th>
+        <th>Message</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($mes as $m) : ?>
+    <tr class="<?= $m->type ?>">
+        <td><?= $m->time ?></td>
+        <td><?= $m->sku ?></td>
+        <td><?= $m->type ?></td>
+        <td><?= $m->mes ?></td>
+    </tr>
+    <?php endforeach ?>
+    </tbody>
+</table>
+
+<style>
+    .error {
+        background: #ff6666 !important;
+    }
+    .debug {
+        background: #ffff99 !important;
+    }
+    .success {
+        background : #acfbac !important;
+    }
+</style>
