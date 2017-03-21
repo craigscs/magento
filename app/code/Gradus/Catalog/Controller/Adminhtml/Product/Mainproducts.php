@@ -4,7 +4,7 @@
  * Copyright © 2013-2017 Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Gradus\GradusCatalog\Controller\Adminhtml\Product;
+namespace Gradus\Catalog\Controller\Adminhtml\Product;
 
 class Mainproducts extends \Magento\Catalog\Controller\Adminhtml\Product
 {
@@ -38,7 +38,7 @@ class Mainproducts extends \Magento\Catalog\Controller\Adminhtml\Product
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu('Magento_Catalog::catalog_products_parts');
-        $resultPage->getConfig()->getTitle()->prepend(__('Parts'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Main Products'));
         return $resultPage;
     }
 }

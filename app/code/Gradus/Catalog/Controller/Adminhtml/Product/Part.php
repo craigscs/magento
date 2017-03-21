@@ -4,7 +4,7 @@
  * Copyright © 2013-2017 Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Gradus\GradusCatalog\Controller\Adminhtml\Product;
+namespace Gradus\Catalog\Controller\Adminhtml\Product;
 
 class Part extends \Magento\Catalog\Controller\Adminhtml\Product
 {
