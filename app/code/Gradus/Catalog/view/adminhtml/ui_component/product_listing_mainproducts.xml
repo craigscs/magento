@@ -8,21 +8,21 @@
 <listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">product_listing_compatible.product_listing_compatible_data_source</item>
-            <item name="deps" xsi:type="string">product_listing_compatible.product_listing_compatible_data_source</item>
+            <item name="provider" xsi:type="string">product_listing_mainproducts.product_listing_mainproducts_data_source</item>
+            <item name="deps" xsi:type="string">product_listing_mainproducts.product_listing_mainproducts_data_source</item>
         </item>
         <item name="spinner" xsi:type="string">product_columns</item>
     </argument>
-    <dataSource name="product_listing_compatible_data_source">
+    <dataSource name="product_listing_part_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Gradus\Compatibility\Ui\DataProvider\Product\ProductDataProvider</argument>
-            <argument name="name" xsi:type="string">product_listing_compatible_data_source</argument>
+            <argument name="class" xsi:type="string">Magento\Catalog\Ui\DataProvider\Product\ProductDataProvider</argument>
+            <argument name="name" xsi:type="string">product_listing_part_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="filter_name" xsi:type="string">gradus_type</item>
-                    <item name="filter_value" xsi:type="string">6</item>
+                    <item name="filter_value" xsi:type="string">4</item>
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
                     <item name="update_url" xsi:type="url" path="mui/index/render"/>
                     <item name="storageConfig" xsi:type="array">
@@ -115,7 +115,7 @@
             <item name="config" xsi:type="array">
                 <item name="childDefaults" xsi:type="array">
                     <item name="fieldAction" xsi:type="array">
-                        <item name="provider" xsi:type="string">product_listing_compatible.product_listing_compatible.product_columns.actions</item>
+                        <item name="provider" xsi:type="string">product_listing_mainproducts.product_listing_mainproducts.product_columns.actions</item>
                         <item name="target" xsi:type="string">applyAction</item>
                         <item name="params" xsi:type="array">
                             <item name="0" xsi:type="string">edit</item>
@@ -235,17 +235,17 @@
                 </item>
             </argument>
         </column>
-        <column name="websites" class="Magento\Catalog\Ui\Component\Listing\Columns\Websites">
-            <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">Magento\Store\Model\ResourceModel\Website\Collection</item>
-                <item name="config" xsi:type="array">
-                    <item name="add_field" xsi:type="boolean">true</item>
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Websites</item>
-                    <item name="sortOrder" xsi:type="number">100</item>
-                </item>
-            </argument>
-        </column>
+        <!--<column name="websites" class="Magento\Catalog\Ui\Component\Listing\Columns\Websites">-->
+            <!--<argument name="data" xsi:type="array">-->
+                <!--<item name="options" xsi:type="object">Magento\Store\Model\ResourceModel\Website\Collection</item>-->
+                <!--<item name="config" xsi:type="array">-->
+                    <!--<item name="add_field" xsi:type="boolean">true</item>-->
+                    <!--<item name="dataType" xsi:type="string">text</item>-->
+                    <!--<item name="label" xsi:type="string" translate="true">Websites</item>-->
+                    <!--<item name="sortOrder" xsi:type="number">100</item>-->
+                <!--</item>-->
+            <!--</argument>-->
+        <!--</column>-->
         <actionsColumn name="actions" class="Magento\Catalog\Ui\Component\Listing\Columns\ProductActions">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">

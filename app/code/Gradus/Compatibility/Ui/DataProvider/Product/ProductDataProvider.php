@@ -29,6 +29,8 @@ class ProductDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
      */
     protected $addFilterStrategies;
 
+    protected $reg;
+    protected $logger;
     /**
      * Construct
      *
@@ -49,14 +51,27 @@ class ProductDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         array $addFieldStrategies = [],
         array $addFilterStrategies = [],
         array $meta = [],
+        \Magento\Framework\Registry $registry,
+        \Psr\Log\LoggerInterface $logger,
         array $data = []
     ) {
+        $this->logger = $logger;
+        $this->reg = $registry;
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
         $this->collection = $collectionFactory->create();
         if (isset($data['config']['filter_name'])) {
             $this->collection->addAttributeToFilter($data['config']['filter_name'], $data['config']['filter_value']);
         }
-//        var_dump($this->collection->getData()); die();
+
+        //Dynamic filter time
+        if (isset($data['config']['dyn_filter'])) {
+            $p = $this->reg->registry('product');
+            if ($p->getData('gradus_type') == 4) {
+                $this->collection->addAttributeToFilter('gradus_type', 6);
+            } else {
+                $this->collection->addAttributeToFilter('gradus_type', 4);
+            }
+        }
         $this->addFieldStrategies = $addFieldStrategies;
         $this->addFilterStrategies = $addFilterStrategies;
     }

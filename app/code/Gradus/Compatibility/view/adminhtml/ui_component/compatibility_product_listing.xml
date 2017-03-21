@@ -21,6 +21,10 @@
             <argument name="requestFieldName" xsi:type="string">id</argument>
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
+                    <item name="params" xsi:type="array">
+                        <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
+                    </item>
+                    <item name="dyn_filter" xsi:type="string"></item>
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
                     <item name="update_url" xsi:type="url" path="mui/index/render"/>
                     <item name="storageConfig" xsi:type="array">

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-        <add id="Gradus_Requires::index" title="Compatible Require" module="Gradus_Requires"
-             sortOrder="11" parent="Magento_Backend::system_convert" action="requires/requires/" resource="Gradus_Requires::index"/>
+        <add id="Magento_Catalog::requires" title="Compatible Require" translate="title" module="Gradus_Requires" sortOrder="12" parent="Magento_Catalog::inventory"
+             action="requires/requires" resource="Magento_Catalog::products"/>
     </menu>
 </config>

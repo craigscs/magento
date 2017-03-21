@@ -71,7 +71,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
 
         $fieldset->addField(
             'require_skus',
-            'text',
+            'hidden',
             [
                 'name' => 'require_skus',
                 'label' => __('Required Ids'),
