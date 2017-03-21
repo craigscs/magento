@@ -37,7 +37,7 @@ class Compatible extends \Magento\Catalog\Controller\Adminhtml\Product
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu('Magento_Catalog::catalog_products_parts');
-        $resultPage->getConfig()->getTitle()->prepend(__('Compatible Products'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Compatible'));
         return $resultPage;
     }
 }

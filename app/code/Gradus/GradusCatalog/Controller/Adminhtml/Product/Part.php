@@ -4,7 +4,7 @@
  * Copyright © 2013-2017 Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Gradus\Catalog\Controller\Adminhtml\Product;
+namespace Gradus\GradusCatalog\Controller\Adminhtml\Product;
 
 class Part extends \Magento\Catalog\Controller\Adminhtml\Product
 {
@@ -34,7 +34,6 @@ class Part extends \Magento\Catalog\Controller\Adminhtml\Product
      */
     public function execute()
     {
-        var_dump("SDFSDFSDFSD"); die();
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu('Magento_Catalog::catalog_products_parts');

@@ -3,7 +3,7 @@
  * Copyright © 2013-2017 Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Magento\Catalog\Ui\DataProvider\Product;
+namespace Gradus\GradusCatalog\Ui\DataProvider\Product;
 
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 
@@ -29,6 +29,9 @@ class ProductDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
      */
     protected $addFilterStrategies;
 
+    protected $reg;
+    protected $logger;
+
     /**
      * Construct
      *
@@ -50,9 +53,13 @@ class ProductDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         array $addFilterStrategies = [],
         array $meta = [],
         array $data = []
-    ) {
+    )
+    {
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
         $this->collection = $collectionFactory->create();
+        if (isset($data['config']['filter_name'])) {
+            $this->collection->addAttributeToFilter($data['config']['filter_name'], $data['config']['filter_value']);
+        }
         $this->addFieldStrategies = $addFieldStrategies;
         $this->addFilterStrategies = $addFilterStrategies;
     }

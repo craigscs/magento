@@ -4,9 +4,9 @@
  * Copyright © 2013-2017 Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Gradus\Catalog\Controller\Adminhtml\Product;
+namespace Magento\Catalog\Controller\Adminhtml\Product;
 
-class Compatible extends \Magento\Catalog\Controller\Adminhtml\Product
+class Main extends \Magento\Catalog\Controller\Adminhtml\Product
 {
     /**
      * @var \Magento\Framework\View\Result\PageFactory
@@ -37,7 +37,7 @@ class Compatible extends \Magento\Catalog\Controller\Adminhtml\Product
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu('Magento_Catalog::catalog_products_parts');
-        $resultPage->getConfig()->getTitle()->prepend(__('Compatible Products'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Main'));
         return $resultPage;
     }
 }
