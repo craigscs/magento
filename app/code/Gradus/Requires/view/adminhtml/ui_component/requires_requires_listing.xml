@@ -183,10 +183,9 @@
         <actionsColumn name="actions" class="Gradus\Requires\Ui\Component\Listing\Column\PostAction">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">107</item>
                     <item name="indexField" xsi:type="string">id</item>
-                    <item name="viewUrlPath" xsi:type="string">requires/requires/edit</item>
-                    <item name="urlEntityParamName" xsi:type="string">id</item>
-                    <item name="sortOrder" xsi:type="number">5</item>
                 </item>
             </argument>
         </actionsColumn>
