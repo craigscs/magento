@@ -1,4 +1,4 @@
-var q = jQuery.noConflict();
+require(['jquery','chosen'],function(q){
 var val = [];
 q( document ).ready(function() {
     q('#page_entity_sku').chosen({width: "100%"});
@@ -50,3 +50,4 @@ function waitforChecked(selector, time) {
         }, time);
     }
 }
+});

@@ -3,7 +3,7 @@
  * Copyright © 2013-2017 Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Gradus\Compatibility\Ui\DataProvider\Product;
+namespace Gradus\Catalog\Ui\DataProvider\Product;
 
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 
@@ -31,6 +31,7 @@ class ProductDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
 
     protected $reg;
     protected $logger;
+
     /**
      * Construct
      *
@@ -51,23 +52,13 @@ class ProductDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         array $addFieldStrategies = [],
         array $addFilterStrategies = [],
         array $meta = [],
-        \Magento\Framework\Registry $registry,
-        \Psr\Log\LoggerInterface $logger,
         array $data = []
-    ) {
-        $this->logger = $logger;
-        $this->reg = $registry;
+    )
+    {
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
         $this->collection = $collectionFactory->create();
-
-        //Dynamic filter time
-        if (isset($data['config']['dyn_filter'])) {
-            $p = $this->reg->registry('product');
-            if ($p->getData('gradus_type') == 4) {
-                $this->collection->addAttributeToFilter('gradus_type', 6);
-            } else {
-                $this->collection->addAttributeToFilter('gradus_type', 4);
-            }
+        if (isset($data['config']['filter_name'])) {
+            $this->collection->addAttributeToFilter($data['config']['filter_name'], $data['config']['filter_value']);
         }
         $this->addFieldStrategies = $addFieldStrategies;
         $this->addFilterStrategies = $addFilterStrategies;

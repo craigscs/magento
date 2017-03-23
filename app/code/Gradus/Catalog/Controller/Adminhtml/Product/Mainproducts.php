@@ -6,7 +6,7 @@
  */
 namespace Gradus\Catalog\Controller\Adminhtml\Product;
 
-class MainProducts extends \Magento\Catalog\Controller\Adminhtml\Product
+class Mainproducts extends \Magento\Catalog\Controller\Adminhtml\Product
 {
     /**
      * @var \Magento\Framework\View\Result\PageFactory

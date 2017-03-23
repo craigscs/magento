@@ -4,7 +4,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
     <router id="admin">
         <route id="catalog" frontName="catalog">
-            <module name="Gradus_Compatibility" before="Magento_Catalog" />
+            <module name="Gradus_Catalog" before="Magento_Catalog" />
         </route>
     </router>
 </config>
