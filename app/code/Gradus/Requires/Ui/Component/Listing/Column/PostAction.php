@@ -49,13 +49,22 @@ class PostAction extends Column
                     $item[$this->getData('name')] = [
                         'view' => [
                             'href' => $this->urlBuilder->getUrl(
-                                $viewUrlPath,
+                                'requires/requires/edit/',
                                 [
                                     $urlEntityParamName => $item['id']
                                 ]
                             ),
                             'label' => __('View')
-                        ]
+                        ],
+                        'delete' => [
+                            'href' => $this->urlBuilder->getUrl(
+                                'requires/requires/delete/',
+                                [
+                                    $urlEntityParamName => $item['id']
+                                ]
+                            ),
+                            'label' => __('Delete')
+                        ],
                     ];
                 }
             }
