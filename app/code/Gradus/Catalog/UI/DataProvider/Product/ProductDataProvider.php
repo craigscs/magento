@@ -55,7 +55,6 @@ class ProductDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         array $data = []
     )
     {
-        var_dump("SDGSDGSDG"); die();
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
         $this->collection = $collectionFactory->create();
         if (isset($data['config']['filter_name'])) {

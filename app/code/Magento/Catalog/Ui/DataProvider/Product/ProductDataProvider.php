@@ -52,7 +52,12 @@ class ProductDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         array $data = []
     ) {
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
+
         $this->collection = $collectionFactory->create();
+        if (isset($data['config']['filter_name'])) {
+            $this->collection->addAttributeToFilter($data['config']['filter_name'], $data['config']['filter_value']);
+        }
+
         $this->addFieldStrategies = $addFieldStrategies;
         $this->addFilterStrategies = $addFilterStrategies;
     }
