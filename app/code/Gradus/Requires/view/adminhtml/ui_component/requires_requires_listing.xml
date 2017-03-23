@@ -180,11 +180,10 @@
                 </item>
             </argument>
         </column>
-        <actionsColumn name="actions" class="Gradus\Requires\Ui\Component\Listing\Column\PostAction">
+        <actionsColumn name="actions" class="Magento\Catalog\Ui\Component\Listing\Columns\ProductActions">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="indexField" xsi:type="string">id</item>
-                    <item name="viewUrlPath" xsi:type="string">requires/requires/edit</item>
                     <item name="urlEntityParamName" xsi:type="string">id</item>
                     <item name="sortOrder" xsi:type="number">5</item>
                 </item>

@@ -235,17 +235,6 @@
                 </item>
             </argument>
         </column>
-        <!--<column name="websites" class="Magento\Catalog\Ui\Component\Listing\Columns\Websites">-->
-            <!--<argument name="data" xsi:type="array">-->
-                <!--<item name="options" xsi:type="object">Magento\Store\Model\ResourceModel\Website\Collection</item>-->
-                <!--<item name="config" xsi:type="array">-->
-                    <!--<item name="add_field" xsi:type="boolean">true</item>-->
-                    <!--<item name="dataType" xsi:type="string">text</item>-->
-                    <!--<item name="label" xsi:type="string" translate="true">Websites</item>-->
-                    <!--<item name="sortOrder" xsi:type="number">100</item>-->
-                <!--</item>-->
-            <!--</argument>-->
-        <!--</column>-->
         <actionsColumn name="actions" class="Magento\Catalog\Ui\Component\Listing\Columns\ProductActions">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">

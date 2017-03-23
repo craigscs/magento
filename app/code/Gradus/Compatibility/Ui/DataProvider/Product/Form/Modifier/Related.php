@@ -68,9 +68,6 @@ class Related extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Rel
         $content = __(
             'Compatibility products are shown to customers in addition to the item the customer is looking at.  <b><a target="_blank" href="'.$url.'">Add a new compatible require</a></b>.'
         );
-        $content2 = __(
-            '<a target="_blank" href="/admin/requires/requires/new/">Add a new compatible require</a>.'
-        );
 
         return [
             'children' => [

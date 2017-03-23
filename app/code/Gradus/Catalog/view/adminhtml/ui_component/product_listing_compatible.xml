@@ -13,10 +13,10 @@
         </item>
         <item name="spinner" xsi:type="string">product_columns</item>
     </argument>
-    <dataSource name="product_listing_part_data_source">
+    <dataSource name="product_listing_compatible_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
             <argument name="class" xsi:type="string">Gradus\Catalog\Ui\DataProvider\Product\ProductDataProvider</argument>
-            <argument name="name" xsi:type="string">product_listing_part_data_source</argument>
+            <argument name="name" xsi:type="string">product_listing_compatible_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
             <argument name="data" xsi:type="array">
@@ -232,17 +232,6 @@
                     <item name="dataType" xsi:type="string">select</item>
                     <item name="label" xsi:type="string" translate="true">Status</item>
                     <item name="sortOrder" xsi:type="number">90</item>
-                </item>
-            </argument>
-        </column>
-        <column name="websites" class="Magento\Catalog\Ui\Component\Listing\Columns\Websites">
-            <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">Magento\Store\Model\ResourceModel\Website\Collection</item>
-                <item name="config" xsi:type="array">
-                    <item name="add_field" xsi:type="boolean">true</item>
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Websites</item>
-                    <item name="sortOrder" xsi:type="number">100</item>
                 </item>
             </argument>
         </column>

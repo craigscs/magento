@@ -34,7 +34,6 @@ class Mainproducts extends \Magento\Catalog\Controller\Adminhtml\Product
      */
     public function execute()
     {
-        var_dump("SDFSDFSDFSD"); die();
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu('Magento_Catalog::catalog_products_parts');
