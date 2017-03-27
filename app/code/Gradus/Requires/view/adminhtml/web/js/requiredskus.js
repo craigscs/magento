@@ -1,6 +1,7 @@
 require(['jquery','chosen'],function(q){
-var val = [];
+    var val = [];
 q( document ).ready(function() {
+    q('#copy_from').chose();
     q('#page_entity_sku').chosen({width: "100%"});
     var vals =  q('#page_require_skus').val();
     if (vals != '') {
