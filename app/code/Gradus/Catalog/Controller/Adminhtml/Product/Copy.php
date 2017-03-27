@@ -34,7 +34,32 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
         $id = $this->getRequest()->getParam('id');
         $field = $this->getRequest()->getParam('field');
         $prod = $this->pf->load($id);
-        $feat = $prod->getData($field);
+
+        $res = $this->jf->create()->setData(['res'=>$this->$field($prod)]);
+        return $res;
+    }
+
+    public function highlights($prod)
+    {
+        $highlight = $prod->getData('highlights');
+        $highlights = json_decode($highlight);
+        $q = '';
+        $count = 1;
+        if (count($highlights) > 0) {
+            foreach ($highlights as $h) {
+                $q .= '<div class="specs_row" id="highlight_'.$count.'">';
+                $q .= '<div class="draggable-handle"></div>';
+                $q .= '<label for="highlight_'.$count.'">Highlight '.$count.'</label>';
+                $q .= ' <input id="hightlight_'.$count.'" style="width:90%;" data-form-part="product_form" value="'.$h.'" name="highlights['.$count.']" />';
+                $q .= '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHighlight(\'highlight_'.$count.'\')"></a></div>';
+            }
+        }
+        return $q;
+    }
+
+    public function features($prod)
+    {
+        $feat = $prod->getData('features');
         $feats = json_decode($feat);
         $q='';
         $count = 1;
@@ -51,8 +76,6 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
                 $count++;
             }
         }
-
-        $res = $this->jf->create()->setData(['res'=>$q]);
-        return $res;
+        return $q;
     }
 }

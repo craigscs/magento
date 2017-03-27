@@ -19,9 +19,30 @@ $count = 0;
     <?php endif ?>
 </div>
 <button onclick="addHighlight()">Add Highlight</button>
+<select class="search_select" id="copy_from_highlights">
+    <option value="-1">SKU | Name</option>
+    <?php foreach ($this->getProducts() as $p) : ?>
+        <option value="<?= $p->getId() ?>"><?= $p->getSku() ?> | <?= $p->getName() ?></option>
+    <?php endforeach; ?>
+</select>
+<button onclick="copyhighlight()">Copy from</button>
 
 <script>
     var $q = jQuery.noConflict();
+
+    function copyhighlight()
+    {
+        var theid = $q('#copy_from_highlights').val();
+        $q.ajax({
+            url: 'http://'+window.location.hostname+"/admin/catalog/product/copy/id/"+theid+"/field/highlights/",
+            data: {form_key: window.FORM_KEY},
+            context: document.body
+        }).done(function(res) {
+            var q = res.res;
+            $q('#highlight_container').html(q);
+        });
+    }
+
     $q( document ).ready(function() {
         $q('#highlight_container').sortable({
             handle: '.draggable-handle',
