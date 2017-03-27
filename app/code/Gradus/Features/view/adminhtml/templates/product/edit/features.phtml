@@ -4,6 +4,7 @@ $info = json_decode($tech, true);
 $count = 0;
 $clb = 1;
 ?>
+
 <div style="width: 900px; margin:auto;" id="features_container">
     <?php if (count($info) > 0) : ?>
     <?php foreach ($info as $i) : ?>
@@ -13,19 +14,41 @@ $clb = 1;
             <label for="feat_n_<?= $count ?>">Label <?= $clb ?></label>
             <input style="width:15%; margin-left:5px;" id="feat_n_<?= $count ?>" data-form-part="product_form" value="<?= $i['name'] ?>" name="features[<?= $count ?>][name]" />
             <label for="feat_d_<?= $count ?>">Feature <?= $clb ?></label>
-            <textarea id="feat_d_<?= $count ?>" style="width:50%;" data-form-part="product_form" name="features[<?= $count?>[\"desc\"]"><?= $i["desc"] ?></textarea>
+            <textarea id="feat_d_<?= $count ?>" style="width:50%;" data-form-part="product_form" name="features[<?= $count?>][desc]"><?= $i["desc"] ?></textarea>
         <a class="delete_icon" src="javascript:void(0)" onclick="deleteFeature('features_<?= $count ?>')"></a>
         </div>
-        <?php $count++ ?>
+        <?php $count++; $clb++; ?>
             <?php endif ?>
     <?php endforeach ?>
     <?php endif ?>
 </div>
-<button onclick="addFeature()">Add Feature</button>
+<button styyle="margin-right: 15px;" onclick="addFeature()">Add Feature</button>
+<select class="search_select" id="copy_from">
+    <option value="-1">SKU | Name</option>
+    <?php foreach ($this->getProducts() as $p) : ?>
+        <option value="<?= $p->getId() ?>"><?= $p->getSku() ?> | <?= $p->getName() ?></option>
+    <?php endforeach; ?>
+</select>
+<button onclick="copy()">Copy from</button>
 
 <script>
     var $q = jQuery.noConflict();
+
+    function copy()
+    {
+        var theid = $q('#copy_from').val();
+        $q.ajax({
+            url: 'http://'+window.location.hostname+"/admin/catalog/product/copy/id/"+theid+"/field/features/",
+            data: {form_key: window.FORM_KEY},
+            context: document.body
+        }).done(function(res) {
+            var q = res.res;
+            $q('#features_container').html(q);
+        });
+    }
+
     $q( document ).ready(function() {
+
         $q('#features_container').sortable({
             handle: '.draggable-handle',
             revert: 300,
@@ -37,6 +60,7 @@ $clb = 1;
     {
         var counts = $q('#features_container input').length;
         var clb = counts+1;
+        counts = Math.floor((Math.random() * 100000) + 1);
         $q('#features_container').append
         ('<div class="specs_row" id="features_'+counts+'"><div class="draggable-handle"></div>' +
             '<label for="feat_n_'+counts+'">Label '+clb+'</label>'+
