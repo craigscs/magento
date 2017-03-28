@@ -8,7 +8,7 @@ $count = 1;
     <?php foreach ($info as $i) : ?>
             <?php if (!is_null($i)) : ?>
     <div style="margin:auto" class="gradus_fields" id="in_the_box_<?= $count ?>">
-        <div class="draggable-handle"><b><?= $count ?></b></div>
+        <div class="draggable-handle inthebox_drag"><b><?= $count ?></b></div>
         <label class="gradus_label" for="in_the_box_amonut_<?= $count ?>">Amount</label>
         <input class="gradus_text_mini" id="in_the_box_amonut_<?= $count ?>" value="<?= $i['count'] ?>" />
         <label class="gradus_label" for="in_the_box_value_<?= $count ?>">Item</label>
@@ -59,8 +59,15 @@ $count = 1;
         $q('#in_the_box_container').sortable({
             handle: '.draggable-handle',
             revert: 300,
-            placeholder: "ui-state-in_the_box myHover",
+            placeholder: "ui-state-highlight myHover",
             tolerance: "intersect",
+            update: function( event, ui ) {
+                $q('.inthebox_drag').each(function(i, obj) {
+                    var ii = i+1;
+                    $q(this).html(ii);
+                })
+            }
+
         }).disableSelection();
     });
     function addinthebox()
@@ -69,12 +76,12 @@ $count = 1;
         var clb = counts+1;
         var q = '';
         q += '<div style="margin:auto" class="gradus_fields" id="in_the_box_'+clb+'">';
-        q += ' <div class="draggable-handle"><b>'+clb+'</b></div>';
+        q += ' <div class="draggable-handle inthebox_drag"><b>'+clb+'</b></div>';
         q += '<label class="gradus_label" for="in_the_box_amonut_'+clb+'">Amount</label>';
-        q += '<input class="gradus_text_mini" id="in_the_box_amonut_'+clb+'" value="" />';
+        q += '<input style="margin-left:6px;" class="gradus_text_mini" id="in_the_box_amonut_'+clb+'" value="" />';
         q += '<label class="gradus_label" for="in_the_box_value_'+clb+'">Item</label>';
-        q += '<input class="gradus_text_medium" style="width:70%" id="in_the_box_value_'+clb+'" value="" />';
-        q += '<a src="javascript:void(0)" onclick="deleteinthebox(\'in_the_box_'+clb+'\')">';
+        q += '<input  style="margin-left:6px; width:70%" class="gradus_text_medium" style="width:70%" id="in_the_box_value_'+clb+'" value="" />';
+        q += '<a src="javascript:void(0)" style="margin-left:6px;" onclick="deleteinthebox(\'in_the_box_'+clb+'\')">';
         q += '<img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>"></a></div>';
         $q('#in_the_box_container').append
         (q);
@@ -83,5 +90,9 @@ $count = 1;
     function deleteinthebox(h)
     {
         $q('#'+h).remove();
+        $q('.inthebox_drag').each(function(i, obj) {
+            var ii = i+1;
+            $q(this).html(ii);
+        });
     }
 </script>

@@ -8,7 +8,7 @@ $count = 1;
         <?php foreach ($info as $i) : ?>
             <?php if (!is_null($i)) : ?>
                 <div style="margin:auto" class="gradus_fields" id="highlight_<?= $count ?>">
-                    <div class="draggable-handle"><b><?= $count ?></b></div>
+                    <div class="draggable-handle highlight_drag"><b><?= $count ?></b></div>
                     <label class="gradus_label" for="highlight_<?= $count ?>">Highlight</label>
                     <input class="gradus_text_large" id="hightlight_<?= $count ?>" value="<?= $i ?>" />
                     <a src="javascript:void(0)" onclick="deleteHighlight('highlight_<?= $count ?>')">
@@ -59,6 +59,13 @@ $count = 1;
             revert: 300,
             placeholder: "ui-state-highlight myHover",
             tolerance: "intersect",
+            update: function( event, ui ) {
+                $q('.highlight_drag').each(function(i, obj) {
+                    var ii = i+1;
+                   $q(this).html(ii);
+                })
+            }
+
         }).disableSelection();
     });
     function addHighlight()
@@ -67,7 +74,7 @@ $count = 1;
         var clb = counts+1;
         var q = '';
         q += '<div style="margin:auto" class="gradus_fields" id="highlight_'+clb+'">';
-        q += '<div class="draggable-handle"><b>'+clb+'</b></div>';
+        q += '<div class="draggable-handle highlight_drag"><b>'+clb+'</b></div>';
         q += '<label class="gradus_label" for="highlight_'+clb+'">Highlight</label>';
         q += '<input style="margin-left:6px;" class="gradus_text_large" id="hightlight_'+clb+'" value="" />';
         q += ' <a src="javascript:void(0)" onclick="deleteHighlight(\'highlight_'+clb+'\')">';
@@ -79,5 +86,9 @@ $count = 1;
     function deleteHighlight(h)
     {
         $q('#'+h).remove();
+        $q('.highlight_drag').each(function(i, obj) {
+            var ii = i+1;
+            $q(this).html(ii);
+        });
     }
 </script>
