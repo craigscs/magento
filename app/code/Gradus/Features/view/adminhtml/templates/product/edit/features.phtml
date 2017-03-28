@@ -1,41 +1,40 @@
 <?php
 $tech = $this->getProduct()->getData('features');
 $info = json_decode($tech, true);
-$count = 0;
-$clb = 1;
+$count = 1;
 ?>
 
 <div style="width: 900px; margin:auto;" id="features_container">
     <?php if (count($info) > 0) : ?>
     <?php foreach ($info as $i) : ?>
             <?php if (isset($i['name']) && isset($i['desc'])) : ?>
-<!--                <div style="margin:auto" class="gradus_fields" id="features_--><?//= $count ?><!--">-->
-<!--                    <div class="draggable-handle features_drag"><b>--><?//= $count ?><!--</b></div>-->
-<!--                    <label class="gradus_label" for="feat_n_--><?//= $count ?><!--">Label</label>-->
-<!--                    <input class="gradus_text_mini" id="feat_n_--><?//= $count ?><!--" value="--><?//= $i['count'] ?><!--" />-->
-<!--                </div>-->
-
-                <div class="specs_row" id="features_<?= $count ?>">
-                    <div class="draggable-handle"></div>
-                    <label for="feat_n_<?= $count ?>">Label <?= $clb ?></label>
-                    <input style="width:15%; margin-left:5px;" id="feat_n_<?= $count ?>" data-form-part="product_form" value="<?= $i['name'] ?>" name="features[<?= $count ?>][name]" />
-                    <label for="feat_d_<?= $count ?>">Feature <?= $clb ?></label>
-                    <textarea id="feat_d_<?= $count ?>" style="width:50%;" data-form-part="product_form" name="features[<?= $count?>][desc]"><?= $i["desc"] ?></textarea>
-                    <a class="delete_icon" src="javascript:void(0)" onclick="deleteFeature('features_<?= $count ?>')"></a>
+                <div style="margin:auto" class="gradus_fields" id="features_<?= $count ?>">
+                    <div class="draggable-handle features_drag"><b><?= $count ?></b></div>
+                    <label class="gradus_label" for="feat_n_<?= $count ?>">Label</label>
+                    <input name="features[<?= $count ?>][name]" data-form-part="product_form" class="gradus_text_large" id="feat_n_<?= $count ?>" value="<?= $i['name'] ?>" />
+                    <div style="line-break:auto" />
+                    <label style="margin-left:18px" class="gradus_label" for="feat_d_<?= $count ?>">Feature</label>
+                    <textarea data-form-part="product_form" name="features[<?= $count?>][desc]" style="margin-top:5px;" class="gradus_text_large" id="feat_d_<?= $count ?>">
+                        <?= $i['desc'] ?></textarea>
+                    <a src="javascript:void(0)" onclick="deleteFeature('features_<?= $count ?>')">
+                        <img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>">
+                    </a>
+                    <?php $count++ ?>
                 </div>
-        <?php $count++; $clb++; ?>
             <?php endif ?>
     <?php endforeach ?>
     <?php endif ?>
 </div>
-<button styyle="margin-right: 15px;" onclick="addFeature()">Add Feature</button>
-<select class="search_select" id="copy_from">
-    <option value="-1">SKU | Name</option>
-    <?php foreach ($this->getProducts() as $p) : ?>
-        <option value="<?= $p->getId() ?>"><?= $p->getSku() ?> | <?= $p->getName() ?></option>
-    <?php endforeach; ?>
-</select>
-<button onclick="copy()">Copy from</button>
+<button class="action-secondary" style="margin-right:5px;" onclick="addFeature()">Add Feature</button>
+<div class="select_pad">
+    <select class="search_select" id="copy_from_feature">
+        <option value="-1">SKU | Name</option>
+        <?php foreach ($this->getProducts() as $p) : ?>
+            <option value="<?= $p->getId() ?>"><?= $p->getSku() ?> | <?= $p->getName() ?></option>
+        <?php endforeach; ?>
+    </select>
+    <button class="action-secondary" onclick="copyfeature()">Copy from</button>
+</div>
 
 <script>
     var $q = jQuery.noConflict();
@@ -60,25 +59,39 @@ $clb = 1;
             revert: 300,
             placeholder: "ui-state-highlight myHover",
             tolerance: "intersect",
+            update: function( event, ui ) {
+                $q('.features_drag').each(function(i, obj) {
+                    var ii = i+1;
+                    $q(this).html(ii);
+                })
+            }
         }).disableSelection();
     });
     function addFeature()
     {
         var counts = $q('#features_container input').length;
         var clb = counts+1;
-        counts = Math.floor((Math.random() * 100000) + 1);
+        var q = '';
+        q += '<div style="margin:auto" class="gradus_fields" id="features_'+clb+'">';
+        q += '<div class="draggable-handle features_drag"><b>'+clb+'</b></div>';
+        q += '<label class="gradus_label" for="feat_n_'+clb+'">Label</label>';
+        q += '<input name="features['+clb+'][name]" data-form-part="product_form" class="gradus_text_large" id="feat_n_'+clb+'" value="" />';
+        q += '<div style="line-break:auto" />';
+        q += '<label style="margin-left:18px" class="gradus_label" for="feat_d_'+clb+'">Feature</label>';
+        q += '<textarea data-form-part="product_form" name="features['+clb+'][desc]" data-form-part="product_form" class="gradus_text_large" id="feat_d_'+clb+'>" value=""></textarea>';
+        q += '<a src="javascript:void(0)" style="margin-left:6px;" onclick="deleteFeature(\'features_'+clb+'\')">';
+        q += '<img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>"></a></div>';
+
         $q('#features_container').append
-        ('<div class="specs_row" id="features_'+counts+'"><div class="draggable-handle"></div>' +
-            '<label for="feat_n_'+counts+'">Label '+clb+'</label>'+
-            '<input id="feat_n_'+counts+'" style="width:15%; margin-right:5px;" data-form-part="product_form" value="" name="features['+counts+'][name]" />'+
-            '<label for="feat_d_'+counts+'">Feature '+clb+'</label>'+
-            '<textarea id="feat_d_'+counts+'" style="width:50%; vertical-align: top;" data-form-part="product_form" name="features['+counts+'][desc]"></textarea>'+
-            "<a class=\"delete_icon\" src=\"javascript:void(0)\" onclick=\"deleteFeature(\'features_"+counts+"\')\"></a>" +
-            "<br/></div>");
+        (q);
     }
 
     function deleteFeature(h)
     {
         $q('#'+h).remove();
+        $q('.features_drag').each(function(i, obj) {
+            var ii = i+1;
+            $q(this).html(ii);
+        });
     }
 </script>

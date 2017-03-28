@@ -17,13 +17,16 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
 {
     protected $pf;
     protected $jf;
+    protected $assets;
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Catalog\Controller\Adminhtml\Product\Builder $productBuilder,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Magento\Catalog\Model\Product $pf,
-        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
+        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
+        \Magento\Framework\View\Asset\Repository $assetRepo
     ) {
+        $this->assets = $assetRepo;
         $this->pf = $pf;
         $this->jf = $resultJsonFactory;
         parent::__construct($context, $productBuilder, $resultPageFactory);
@@ -47,13 +50,40 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
         $count = 1;
         if (count($inbox) > 0) {
             foreach ($inbox as $h) {
-                $q .= '<div class="specs_row" id="in_the_box_'.$count.'">';
-                $q .= '<div class="draggable-handle"></div>';
-                $q .= '<label for="in_the_box_value_'.$count.'">In The Box '.$count.'</label>';
-                $q .= '<input id="in_the_box_value_'.$count.'" style="width:30%;" data-form-part="product_form" value="'.$h->value.'" name="in_the_box'.$count.'[value]" />';
-                $q .= '<label for="in_the_box_count_'.$count.'">Amount '.$count.'</label>';
-                $q .= '<input id="in_the_box_count_'.$count.'" style="width:30%;" data-form-part="product_form" value="'.$h->count.'" name="in_the_box['.$count.'][count]" />';
-                $q .= '<a class="delete_icon" src="javascript:void(0)" onclick="deleteinthebox(\'in_the_box_'.$count.'\')"></a></div>';
+                $q .= '<div style="margin:auto" class="gradus_fields" id="in_the_box_'.$count.'">';
+                $q .= '<div class="draggable-handle inthebox_drag"><b>'.$count.'</b></div>';
+                $q .= '<label class="gradus_label" for="in_the_box_amount_'.$count.'">Amount</label>';
+                $q .= '<input name="in_the_box['.$count.'][count]" data-form-part="product_form" style="margin-left:6px;" class="gradus_text_mini"';
+                $q .= 'id="in_the_box_amount_'.$count.'" value="'.$h->count.'" />';
+                $q .= '<label class="gradus_label" for="in_the_box_value_'.$count.'">Item</label>';
+                $q .= '<input name="in_the_box['.$count.'][value]" data-form-part="product_form" style="margin-left:6px; width:70%"';
+                $q .= 'class="gradus_text_medium" style="width:70%" id="in_the_box_value_'.$count.'" value="'.$h->value.'" />';
+                $q .= '<a src="javascript:void(0)" style="margin-left:6px;" onclick="deleteinthebox(\'in_the_box_'.$count.'\')">';
+                $q .= '<img style="width:20px;" src="'.$this->assets->getUrl("Gradus_Catalog::images/trash.png").'"></a></div>';
+                $count++;
+            }
+        }
+        return $q;
+    }
+
+    public function features($prod)
+    {
+        $box = $prod->getData('features');
+        $inbox = json_decode($box);
+        $q = '';
+        $count = 1;
+        if (count($inbox) > 0) {
+            foreach ($inbox as $h) {
+                $q .= '<div style="margin:auto" class="gradus_fields" id="features_'.$count.'">';
+                $q .= '<div class="draggable-handle features_drag"><b>'.$count.'</b></div>';
+                $q .= '<label class="gradus_label" for="feat_n_'+clb+'">Label</label>';
+                $q .= '<input name="features['+clb+'][name]" data-form-part="product_form" class="gradus_text_large" id="feat_n_'+clb+'" value="" />';
+                $q .= '<div style="line-break:auto" />';
+                $q .= '<label style="margin-left:18px" class="gradus_label" for="feat_d_'+clb+'">Feature</label>';
+                $q .= '<textarea data-form-part="product_form" name="features['+clb+'][desc]" data-form-part="product_form" class="gradus_text_large" id="feat_d_'+clb+'>" value=""></textarea>';
+                $q .= '<a src="javascript:void(0)" style="margin-left:6px;" onclick="deleteFeature(\'features_'+clb+'\')">';
+                $q .= '<img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>"></a></div>';
+                $count++;
             }
         }
         return $q;
@@ -67,11 +97,12 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
         $count = 1;
         if (count($highlights) > 0) {
             foreach ($highlights as $h) {
-                $q .= '<div class="specs_row" id="highlight_'.$count.'">';
-                $q .= '<div class="draggable-handle" style="float:left;"></div>';
-                $q .= '<label style="margin-right:-10%" class="gradus_label" for="highlight_'.$count.'">Highlight '.$count.'</label>';
-                $q .= ' <input class="admin__control-text" id="hightlight_'.$count.'" style="width:70%;" data-form-part="product_form" value="'.$h.'" name="highlights['.$count.']" />';
-                $q .= '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHighlight(\'highlight_'.$count.'\')"></a></div>';
+                $q .= '<div style="margin:auto" class="gradus_fields" id="highlight_'.$count.'">';
+                $q .= '<div class="draggable-handle highlight_drag"><b>'.$count.'</b></div>';
+                $q .= '<label class="gradus_label" for="highlight_'.$count.'">Highlight</label>';
+                $q .= '<input data-form-part="product_form" name="highlights['.$count.']" style="margin-left:6px;" class="gradus_text_large" id="hightlight_'.$count.'" value="'.$h.'" />';
+                $q .= ' <a src="javascript:void(0)" onclick="deleteHighlight(\'highlight_'.$count.'\')">';
+                $q .= '<img style="width:20px;" src="'.$this->assets->getUrl("Gradus_Catalog::images/trash.png").'"></a></div>';
                 $count++;
             }
         }

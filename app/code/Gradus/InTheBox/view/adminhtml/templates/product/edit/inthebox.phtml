@@ -7,17 +7,18 @@ $count = 1;
     <?php if (count($info) > 0) : ?>
     <?php foreach ($info as $i) : ?>
             <?php if (!is_null($i)) : ?>
-    <div style="margin:auto" class="gradus_fields" id="in_the_box_<?= $count ?>">
-        <div class="draggable-handle inthebox_drag"><b><?= $count ?></b></div>
-        <label class="gradus_label" for="in_the_box_amonut_<?= $count ?>">Amount</label>
-        <input class="gradus_text_mini" id="in_the_box_amonut_<?= $count ?>" value="<?= $i['count'] ?>" />
-        <label class="gradus_label" for="in_the_box_value_<?= $count ?>">Item</label>
-        <input class="gradus_text_medium" style="width:70%" id="in_the_box_value_<?= $count ?>" value="<?= $i['value'] ?>" />
-        <a src="javascript:void(0)" onclick="deleteinthebox('in_the_box_<?= $count ?>')">
-            <img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>">
-        </a>
-        <? $count++ ?>
-    </div>
+                <div style="margin:auto" class="gradus_fields" id="in_the_box_<?= $count ?>">
+                    <div class="draggable-handle inthebox_drag"><b><?= $count ?></b></div>
+                    <label class="gradus_label" for="in_the_box_amount_<?= $count ?>">Amount</label>
+                    <input name="in_the_box[<?= $count ?>][count]" data-form-part="product_form" class="gradus_text_mini" id="in_the_box_amount_<?= $count ?>" value="<?= $i['count'] ?>" />
+                    <label class="gradus_label" for="in_the_box_value_<?= $count ?>">Item</label>
+                    <input name="in_the_box[<?= $count ?>][value]" data-form-part="product_form" class="gradus_text_medium" style="width:70%"
+                           id="in_the_box_value_<?= $count ?>" value="<?= $i['value'] ?>" />
+                    <a src="javascript:void(0)" onclick="deleteinthebox('in_the_box_<?= $count ?>')">
+                        <img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>">
+                    </a>
+                    <?php $count++ ?>
+                </div>
             <?php endif ?>
         <?php endforeach ?>
     <?php endif ?>
@@ -30,13 +31,7 @@ $count = 1;
             <option value="<?= $p->getId() ?>"><?= $p->getSku() ?> | <?= $p->getName() ?></option>
         <?php endforeach; ?>
     </select>
-    <button class="action-secondary" onclick="copyhighlight()">Copy from</button>
-</div>
-<div class="select_pad">
-    <select class="search_select" id="template_inthebox">
-        <option value="-1">PACEHOLDER</option>
-    </select>
-    <button class="action-secondary" onclick="copyinthebox()">Use template</button>
+    <button class="action-secondary" onclick="copyinthebox()">Copy from</button>
 </div>
 
 <script>
@@ -67,7 +62,6 @@ $count = 1;
                     $q(this).html(ii);
                 })
             }
-
         }).disableSelection();
     });
     function addinthebox()
@@ -77,10 +71,10 @@ $count = 1;
         var q = '';
         q += '<div style="margin:auto" class="gradus_fields" id="in_the_box_'+clb+'">';
         q += ' <div class="draggable-handle inthebox_drag"><b>'+clb+'</b></div>';
-        q += '<label class="gradus_label" for="in_the_box_amonut_'+clb+'">Amount</label>';
-        q += '<input style="margin-left:6px;" class="gradus_text_mini" id="in_the_box_amonut_'+clb+'" value="" />';
+        q += '<label class="gradus_label" for="in_the_box_amount_'+clb+'">Amount</label>';
+        q += '<input name="in_the_box['+clb+'][count]" data-form-part="product_form" style="margin-left:6px;" class="gradus_text_mini" id="in_the_box_amount_'+clb+'" value="" />';
         q += '<label class="gradus_label" for="in_the_box_value_'+clb+'">Item</label>';
-        q += '<input  style="margin-left:6px; width:70%" class="gradus_text_medium" style="width:70%" id="in_the_box_value_'+clb+'" value="" />';
+        q += '<input name="in_the_box['+clb+'][value]" data-form-part="product_form" style="margin-left:6px; width:70%" class="gradus_text_medium" style="width:70%" id="in_the_box_value_'+clb+'" value="" />';
         q += '<a src="javascript:void(0)" style="margin-left:6px;" onclick="deleteinthebox(\'in_the_box_'+clb+'\')">';
         q += '<img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>"></a></div>';
         $q('#in_the_box_container').append
