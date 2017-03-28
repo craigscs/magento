@@ -39,6 +39,26 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
         return $res;
     }
 
+    public function InTheBox($prod)
+    {
+        $box = $prod->getData('in_the_box');
+        $inbox = json_decode($box);
+        $q = '';
+        $count = 1;
+        if (count($inbox) > 0) {
+            foreach ($inbox as $h) {
+                $q .= '<div class="specs_row" id="in_the_box_'.$count.'">';
+                $q .= '<div class="draggable-handle"></div>';
+                $q .= '<label for="in_the_box_value_'.$count.'">In The Box '.$count.'</label>';
+                $q .= '<input id="in_the_box_value_'.$count.'" style="width:30%;" data-form-part="product_form" value="'.$h->value.'" name="in_the_box'.$count.'[value]" />';
+                $q .= '<label for="in_the_box_count_'.$count.'">Amount '.$count.'</label>';
+                $q .= '<input id="in_the_box_count_'.$count.'" style="width:30%;" data-form-part="product_form" value="'.$h->count.'" name="in_the_box['.$count.'][count]" />';
+                $q .= '<a class="delete_icon" src="javascript:void(0)" onclick="deleteinthebox(\'in_the_box_'.$count.'\')"></a></div>';
+            }
+        }
+        return $q;
+    }
+
     public function highlights($prod)
     {
         $highlight = $prod->getData('highlights');
@@ -48,10 +68,11 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
         if (count($highlights) > 0) {
             foreach ($highlights as $h) {
                 $q .= '<div class="specs_row" id="highlight_'.$count.'">';
-                $q .= '<div class="draggable-handle"></div>';
-                $q .= '<label for="highlight_'.$count.'">Highlight '.$count.'</label>';
-                $q .= ' <input id="hightlight_'.$count.'" style="width:90%;" data-form-part="product_form" value="'.$h.'" name="highlights['.$count.']" />';
+                $q .= '<div class="draggable-handle" style="float:left;"></div>';
+                $q .= '<label style="margin-right:-10%" class="gradus_label" for="highlight_'.$count.'">Highlight '.$count.'</label>';
+                $q .= ' <input class="admin__control-text" id="hightlight_'.$count.'" style="width:70%;" data-form-part="product_form" value="'.$h.'" name="highlights['.$count.']" />';
                 $q .= '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHighlight(\'highlight_'.$count.'\')"></a></div>';
+                $count++;
             }
         }
         return $q;

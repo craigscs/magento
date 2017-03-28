@@ -8,10 +8,10 @@ $count = 1;
     <?php foreach ($info as $i) : ?>
             <?php if (!is_null($i)) : ?>
         <div class="specs_row" id="in_the_box_<?= $count ?>">
-            <div class="draggable-handle"></div>
-            <label for="in_the_box_value_<?= $count ?>">In The Box <?= $count ?></label>
+            <div style="float:left;" class="draggable-handle"></div>
+            <label class="gradus_label" style="margin-right:10%" for="in_the_box_value_<?= $count ?>">In The Box <?= $count ?></label>
             <input id="in_the_box_value_<?= $count ?>" style="width:30%;" data-form-part="product_form" value="<?= $i['value'] ?>" name="in_the_box[<?= $count ?>][value]" />
-            <label for="in_the_box_count_<?= $count ?>">Amount <?= $count ?></label>
+            <label class="gradus_label" for="in_the_box_count_<?= $count ?>">Amount <?= $count ?></label>
             <input id="in_the_box_count_<?= $count ?>" style="width:30%;" data-form-part="product_form" value="<?= $i['count'] ?>" name="in_the_box[<?= $count ?>][count]" />
         <a class="delete_icon" src="javascript:void(0)" onclick="deleteinthebox('in_the_box_<?= $count ?>//////')"></a>
         </div>
@@ -21,9 +21,30 @@ $count = 1;
     <?php endif ?>
 </div>
 <button onclick="addinthebox()">Add In The Box</button>
+<select class="search_select" id="copy_from_inthebox">
+    <option value="-1">SKU | Name</option>
+    <?php foreach ($this->getProducts() as $p) : ?>
+        <option value="<?= $p->getId() ?>"><?= $p->getSku() ?> | <?= $p->getName() ?></option>
+    <?php endforeach; ?>
+</select>
+<button onclick="copyinthebox()">Copy from</button>
 
 <script>
     var $q = jQuery.noConflict();
+
+    function copyinthebox()
+    {
+        var theid = $q('#copy_from_inthebox').val();
+        $q.ajax({
+            url: 'http://'+window.location.hostname+"/admin/catalog/product/copy/id/"+theid+"/field/inthebox/",
+            data: {form_key: window.FORM_KEY},
+            context: document.body
+        }).done(function(res) {
+            var q = res.res;
+            $q('#in_the_box_container').html(q);
+        });
+    }
+
     $q( document ).ready(function() {
         $q('#in_the_box_container').sortable({
             handle: '.draggable-handle',

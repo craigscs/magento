@@ -10,6 +10,7 @@ class InTheBox extends \Magento\Framework\View\Element\Template
      * @var string
      */
     protected $_template = 'product/edit/inthebox.phtml';
+    protected $col;
 
     /**
      * Core registry
@@ -21,9 +22,11 @@ class InTheBox extends \Magento\Framework\View\Element\Template
     public function __construct(
         Context $context,
         Registry $registry,
+        \Magento\Catalog\Model\ResourceModel\Product\Collection $col,
         array $data = []
     )
     {
+        $this->col = $col;
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
     }
@@ -41,6 +44,11 @@ class InTheBox extends \Magento\Framework\View\Element\Template
     public function getProduct()
     {
         return $this->_coreRegistry->registry('current_product');
+    }
+
+    public function getProducts()
+    {
+        return $this->col->addAttributeToSelect('*')->load();
     }
 
 }

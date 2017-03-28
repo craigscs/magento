@@ -1,31 +1,40 @@
 <?php
 $tech = $this->getProduct()->getData('highlights');
 $info = json_decode($tech, true);
-$count = 0;
+$count = 1;
 ?>
-<div id="highlight_container" style="width:900px; margin:auto;">
+<div id="highlight_container">
     <?php if (count($info) > 0) : ?>
-    <?php foreach ($info as $i) : ?>
+        <?php foreach ($info as $i) : ?>
             <?php if (!is_null($i)) : ?>
-        <div class="specs_row" id="highlight_<?= $count ?>">
-            <div class="draggable-handle"></div>
-            <label for="highlight_<?= $count ?>">Highlight <?= $count++ ?></label>
-            <input id="hightlight_<?= $count ?>" style="width:90%;" data-form-part="product_form" value="<?= $i ?>" name="highlights[<?= $count ?>]" />
-        <a class="delete_icon" src="javascript:void(0)" onclick="deleteHighlight('highlight_<?= $count ?>')"></a>
-        </div>
-        <?php $count++ ?>
-            <?php endif ?>
-    <?php endforeach ?>
+                <div style="margin:auto" class="gradus_fields" id="highlight_<?= $count ?>">
+                    <div class="draggable-handle" />
+                    <label class="gradus_label" for="highlight_<?= $count ?>">Highlight <?= $count ?></label>
+                    <input class="gradus_text_large" id="hightlight_<?= $count ?>" value="<?= $i ?>" />
+                    <a src="javascript:void(0)" onclick="deleteHighlight('highlight_<?= $count ?>')">
+                        <img style="width:20px;" src="http://gradus.dev/pub/static/version1490651061/adminhtml/Magento/backend/en_US/Gradus_TechSpecs/images/trash.png">
+                    </a>
+                </div>
+                <?php $count++ ?>
     <?php endif ?>
-</div>
-<button onclick="addHighlight()">Add Highlight</button>
+    <?php endforeach ?>
+    </div>
+<?php endif ?>
+
+<button class="action-secondary" style="margin-right:5px;" onclick="addHighlight()">Add Highlight</button>
+<br>
 <select class="search_select" id="copy_from_highlights">
     <option value="-1">SKU | Name</option>
     <?php foreach ($this->getProducts() as $p) : ?>
         <option value="<?= $p->getId() ?>"><?= $p->getSku() ?> | <?= $p->getName() ?></option>
     <?php endforeach; ?>
 </select>
-<button onclick="copyhighlight()">Copy from</button>
+<button class="action-secondary" onclick="copyhighlight()">Copy from</button>
+<br>
+<select class="search_select" id="template_highlights">
+    <option value="-1">PACEHOLDER</option>
+</select>
+<button class="action-secondary" onclick="copyhighlight()">Use template</button>
 
 <script>
     var $q = jQuery.noConflict();
@@ -55,10 +64,15 @@ $count = 0;
     {
         var counts = $q('#highlight_container input').length;
         var clb = counts+1;
+        var q = '';
+        q += '<div style="margin:auto" class="gradus_fields" id="highlight_'+clb+'">';
+        q += '<div class="draggable-handle" />';
+        q += '<label class="gradus_label" for="highlight_'+clb+'">Highlight '+clb+'</label>';
+        q += '<input style="margin-left:6px;" class="gradus_text_large" id="hightlight_'+clb+'" value="" />';
+        q += ' <a src="javascript:void(0)" onclick="deleteHighlight(\'highlight_'+clb+'\')">';
+        q += '<img style="width:20px;" src="http://gradus.dev/pub/static/version1490651061/adminhtml/Magento/backend/en_US/Gradus_TechSpecs/images/trash.png"></a></div>';
         $q('#highlight_container').append
-        ('<div class="specs_row" id="highlight_'+counts+'"><div class="draggable-handle"></div><label for=-"highlight_'+counts+'">Highlight '+clb+'</label>' +
-            '<input id="highlight_'+counts+'" style="width:90%;" data-form-part=\'product_form\' name=\'highlights["'+clb+'"]\' />' +
-            "<a class=\"delete_icon\" src=\"javascript:void(0)\" onclick=\"deleteHighlight('highlight_"+counts+"')\"></a><br/></div>");
+        (q);
     }
 
     function deleteHighlight(h)
