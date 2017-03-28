@@ -7,27 +7,37 @@ $count = 1;
     <?php if (count($info) > 0) : ?>
     <?php foreach ($info as $i) : ?>
             <?php if (!is_null($i)) : ?>
-        <div class="specs_row" id="in_the_box_<?= $count ?>">
-            <div style="float:left;" class="draggable-handle"></div>
-            <label class="gradus_label" style="margin-right:10%" for="in_the_box_value_<?= $count ?>">In The Box <?= $count ?></label>
-            <input id="in_the_box_value_<?= $count ?>" style="width:30%;" data-form-part="product_form" value="<?= $i['value'] ?>" name="in_the_box[<?= $count ?>][value]" />
-            <label class="gradus_label" for="in_the_box_count_<?= $count ?>">Amount <?= $count ?></label>
-            <input id="in_the_box_count_<?= $count ?>" style="width:30%;" data-form-part="product_form" value="<?= $i['count'] ?>" name="in_the_box[<?= $count ?>][count]" />
-        <a class="delete_icon" src="javascript:void(0)" onclick="deleteinthebox('in_the_box_<?= $count ?>//////')"></a>
-        </div>
-        <?php $count++ ?>
+    <div style="margin:auto" class="gradus_fields" id="in_the_box_<?= $count ?>">
+        <div class="draggable-handle"><b><?= $count ?></b></div>
+        <label class="gradus_label" for="in_the_box_amonut_<?= $count ?>">Amount</label>
+        <input class="gradus_text_mini" id="in_the_box_amonut_<?= $count ?>" value="<?= $i['count'] ?>" />
+        <label class="gradus_label" for="in_the_box_value_<?= $count ?>">Item</label>
+        <input class="gradus_text_medium" style="width:63%" id="in_the_box_value_<?= $count ?>" value="<?= $i['value'] ?>" />
+        <a src="javascript:void(0)" onclick="deleteinthebox('in_the_box_<?= $count ?>')">
+            <img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>">
+        </a>
+        <? $count++ ?>
+    </div>
             <?php endif ?>
-    <?php endforeach ?>
+        <?php endforeach ?>
     <?php endif ?>
 </div>
-<button onclick="addinthebox()">Add In The Box</button>
-<select class="search_select" id="copy_from_inthebox">
-    <option value="-1">SKU | Name</option>
-    <?php foreach ($this->getProducts() as $p) : ?>
-        <option value="<?= $p->getId() ?>"><?= $p->getSku() ?> | <?= $p->getName() ?></option>
-    <?php endforeach; ?>
-</select>
-<button onclick="copyinthebox()">Copy from</button>
+<button class="action-secondary" style="margin-right:5px;" onclick="addinthebox()">Add Include</button>
+<div class="select_pad">
+    <select class="search_select" id="copy_from_inthebox">
+        <option value="-1">SKU | Name</option>
+        <?php foreach ($this->getProducts() as $p) : ?>
+            <option value="<?= $p->getId() ?>"><?= $p->getSku() ?> | <?= $p->getName() ?></option>
+        <?php endforeach; ?>
+    </select>
+    <button class="action-secondary" onclick="copyhighlight()">Copy from</button>
+</div>
+<div class="select_pad">
+    <select class="search_select" id="template_inthebox">
+        <option value="-1">PACEHOLDER</option>
+    </select>
+    <button class="action-secondary" onclick="copyinthebox()">Use template</button>
+</div>
 
 <script>
     var $q = jQuery.noConflict();
