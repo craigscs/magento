@@ -9,14 +9,20 @@ $clb = 1;
     <?php if (count($info) > 0) : ?>
     <?php foreach ($info as $i) : ?>
             <?php if (isset($i['name']) && isset($i['desc'])) : ?>
-        <div class="specs_row" id="features_<?= $count ?>">
-            <div class="draggable-handle"></div>
-            <label for="feat_n_<?= $count ?>">Label <?= $clb ?></label>
-            <input style="width:15%; margin-left:5px;" id="feat_n_<?= $count ?>" data-form-part="product_form" value="<?= $i['name'] ?>" name="features[<?= $count ?>][name]" />
-            <label for="feat_d_<?= $count ?>">Feature <?= $clb ?></label>
-            <textarea id="feat_d_<?= $count ?>" style="width:50%;" data-form-part="product_form" name="features[<?= $count?>][desc]"><?= $i["desc"] ?></textarea>
-        <a class="delete_icon" src="javascript:void(0)" onclick="deleteFeature('features_<?= $count ?>')"></a>
-        </div>
+<!--                <div style="margin:auto" class="gradus_fields" id="features_--><?//= $count ?><!--">-->
+<!--                    <div class="draggable-handle features_drag"><b>--><?//= $count ?><!--</b></div>-->
+<!--                    <label class="gradus_label" for="feat_n_--><?//= $count ?><!--">Label</label>-->
+<!--                    <input class="gradus_text_mini" id="feat_n_--><?//= $count ?><!--" value="--><?//= $i['count'] ?><!--" />-->
+<!--                </div>-->
+
+                <div class="specs_row" id="features_<?= $count ?>">
+                    <div class="draggable-handle"></div>
+                    <label for="feat_n_<?= $count ?>">Label <?= $clb ?></label>
+                    <input style="width:15%; margin-left:5px;" id="feat_n_<?= $count ?>" data-form-part="product_form" value="<?= $i['name'] ?>" name="features[<?= $count ?>][name]" />
+                    <label for="feat_d_<?= $count ?>">Feature <?= $clb ?></label>
+                    <textarea id="feat_d_<?= $count ?>" style="width:50%;" data-form-part="product_form" name="features[<?= $count?>][desc]"><?= $i["desc"] ?></textarea>
+                    <a class="delete_icon" src="javascript:void(0)" onclick="deleteFeature('features_<?= $count ?>')"></a>
+                </div>
         <?php $count++; $clb++; ?>
             <?php endif ?>
     <?php endforeach ?>

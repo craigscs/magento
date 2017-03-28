@@ -10,7 +10,7 @@ $count = 1;
                 <div style="margin:auto" class="gradus_fields" id="highlight_<?= $count ?>">
                     <div class="draggable-handle highlight_drag"><b><?= $count ?></b></div>
                     <label class="gradus_label" for="highlight_<?= $count ?>">Highlight</label>
-                    <input class="gradus_text_large" id="hightlight_<?= $count ?>" value="<?= $i ?>" />
+                    <input name=highlights[<?= $count ?>]" class="gradus_text_large" id="hightlight_<?= $count ?>" value="<?= $i ?>" />
                     <a src="javascript:void(0)" onclick="deleteHighlight('highlight_<?= $count ?>')">
                         <img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>">
                     </a>
@@ -76,7 +76,7 @@ $count = 1;
         q += '<div style="margin:auto" class="gradus_fields" id="highlight_'+clb+'">';
         q += '<div class="draggable-handle highlight_drag"><b>'+clb+'</b></div>';
         q += '<label class="gradus_label" for="highlight_'+clb+'">Highlight</label>';
-        q += '<input style="margin-left:6px;" class="gradus_text_large" id="hightlight_'+clb+'" value="" />';
+        q += '<input name="highlights['+clb+']" style="margin-left:6px;" class="gradus_text_large" id="hightlight_'+clb+'" value="" />';
         q += ' <a src="javascript:void(0)" onclick="deleteHighlight(\'highlight_'+clb+'\')">';
         q += '<img style="width:20px;" src="<?= $this->getViewFileUrl("Gradus_Catalog::images/trash.png") ?>"></a></div>';
         $q('#highlight_container').append
