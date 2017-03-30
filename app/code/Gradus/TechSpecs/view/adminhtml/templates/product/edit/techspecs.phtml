@@ -116,6 +116,7 @@ $count = 1;
     }
 
     $q( document ).ready(function() {
+        $q('#copy_from_techspecs').chosen();
         console.log( $q("input[name*='product[tech_specs']").val() );
         $q('[name="product[tech_specs]"]').prev().prev().hide();
 
