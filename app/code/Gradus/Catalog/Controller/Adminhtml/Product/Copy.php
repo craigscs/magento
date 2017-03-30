@@ -66,29 +66,6 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
         return $q;
     }
 
-    public function features($prod)
-    {
-        $box = $prod->getData('features');
-        $inbox = json_decode($box);
-        $q = '';
-        $count = 1;
-        if (count($inbox) > 0) {
-            foreach ($inbox as $h) {
-                $q .= '<div style="margin:auto" class="gradus_fields" id="features_'.$count.'">';
-                $q .= '<div class="draggable-handle features_drag"><b>'.$count.'</b></div>';
-                $q .= '<label class="gradus_label" for="feat_n_'+clb+'">Label</label>';
-                $q .= '<input name="features['+clb+'][name]" data-form-part="product_form" class="gradus_text_large" id="feat_n_'+clb+'" value="" />';
-                $q .= '<div style="line-break:auto" />';
-                $q .= '<label style="margin-left:18px" class="gradus_label" for="feat_d_'+clb+'">Feature</label>';
-                $q .= '<textarea data-form-part="product_form" name="features['+clb+'][desc]" data-form-part="product_form" class="gradus_text_large" id="feat_d_'+clb+'>" value=""></textarea>';
-                $q .= '<a src="javascript:void(0)" style="margin-left:6px;" onclick="deleteFeature(\'features_'+clb+'\')">';
-                $q .= '<img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>"></a></div>';
-                $count++;
-            }
-        }
-        return $q;
-    }
-
     public function highlights($prod)
     {
         $highlight = $prod->getData('highlights');
