@@ -4,7 +4,7 @@ $info = json_decode($tech, true);
 $count = 1;
 ?>
 
-<div style="width: 900px; margin:auto;" id="features_container">
+<div id="features_container">
     <?php if (count($info) > 0) : ?>
     <?php foreach ($info as $i) : ?>
             <?php if (isset($i['name']) && isset($i['desc'])) : ?>
