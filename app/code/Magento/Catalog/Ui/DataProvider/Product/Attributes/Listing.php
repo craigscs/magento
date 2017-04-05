@@ -42,6 +42,13 @@ class Listing extends \Magento\Ui\DataProvider\AbstractDataProvider
         $this->request = $request;
         $this->collection = $collectionFactory->create();
         $this->collection->setExcludeSetFilter((int)$this->request->getParam('template_id', 0));
+        $this->collection->addFieldToFilter('is_global',
+            array(
+                array('finset'=> array(3)),
+                array('finset'=> array(0)),
+            )
+        );
+
     }
 
     /**

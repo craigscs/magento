@@ -1,3 +1,6 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\Catalog\Controller\Adminhtml\Product" type="Gradus\Catalog\Controller\Adminhtml\Product" />
+    <preference for="Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab\Advanced" type="Gradus\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab\Advanced" />
+    <preference for="Magento\Catalog\Model\Attribute\Source\Scopes" type="Gradus\Catalog\Model\Attribute\Source\Scopes" />
+    <preference for="Magento\Catalog\Block\Adminhtml\Product\Attribute\Grid" type="Gradus\Catalog\Block\Adminhtml\Product\Attribute\Grid" />
 </config>
