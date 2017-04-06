@@ -58,6 +58,10 @@ class ProductActions extends Column
                     'label' => __('Edit'),
                     'hidden' => false,
                 ];
+                $item[$this->getData('name')]['preview'] = [
+                    'href' => $item['url_key'],
+                    'label' => __('View')
+                ];
             }
         }
 

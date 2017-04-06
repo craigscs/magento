@@ -39,6 +39,7 @@
             </item>
         </argument>
         <bookmark name="bookmarks"/>
+        <exportButton name="export_button"/>
         <columnsControls name="columns_controls"/>
         <filters name="listing_filters">
             <filterSelect name="store_id">

@@ -39,6 +39,7 @@
             </item>
         </argument>
         <bookmark name="bookmarks"/>
+        <exportButton name="export_button"/>
         <columnsControls name="columns_controls"/>
         <filters name="listing_filters">
             <filterSelect name="store_id">
@@ -61,6 +62,18 @@
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/tree-massactions</item>
                 </item>
             </argument>
+            <action name="edit">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">edit</item>
+                        <item name="label" xsi:type="string" translate="true">Edit</item>
+                        <item name="callback" xsi:type="array">
+                            <item name="provider" xsi:type="string">product_listing_mainproducts.product_listing_mainproducts.product_columns_editor</item>
+                            <item name="target" xsi:type="string">editSelected</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
             <action name="delete">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
@@ -113,16 +126,35 @@
     <columns name="product_columns" class="Magento\Catalog\Ui\Component\Listing\Columns">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
+                <item name="editorConfig" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">product_listing_mainproducts.product_listing_mainproducts.product_columns.ids</item>
+                    <item name="enabled" xsi:type="boolean">true</item>
+                    <item name="indexField" xsi:type="string">entity_id</item>
+                    <item name="clientConfig" xsi:type="array">
+                        <item name="saveUrl" xsi:type="url" path="cms/page/inlineEdit"/>
+                        <item name="validateBeforeSave" xsi:type="boolean">false</item>
+                    </item>
+                </item>
                 <item name="childDefaults" xsi:type="array">
                     <item name="fieldAction" xsi:type="array">
-                        <item name="provider" xsi:type="string">product_listing_mainproducts.product_listing_mainproducts.product_columns.actions</item>
-                        <item name="target" xsi:type="string">applyAction</item>
+                        <item name="provider" xsi:type="string">product_listing_mainproducts.product_listing_mainproducts.product_columns_editor</item>
+                        <item name="target" xsi:type="string">startEdit</item>
                         <item name="params" xsi:type="array">
-                            <item name="0" xsi:type="string">edit</item>
-                            <item name="1" xsi:type="string">${ $.$data.rowIndex }</item>
+                            <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
+                            <item name="1" xsi:type="boolean">true</item>
                         </item>
                     </item>
                 </item>
+                <!--<item name="childDefaults" xsi:type="array">-->
+                    <!--<item name="fieldAction" xsi:type="array">-->
+                        <!--<item name="provider" xsi:type="string">product_listing_mainproducts.product_listing_mainproducts.product_columns.actions</item>-->
+                        <!--<item name="target" xsi:type="string">applyAction</item>-->
+                        <!--<item name="params" xsi:type="array">-->
+                            <!--<item name="0" xsi:type="string">edit</item>-->
+                            <!--<item name="1" xsi:type="string">${ $.$data.rowIndex }</item>-->
+                        <!--</item>-->
+                    <!--</item>-->
+                <!--</item>-->
             </item>
         </argument>
         <selectionsColumn name="ids">
@@ -162,7 +194,14 @@
                     <item name="filter" xsi:type="string">text</item>
                     <item name="add_field" xsi:type="boolean">true</item>
                     <item name="label" xsi:type="string" translate="true">Name</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="validate-identifier" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
                     <item name="sortOrder" xsi:type="number">30</item>
+                    <item name="editable" xsi:type="boolean">true</item>
                 </item>
             </argument>
         </column>
