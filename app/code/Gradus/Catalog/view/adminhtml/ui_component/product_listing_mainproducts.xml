@@ -165,6 +165,25 @@
                 </item>
             </argument>
         </selectionsColumn>
+        <actionsColumn name="actions" class="Gradus\Catalog\Ui\Component\Listing\Columns\ProductActions">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">entity_id</item>
+                    <item name="sortOrder" xsi:type="number">600</item>
+                </item>
+            </argument>
+        </actionsColumn>
+        <actionsColumn name="mrf_num_action" class="Gradus\Catalog\Ui\Component\Listing\Columns\EditLink">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">entity_id</item>
+                    <item name="sortOrder" xsi:type="number">1</item>
+                    <item name="label" xsi:type="string" translate="true">Mfr #</item>
+                    <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="filter" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </actionsColumn>
         <column name="entity_id">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -224,6 +243,7 @@
                     <item name="filter" xsi:type="string">select</item>
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
                     <item name="dataType" xsi:type="string">select</item>
+                    <item name="editor" xsi:type="string">select</item>
                     <item name="label" xsi:type="string" translate="true">Attribute Set</item>
                     <item name="sortOrder" xsi:type="number">50</item>
                 </item>
@@ -243,6 +263,7 @@
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">textRange</item>
                     <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="editor" xsi:type="string">text</item>
                     <item name="label" xsi:type="string" translate="true">Price</item>
                     <item name="sortOrder" xsi:type="number">70</item>
                 </item>
@@ -256,6 +277,7 @@
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
                     <item name="add_field" xsi:type="boolean">true</item>
                     <item name="dataType" xsi:type="string">select</item>
+                    <item name="editor" xsi:type="string">select</item>
                     <item name="label" xsi:type="string" translate="true">Visibility</item>
                     <item name="sortOrder" xsi:type="number">80</item>
                 </item>
@@ -269,18 +291,11 @@
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
                     <item name="add_field" xsi:type="boolean">true</item>
                     <item name="dataType" xsi:type="string">select</item>
+                    <item name="editor" xsi:type="string">select</item>
                     <item name="label" xsi:type="string" translate="true">Status</item>
                     <item name="sortOrder" xsi:type="number">90</item>
                 </item>
             </argument>
         </column>
-        <actionsColumn name="actions" class="Magento\Catalog\Ui\Component\Listing\Columns\ProductActions">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="indexField" xsi:type="string">entity_id</item>
-                    <item name="sortOrder" xsi:type="number">200</item>
-                </item>
-            </argument>
-        </actionsColumn>
     </columns>
 </listing>

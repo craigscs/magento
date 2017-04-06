@@ -3,7 +3,7 @@
  * Copyright © 2013-2017 Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Magento\Catalog\Ui\Component\Listing\Columns;
+namespace Gradus\Catalog\Ui\Component\Listing\Columns;
 
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
@@ -50,13 +50,9 @@ class ProductActions extends Column
             $storeId = $this->context->getFilterParam('store_id');
 
             foreach ($dataSource['data']['items'] as &$item) {
-                $item[$this->getData('name')]['edit'] = [
-                    'href' => $this->urlBuilder->getUrl(
-                        'catalog/product/edit',
-                        ['id' => $item['entity_id'], 'store' => $storeId]
-                    ),
-                    'label' => __('Edit'),
-                    'hidden' => false,
+                $item[$this->getData('name')]['preview'] = [
+                    'href' => $item['url_key'],
+                    'label' => __('View')
                 ];
             }
         }
