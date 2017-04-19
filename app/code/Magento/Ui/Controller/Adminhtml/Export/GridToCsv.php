@@ -32,7 +32,7 @@ class GridToCsv extends Action
      */
     public function __construct(
         Context $context,
-        Convert $converter,
+        ConvertToCsv $converter,
         FileFactory $fileFactory
     ) {
         parent::__construct($context);

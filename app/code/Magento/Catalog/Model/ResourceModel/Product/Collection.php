@@ -492,11 +492,6 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Collection\Abstrac
         $this->_productCategoryTable = $this->getResource()->getTable('catalog_category_product');
     }
 
-    public function getTotalCount()
-    {
-        return $this->getSize();
-    }
-
     /**
      * Prepare static entity fields
      *

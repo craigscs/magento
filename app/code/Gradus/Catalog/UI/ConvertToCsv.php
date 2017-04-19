@@ -77,7 +77,7 @@ class ConvertToCsv
         $searchCriteria = $dataProvider->getSearchCriteria();
         $searchCriteria->setCurrentPage($i)
             ->setPageSize($this->pageSize);
-        $totalCount = (int) $dataProvider->getSearchResult()->getTotalCount();
+        $totalCount = (int) $dataProvider->getSearchResult()->getSize();
         while ($totalCount > 0) {
             $items = $dataProvider->getSearchResult()->getItems();
             foreach ($items as $item) {
