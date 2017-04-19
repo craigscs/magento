@@ -15,7 +15,7 @@
     </argument>
     <dataSource name="product_listing_mainproducts_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Gradus\Catalog\UI\DataProvider\Product\ProductDataProvider</argument>
+            <argument name="class" xsi:type="string">Magento\Catalog\Ui\DataProvider\Product\ProductDataProvider</argument>
             <argument name="name" xsi:type="string">product_listing_mainproducts_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
@@ -211,6 +211,23 @@
                     </item>
                     <item name="editable" xsi:type="boolean">true</item>
                     <item name="sortOrder" xsi:type="number">30</item>
+                </item>
+            </argument>
+        </column>
+        <column name="highlights">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Highlights</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">highlights</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="validate-identifier" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="editable" xsi:type="boolean">true</item>
+                    <item name="sortOrder" xsi:type="number">55</item>
                 </item>
             </argument>
         </column>
