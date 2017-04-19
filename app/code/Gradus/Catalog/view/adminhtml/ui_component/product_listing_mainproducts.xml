@@ -145,16 +145,6 @@
                         </item>
                     </item>
                 </item>
-                <!--<item name="childDefaults" xsi:type="array">-->
-                    <!--<item name="fieldAction" xsi:type="array">-->
-                        <!--<item name="provider" xsi:type="string">product_listing_mainproducts.product_listing_mainproducts.product_columns.actions</item>-->
-                        <!--<item name="target" xsi:type="string">applyAction</item>-->
-                        <!--<item name="params" xsi:type="array">-->
-                            <!--<item name="0" xsi:type="string">edit</item>-->
-                            <!--<item name="1" xsi:type="string">${ $.$data.rowIndex }</item>-->
-                        <!--</item>-->
-                    <!--</item>-->
-                <!--</item>-->
             </item>
         </argument>
         <selectionsColumn name="ids">
@@ -219,8 +209,8 @@
                             <item name="validate-identifier" xsi:type="boolean">true</item>
                         </item>
                     </item>
-                    <item name="sortOrder" xsi:type="number">30</item>
                     <item name="editable" xsi:type="boolean">true</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
                 </item>
             </argument>
         </column>
