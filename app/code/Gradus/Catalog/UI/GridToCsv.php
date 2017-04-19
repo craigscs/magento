@@ -3,11 +3,10 @@
  * Copyright © 2013-2017 Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Magento\Ui\Controller\Adminhtml\Export;
+namespace Gradus\Catalog\UI;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
-use Magento\Ui\Model\Export\ConvertToCsv;
 use Magento\Framework\App\Response\Http\FileFactory;
 
 /**
@@ -32,7 +31,7 @@ class GridToCsv extends Action
      */
     public function __construct(
         Context $context,
-        Convert $converter,
+        \Gradus\Catalog\UI\ConvertToCsv $converter,
         FileFactory $fileFactory
     ) {
         parent::__construct($context);

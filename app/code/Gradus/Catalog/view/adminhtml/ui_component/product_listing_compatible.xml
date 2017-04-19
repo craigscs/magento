@@ -39,6 +39,7 @@
             </item>
         </argument>
         <bookmark name="bookmarks"/>
+        <exportButton name="export_button"/>
         <columnsControls name="columns_controls"/>
         <exportButton name="export_button">
             <argument name="data" xsi:type="array">

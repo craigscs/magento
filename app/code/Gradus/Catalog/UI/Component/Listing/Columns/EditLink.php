@@ -55,8 +55,7 @@ class EditLink extends \Magento\Ui\Component\Listing\Columns\Column
                 $item[$this->getData('name')]['edit'] = [
                     'href' => $this->urlBuilder->getUrl(
                         'catalog/product/edit',
-                        ['id' => $item['entity_id'],
-                        'target'=>'_blank']
+                        ['id' => $item['entity_id']]
                     ),
                     'label' => __($label),
                     'hidden' => false,

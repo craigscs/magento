@@ -15,7 +15,7 @@
     </argument>
     <dataSource name="product_listing_mainproducts_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Magento\Catalog\Ui\DataProvider\Product\ProductDataProvider</argument>
+            <argument name="class" xsi:type="string">Gradus\Catalog\Ui\DataProvider\Product\ProductDataProvider</argument>
             <argument name="name" xsi:type="string">product_listing_mainproducts_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>

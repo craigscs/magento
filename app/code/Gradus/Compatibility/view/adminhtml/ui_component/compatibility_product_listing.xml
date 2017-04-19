@@ -33,6 +33,7 @@
     </dataSource>
     <listingToolbar name="listing_top">
         <bookmark name="bookmarks"/>
+        <exportButton name="export_button"/>
         <columnsControls name="columns_controls"/>
         <filters name="listing_filters">
             <argument name="data" xsi:type="array">

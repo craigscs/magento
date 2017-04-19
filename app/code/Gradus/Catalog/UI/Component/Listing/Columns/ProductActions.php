@@ -19,6 +19,7 @@ class ProductActions extends Column
      * @var UrlInterface
      */
     protected $urlBuilder;
+    protected $productRepository;
 
     /**
      * @param ContextInterface $context
@@ -51,7 +52,10 @@ class ProductActions extends Column
 
             foreach ($dataSource['data']['items'] as &$item) {
                 $item[$this->getData('name')]['preview'] = [
-                    'href' => $item['url_key'],
+                    'href' => $this->urlBuilder->getUrl(
+                        '../'.$item['url_key'],
+                []
+                    ),
                     'label' => __('View')
                 ];
             }

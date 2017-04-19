@@ -6,6 +6,8 @@
 namespace Gradus\Catalog\Ui\DataProvider\Product;
 
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
+use Magento\Framework\Api\Search\SearchCriteria;
+use Magento\Framework\Api\Search\SearchCriteriaBuilder;
 
 /**
  * Class ProductDataProvider
@@ -31,6 +33,8 @@ class ProductDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
 
     protected $reg;
     protected $logger;
+    protected $searchCriteria;
+    protected $searchCriteriaBuilder;
 
     /**
      * Construct
@@ -49,6 +53,7 @@ class ProductDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         $primaryFieldName,
         $requestFieldName,
         CollectionFactory $collectionFactory,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
         array $addFieldStrategies = [],
         array $addFilterStrategies = [],
         array $meta = [],
@@ -62,6 +67,16 @@ class ProductDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         }
         $this->addFieldStrategies = $addFieldStrategies;
         $this->addFilterStrategies = $addFilterStrategies;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+    }
+
+    public function getSearchCriteria()
+    {
+        if (!$this->searchCriteria) {
+            $this->searchCriteria = $this->searchCriteriaBuilder->create();
+            $this->searchCriteria->setRequestName($this->name);
+        }
+        return $this->searchCriteria;
     }
 
     /**
