@@ -46,7 +46,6 @@ class EditLink extends \Magento\Ui\Component\Listing\Columns\Column
         if (isset($dataSource['data']['items'])) {
             $fieldName = $this->getData('name');
             foreach ($dataSource['data']['items'] as &$item) {
-//                var_dump($item); die();
                 if (isset($item['mfr_num'])) {
                     $label = $item['mfr_num'];
                 } else {
