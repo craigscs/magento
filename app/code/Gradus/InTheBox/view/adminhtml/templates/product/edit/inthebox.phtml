@@ -37,7 +37,7 @@ $count = 1;
         var counts = $q('#in_the_box_container input').length;
         var clb = counts+1;
         $q('#in_the_box_container').append
-        ('<div class="in_the_box_row" id="in_the_box_'+counts+'"><div class="draggable-handle"></div>' +
+        ('<div class="specs_row" id="in_the_box_'+counts+'"><div class="draggable-handle"></div>' +
             '<label for=-"in_the_box_value'+counts+'">In The Box '+clb+'</label>' +
             '<input id="in_the_box_value_'+counts+'" style="width:30%;" data-form-part=\'product_form\' name=\'in_the_box['+clb+'][value]\' />' +
             '<label for=-"in_the_box_count_'+counts+'">Amount '+clb+'</label>' +
