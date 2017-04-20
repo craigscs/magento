@@ -8,10 +8,11 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
         <add id="Gradus_Catalog::catalog_products_part" title="Part" translate="title" module="Gradus_Catalog" sortOrder="14" parent="Magento_Catalog::inventory"
-             action="catalog/product/part/" resource="Magento_Catalog::products"/>
+             action="catalog/product/part/" resource="Magento_Catalog::parts"/>
         <add id="Gradus_Catalog::catalog_products_product" title="Main Product" translate="title" module="Gradus_Catalog" sortOrder="11" parent="Magento_Catalog::inventory"
-             action="catalog/product/mainproducts/" resource="Magento_Catalog::products"/>
+             action="catalog/product/mainproducts/" resource="Magento_Catalog::mainproducts"/>
         <add id="Gradus_Catalog::catalog_products_compatible" title="Compatible Products" translate="title" module="Gradus_Catalog" sortOrder="12" parent="Magento_Catalog::inventory"
-             action="catalog/product/compatible/" resource="Magento_Catalog::products"/>
+             action="catalog/product/compatible/" resource="Magento_Catalog::compatibleproducts"/>
+        <remove id="Magento_Catalog::catalog_products" />
     </menu>
 </config>

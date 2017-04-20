@@ -8,7 +8,6 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Save
     private $storeManager;
     public function execute()
     {
-        var_dump("SDFFSD"); die();
         if (isset($_POST['in_the_box'])) {
             $ts = $_POST['in_the_box'];
             $tss = json_encode($ts);
