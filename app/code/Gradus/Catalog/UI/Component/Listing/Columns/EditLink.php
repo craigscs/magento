@@ -50,7 +50,7 @@ class EditLink extends \Magento\Ui\Component\Listing\Columns\Column
                 if (isset($item['mfr_num'])) {
                     $label = $item['mfr_num'];
                 } else {
-                    $label = "None";
+                    $label = "--MISSING--";
                 }
                 $item[$this->getData('name')]['edit'] = [
                     'href' => $this->urlBuilder->getUrl(

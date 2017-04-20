@@ -15,7 +15,7 @@
     </argument>
     <dataSource name="product_listing_mainproducts_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Magento\Catalog\Ui\DataProvider\Product\ProductDataProvider</argument>
+            <argument name="class" xsi:type="string">Gradus\Catalog\UI\DataProvider\Product\ProductDataProvider</argument>
             <argument name="name" xsi:type="string">product_listing_mainproducts_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
@@ -41,6 +41,11 @@
         <bookmark name="bookmarks"/>
         <exportButton name="export_button"/>
         <columnsControls name="columns_controls"/>
+        <exportButton name="export_button">
+            <argument name="data" xsi:type="array">
+
+            </argument>
+        </exportButton>
         <filters name="listing_filters">
             <filterSelect name="store_id">
                 <argument name="optionsProvider" xsi:type="configurableObject">
@@ -155,25 +160,6 @@
                 </item>
             </argument>
         </selectionsColumn>
-        <actionsColumn name="actions" class="Gradus\Catalog\Ui\Component\Listing\Columns\ProductActions">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="indexField" xsi:type="string">entity_id</item>
-                    <item name="sortOrder" xsi:type="number">600</item>
-                </item>
-            </argument>
-        </actionsColumn>
-        <actionsColumn name="mrf_num_action" class="Gradus\Catalog\Ui\Component\Listing\Columns\EditLink">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="indexField" xsi:type="string">entity_id</item>
-                    <item name="sortOrder" xsi:type="number">1</item>
-                    <item name="label" xsi:type="string" translate="true">Mfr #</item>
-                    <item name="add_field" xsi:type="boolean">true</item>
-                    <item name="filter" xsi:type="string">text</item>
-                </item>
-            </argument>
-        </actionsColumn>
         <column name="entity_id">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -202,32 +188,14 @@
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">text</item>
                     <item name="add_field" xsi:type="boolean">true</item>
-                    <item name="label" xsi:type="string" translate="true">Name</item>
                     <item name="editor" xsi:type="array">
                         <item name="editorType" xsi:type="string">text</item>
                         <item name="validation" xsi:type="array">
-                            <item name="validate-identifier" xsi:type="boolean">true</item>
+                            <item name="required-entry" xsi:type="boolean">true</item>
                         </item>
                     </item>
-                    <item name="editable" xsi:type="boolean">true</item>
+                    <item name="label" xsi:type="string" translate="true">Name</item>
                     <item name="sortOrder" xsi:type="number">30</item>
-                </item>
-            </argument>
-        </column>
-        <column name="highlights">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="add_field" xsi:type="boolean">true</item>
-                    <item name="label" xsi:type="string" translate="true">Highlights</item>
-                    <item name="editor" xsi:type="array">
-                        <item name="editorType" xsi:type="string">highlights</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="validate-identifier" xsi:type="boolean">true</item>
-                        </item>
-                    </item>
-                    <item name="editable" xsi:type="boolean">true</item>
-                    <item name="sortOrder" xsi:type="number">55</item>
                 </item>
             </argument>
         </column>
@@ -304,5 +272,16 @@
                 </item>
             </argument>
         </column>
+        <actionsColumn name="mrf_num_action" class="Gradus\Catalog\Ui\Component\Listing\Columns\EditLink">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">entity_id</item>
+                    <item name="sortOrder" xsi:type="number">1</item>
+                    <item name="label" xsi:type="string" translate="true">Mfr #</item>
+                    <item name="add_field" xsi:type="boolean">true</item>
+                    <item name="filter" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </actionsColumn>
     </columns>
 </listing>
