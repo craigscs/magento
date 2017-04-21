@@ -12,7 +12,7 @@ $state->setAreaCode('adminhtml');
 $pr = $obj->create('Magento\Catalog\Model\ProductRepository');
 $file = fopen('shell/import/mfr.csv', 'r');
 $c = 0;
-while (($rowData = fgetcsv($file, 4096)) !== false)
+while (($row = fgetcsv($file, 4096)) !== false)
 {
     if ($c ==0) {
         $c++;
