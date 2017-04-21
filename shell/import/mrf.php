@@ -29,8 +29,12 @@ while (($row = fgetcsv($file, 4096)) !== false)
 }
 fclose($file);
 foreach ($productData as $sku => $value) {
-    $p = $pr->get($sku);
-    $p->setData("mfr_num", $value['mfr']);
-    $p->getResource()->saveAttribute($p, 'mfr_num');
-    echo "SKU ".$sku." saved.";
+    try {
+        $p = $pr->get($sku);
+        $p->setData("mfr_num", $value['mfr']);
+        $p->getResource()->saveAttribute($p, 'mfr_num');
+        echo "SKU " . $sku . " saved.";
+    } catch (\Exception $e) {
+        echo "Sku " . $sku . " not found";
+    }
 }
