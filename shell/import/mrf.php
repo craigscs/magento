@@ -10,7 +10,7 @@ $state = $obj->get('Magento\Framework\App\State');
 $state->setAreaCode('adminhtml');
 
 $pr = $obj->create('Magento\Catalog\Model\ProductRepository');
-$file = fopen('shell/import/csv/mfr.csv', 'r');
+$file = fopen('shell/import/csv/mrf.csv', 'r');
 $c = 0;
 while (($row = fgetcsv($file, 4096)) !== false)
 {
@@ -30,7 +30,7 @@ while (($row = fgetcsv($file, 4096)) !== false)
 fclose($file);
 foreach ($productData as $sku => $value) {
     $p = $pr->get($sku);
-    $product->setData("mfr_num", $overviewData['mfr']);
+    $p->setData("mfr_num", $value['mfr']);
     $p->getResource()->saveAttribute($p, 'mfr_num');
     echo "SKU ".$sku." saved.";
 }
