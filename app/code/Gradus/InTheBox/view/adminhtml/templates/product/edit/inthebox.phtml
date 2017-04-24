@@ -20,7 +20,16 @@ $count = 1;
     <?php endforeach ?>
     <?php endif ?>
 </div>
-<button onclick="addinthebox()">Add In The Box</button>
+<button class="action-secondary" style="margin-right:5px; margin-top:5px" onclick="addinthebox()">Add InTheBox</button>
+<div class="select_pad">
+    <select class="search_select" id="copy_from_inthebox">
+        <option value="-1">SKU | Name</option>
+        <?php foreach ($this->getProducts() as $p) : ?>
+            <option value="<?= $p->getId() ?>"><?= $p->getSku() ?> | <?= $p->getName() ?></option>
+        <?php endforeach; ?>
+    </select>
+    <button class="action-secondary" onclick="copyinthebox()">Copy from</button>
+</div>
 
 <script>
     var $q = jQuery.noConflict();
@@ -36,17 +45,39 @@ $count = 1;
     {
         var counts = $q('#in_the_box_container input').length;
         var clb = counts+1;
-        $q('#in_the_box_container').append
-        ('<div class="specs_row" id="in_the_box_'+counts+'"><div class="draggable-handle"></div>' +
-            '<label for=-"in_the_box_value'+counts+'">In The Box '+clb+'</label>' +
-            '<input id="in_the_box_value_'+counts+'" style="width:30%;" data-form-part=\'product_form\' name=\'in_the_box['+clb+'][value]\' />' +
-            '<label for=-"in_the_box_count_'+counts+'">Amount '+clb+'</label>' +
-            '<input id="in_the_box_count_'+counts+'" style="width:30%;" data-form-part=\'product_form\' name=\'in_the_box['+clb+'][count]\' />' +
-            "<a class=\"delete_icon\" src=\"javascript:void(0)\" onclick=\"deleteinthebox('in_the_box_"+counts+"')\"></a><br/></div>");
+        var vals = '';
+
+        vals +='<div style="margin:auto" class="gradus_fields" id="in_the_box_'+clb+'">';
+        vals +='<div class="draggable-handle inthebox_drag"><b>'+clb+'</b></div>';
+        vals += '<label class="gradus_label" for="in_the_box_amount_'+clb+'">Amount</label>';
+        vals += '<input name="in_the_box['+clb+'][count]" data-form-part="product_form" style="margin-left:6px;" class="gradus_text_mini"';
+        vals += 'id="in_the_box_amount_'+clb+'" value="" />';
+        vals += '<label class="gradus_label" for="in_the_box_value_'+clb+'">Item</label>';
+        vals += '<input name="in_the_box['+clb+'][value]" data-form-part="product_form" style="margin-left:6px; width:70%"';
+        vals += 'class="gradus_text_medium" style="width:70%" id="in_the_box_value_'+clb+'" value="" />';
+        vals += '<a src="javascript:void(0)" style="margin-left:6px;" onclick="deleteinthebox(\'in_the_box_'+clb+'\')">';
+        vals += '<img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>"></a></div>';
+
+        $q('#in_the_box_container').append(vals);
     }
 
     function deleteinthebox(h)
     {
         $q('#'+h).remove();
+    }
+
+    function copyinthebox()
+    {
+        var theid = $q('#copy_from_inthebox').val();
+        $q.ajax({
+            url: 'http://'+window.location.hostname+"/admin/catalog/product/copy/id/"+theid+"/field/inthebox/",
+            data: {form_key: window.FORM_KEY},
+            context: document.body
+        }).done(function(res) {
+            var q = res.res;
+            $q('#in_the_box_container').html(q);
+            updateaccord();
+            updateaccord();
+        });
     }
 </script>
