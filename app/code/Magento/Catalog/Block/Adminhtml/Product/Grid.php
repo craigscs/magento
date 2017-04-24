@@ -123,6 +123,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'attribute_set_id'
         )->addAttributeToSelect(
             'type_id'
+        )->addAttributeToFilter(
+            'gradus_type', 'Product'
+        )->addAttributeToFilter('sku', '1000'
         )->setStore(
             $store
         );

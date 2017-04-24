@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magento_Catalog::requires" title="Compatible Require" translate="title" module="Gradus_Requires" sortOrder="12" parent="Magento_Catalog::inventory"
+             action="requires/requires" resource="Magento_Catalog::requires"/>
+    </menu>
+</config>

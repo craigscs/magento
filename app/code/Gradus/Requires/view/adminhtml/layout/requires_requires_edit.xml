@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <head>
+        <link src="Gradus_Requires::js/requiredskus.js"/>
+        <link src="Gradus_Requires::css/chosen.min.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Gradus\Requires\Block\Adminhtml\Requires\Edit" name="requires_edit"/>
+            <uiComponent name="requires_product_listing"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Gradus\Requires\Block\Adminhtml\Requires\Edit\Tabs" name="requires_edit_tabs">
+                <block class="Gradus\Requires\Block\Adminhtml\Requires\Edit\Tab\Main" name="requires_edit_tab_main"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">main_section</argument>
+                    <argument name="block" xsi:type="string">requires_edit_tab_main</argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

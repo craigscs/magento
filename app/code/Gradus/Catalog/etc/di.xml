@@ -1,0 +1,6 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Magento\Catalog\Controller\Adminhtml\Product" type="Gradus\Catalog\Controller\Adminhtml\Product" />
+    <preference for="Magento\Ui\Model\Export\ConvertToCsv" type="Gradus\Catalog\Ui\ConvertToCsv" />
+    <preference for="Magento\Ui\Model\Export\ConvertToXml" type="Gradus\Catalog\Ui\ConvertToXml" />
+    <preference for="Magento\Ui\Controller\Adminhtml\Export\GridToCsv" type="Gradus\Catalog\Ui\GridToCsv" />
+</config>

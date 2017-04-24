@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="requires_requires_listing_data_source" xsi:type="string">Gradus\Requires\Model\ResourceModel\Requires\Grid\Collection</item>
+                <item name="requires_product_listing_data_source" xsi:type="string">Magento\Catalog\Model\ResourceModel\Product\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Gradus\Requires\Model\ResourceModel\Requires\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">compatible_requires</argument>
+            <argument name="eventPrefix" xsi:type="string">requires_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">requires_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Gradus\Requires\Model\ResourceModel\Requires</argument>
+        </arguments>
+    </type>
+    <virtualType name="PostGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Gradus\Requires\Model\ResourceModel\Requires\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">RequiresRequiresGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RequiresRequiresGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>
