@@ -20,6 +20,26 @@ class Dashboard extends \Magento\Backend\Block\Template
      */
     protected $_template = 'dashboard/index.phtml';
 
+    protected $imports;
+    protected $products;
+    protected $pages;
+
+    public function __construct(\Magento\Backend\Block\Template\Context $context,
+                                \Gradus\Importer\Model\ResourceModel\Imports\Collection $imports,
+                                \Magento\Catalog\Model\ResourceModel\Product\Collection $prods,
+                                \Magento\Cms\Model\ResourceModel\Page\Collection $pages,
+                                array $data)
+    {
+        $imports->addFieldToSelect('*')->setOrder('import_id');
+        $prods->addFieldToSelect('*');
+        $pages->addFieldToSelect('*');
+        $this->imports = $imports;
+        $this->pages = $pages;
+        $this->products = $prods;
+        parent::__construct($context, $data);
+    }
+
+
     /**
      * @return void
      */
@@ -54,6 +74,42 @@ class Dashboard extends \Magento\Backend\Block\Template
         $this->addChild('grids', \Magento\Backend\Block\Dashboard\Grids::class);
 
         parent::_prepareLayout();
+    }
+
+    public function getLastImport()
+    {
+        return $this->imports->getFirstItem();
+    }
+
+    public function getYesterdayProducts()
+    {
+        $date = new \DateTime();
+        $date->sub(new \DateInterval('P1D'));
+        $collections = $this->products;
+        $collections = $collections
+            ->filter
+            ->addFieldToFilter('updated_at', ['gteq' => $date])
+            ->getData();
+        return $collections;
+    }
+
+    public function getMissingInfoPages()
+    {
+        $collections = $this->products;
+        $collections = $collections
+            ->addFieldToFilter('description', null)
+            ->getData();
+        return $collections;
+    }
+
+    public function getYesterdayPages()
+    {
+        $date = new \DateTime();
+        $date->sub(new \DateInterval('P1D'));
+        $collections = $this->pages
+            ->addFieldToFilter('update_time', ['gteq' => $date])
+            ->getData();
+        return $collections;
     }
 
     /**
