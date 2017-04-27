@@ -116,6 +116,7 @@ class Save extends \Magento\Backend\App\Action
         $c = 0;
         $productData = array();
         $headers = array();
+        $this->addSuccess("Processing the file ".$f, "N/A");
         while (($row = fgetcsv($file, 4096)) !== false) {
             if ($c == 0) {
                 $headers = $row;
@@ -141,7 +142,7 @@ class Save extends \Magento\Backend\App\Action
             }
             $productData[] = $pd;
         }
-
+        $this->addSuccess("Finished processing the file ".$f, "N/A");
         $options = array();
         foreach ($productData as $data) {
             foreach ($data as $k => $d) {
@@ -163,7 +164,6 @@ class Save extends \Magento\Backend\App\Action
             $options[$k] = array_unique($options[$k]);
             $options[$k] = array_filter($options[$k]);
         }
-        var_dump($options); die();
 
         foreach ($options as $key => $op) {
             $ea = $this->eavAttribute->loadByCode('catalog_product', $key);
@@ -204,6 +204,7 @@ class Save extends \Magento\Backend\App\Action
         $c = 0;
         $productData = array();
         $headers = array();
+        $this->addSuccess("Processing the file ".$f, "N/A");
         while (($row = fgetcsv($file, 4096)) !== false) {
             if ($c == 0) {
                 $headers = $row;
@@ -220,6 +221,8 @@ class Save extends \Magento\Backend\App\Action
             }
             $productData[] = $pd;
         }
+        $this->addSuccess("Finished processing the file ".$f, "N/A");
+
         foreach ($productData as $key => $da) {
             $pname = $da['name'];
             $product = $this->pf->create()->loadByAttribute('name', $pname);
@@ -241,9 +244,20 @@ class Save extends \Magento\Backend\App\Action
                 $product->setData('name', $pname);
             }
             foreach ($da as $k => $d) {
-                $product->setData($k, $d);
-                $product->getResource()->saveAttribute($product, $k);
-                $this->addSuccess("Product Name: " . $pname . " saved attribute: " . $k, $pname);
+                $ea = $this->eavAttribute->loadByCode('catalog_product', $k);
+                if ($k == '') {
+                    continue;
+                }
+                if ($k == "categories") {
+                    continue;
+                }
+                try {
+                    $product->setData($k, $d);
+                    $product->getResource()->saveAttribute($product, $k);
+                    $this->addSuccess("Product Name: " . $pname . " saved attribute: " . $k, $pname);
+                } catch (\Exception $e) {
+
+                }
             }
             $product->save();
             $this->addSuccess("Sku was created and saved: ", $pname);
