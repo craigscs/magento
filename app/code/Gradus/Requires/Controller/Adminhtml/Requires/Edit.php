@@ -57,7 +57,7 @@ class Edit extends \Magento\Backend\App\Action
         // load layout, set active menu and breadcrumbs
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->setActiveMenu('Magento_Backend::system_convert')
+        $resultPage->setActiveMenu('Magento_Catalog::requires')
             ->addBreadcrumb(__('Requires'), __('Requires'))
             ->addBreadcrumb(__('Manage Requires'), __('Manage Requires'));
         return $resultPage;

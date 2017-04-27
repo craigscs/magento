@@ -2,6 +2,7 @@
 namespace Gradus\Importer\Controller\Adminhtml\Import;
 
 use Magento\Backend\App\Action;
+use Magento\Eav\Model\Entity\Attribute\Option;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Filesystem;
@@ -19,6 +20,14 @@ class Save extends \Magento\Backend\App\Action
     protected $success = true;
     protected $prod;
     protected $imgProcessor;
+    protected $eavAttribute;
+    protected $pf;
+
+    protected $cont;
+    protected $reg;
+    protected $optionLabelFactory;
+    protected $optionFactory;
+    protected $attributeOptionManagement;
 
     /**
      * @param Action\Context $context
@@ -28,13 +37,29 @@ class Save extends \Magento\Backend\App\Action
                                 UploaderFactory $uploaderFactory,
                                 \Magento\Catalog\Model\ProductRepository $pr,
                                 \Magento\Catalog\Model\Product $p,
-                                \Magento\Catalog\Model\Product\Gallery\Processor $imgp)
+                                \Magento\Catalog\Model\Product\Gallery\Processor $imgp,
+                                \Magento\Eav\Model\Entity\Attribute $entityAttribute,
+                                \Magento\Catalog\Model\ProductFactory $pf,
+                                \Magento\Framework\Model\Context $cont,
+                                \Magento\Framework\Registry $registry,
+                                \Magento\Eav\Api\Data\AttributeOptionLabelInterfaceFactory $optionLabelFactory,
+                                \Magento\Eav\Api\Data\AttributeOptionInterfaceFactory $optionFactory,
+                                \Magento\Eav\Api\AttributeOptionManagementInterface $attributeOptionManagement
+
+    )
     {
+        $this->reg = $registry;
+        $this->cont = $cont;
         $this->imgProcessor = $imgp;
         $this->prod = $p;
         $this->pr = $pr;
         $this->fileSystem = $fileSystem;
         $this->uploaderFactory = $uploaderFactory;
+        $this->eavAttribute = $entityAttribute;
+        $this->pf = $pf;
+        $this->optionLabelFactory = $optionLabelFactory;
+        $this->optionFactory = $optionFactory;
+        $this->attributeOptionManagement = $attributeOptionManagement;
         parent::__construct($context);
     }
 
@@ -78,6 +103,146 @@ class Save extends \Magento\Backend\App\Action
                 unlink("shell/import/csv" . $_FILES['upl']['name']);
             } catch (\Exception $e) {}
             return $resultRedirect->setPath('*/*/');
+        }
+    }
+
+    public function attr($brand, $f, $clear)
+    {
+        $success = true;
+        $handled = array();
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // instance of object manager
+        $message = '';
+        $file = fopen('shell/import/csv/'.$f, 'r');
+        $c = 0;
+        $productData = array();
+        $headers = array();
+        while (($row = fgetcsv($file, 4096)) !== false) {
+            if ($c == 0) {
+                $headers = $row;
+                $c++;
+                continue;
+            }
+            if (in_array("Multi", $row) && in_array("Text", $row) || in_array("Drop Down", $row)) {
+                continue;
+            }
+            $hc = 0;
+            foreach ($headers as $h) {
+                $pd[$h] = $row[$hc];
+                $hc++;
+            }
+
+            $headers = array_unique($headers);
+            $headers = array_filter($headers);
+
+            $hc = 0;
+            foreach ($headers as $h) {
+                $pd[$h] = $row[$hc];
+                $hc++;
+            }
+            $productData[] = $pd;
+        }
+
+        $options = array();
+        foreach ($productData as $data) {
+            foreach ($data as $k => $d) {
+                $options[$k] = array();
+            }
+            break;
+        }
+
+        foreach ($productData as $data) {
+            foreach ($data as $k => $d) {
+                array_push($options[$k], $d);
+            }
+        }
+
+        foreach ($options as $k => $op) {
+            $options[$k] = array_unique($options[$k]);
+            $options[$k] = array_filter($options[$k]);
+        }
+
+        foreach ($options as $key => $op) {
+            $ea = $this->eavAttribute->loadByCode('catalog_product', $key);
+            $ea_type = $ea->getData('frontend_input');
+            if ($ea_type == "select" || $ea_type == "multiselect") {
+                foreach ($op as $o) {
+                    $optionText = $ea->getSource()->getOptionId($o);
+                    if (!$optionText) {
+                        $optionLabel = $this->optionLabelFactory->create();
+                        $optionLabel->setStoreId(0);
+                        $optionLabel->setLabel($o);
+                        $option = $this->optionFactory->create();
+                        $option->setLabel($optionLabel);
+                        $option->setStoreLabels([$optionLabel]);
+                        $option->setSortOrder(0);
+                        $option->setIsDefault(false);
+                        $this->attributeOptionManagement->add(
+                            \Magento\Catalog\Model\Product::ENTITY,
+                            $ea->getId(),
+                            $option
+                        );
+                        $this->addSuccess("Saved option: ".$o, "N/A");
+                    } else {
+                        $this->addSuccess("Option : ".$o." already exists", "N/A");
+                    }
+                }
+            }
+        }
+    }
+
+    public function parent($brand, $f, $clear)
+    {
+        $success = true;
+        $handled = array();
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // instance of object manager
+        $message = '';
+        $file = fopen('shell/import/csv/' . $f, 'r');
+        $c = 0;
+        $productData = array();
+        $headers = array();
+        while (($row = fgetcsv($file, 4096)) !== false) {
+            if ($c == 0) {
+                $headers = $row;
+                $c++;
+                continue;
+            }
+            if (in_array("Multi", $row) && in_array("Text", $row) || in_array("Drop Down", $row)) {
+                continue;
+            }
+            $hc = 0;
+            foreach ($headers as $h) {
+                $pd[$h] = $row[$hc];
+                $hc++;
+            }
+            $productData[] = $pd;
+        }
+        foreach ($productData as $key => $da) {
+            $pname = $da['name'];
+            $product = $this->pf->create()->loadByAttribute('name', $pname);
+            if (!$product) {
+                $product = $this->pf->create();
+                //Set inital product information
+                $product->setData('name', $pname);
+                $product->setSku($pname . "-" . $da['model'] . "-" . rand(1, 10000));
+                $product->setTypeId('simple');
+                $product->setAttributeSetId(4);
+                $product->setPrice(0);
+                $product->setVisibility(1);
+                $product->setStatus(2);
+                $product->setWeight(0);
+                $product->setData('gradus_type', 6);
+                $product->setData('manufactered_date', $da['manufactered_date']);
+                $product->save();
+            } else {
+                $product->setData('name', $pname);
+            }
+            foreach ($da as $k => $d) {
+                $product->setData($k, $d);
+                $product->getResource()->saveAttribute($product, $k);
+                $this->addSuccess("Product Name: " . $pname . " saved attribute: " . $k, $pname);
+            }
+            $product->save();
+            $this->addSuccess("Sku was created and saved: ", $pname);
         }
     }
 

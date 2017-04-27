@@ -1117,7 +1117,6 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractExtens
         if (!$options) {
             $options = $this->usesSource() ? $this->getSource()->getAllOptions() : [];
         }
-
         return $this->convertToObjects($options);
     }
 

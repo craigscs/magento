@@ -41,7 +41,7 @@ class Index extends \Magento\Backend\App\Action
     {
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->setActiveMenu('SR_Weblog::blogpost');
+        $resultPage->setActiveMenu('Magento_Catalog::requires');
         $resultPage->getConfig()->getTitle()->prepend(__('Manage Requires'));
 
         return $resultPage;
