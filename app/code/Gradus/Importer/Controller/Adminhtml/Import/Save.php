@@ -239,11 +239,11 @@ class Save extends \Magento\Backend\App\Action
                 $product->setWeight(0);
                 $product->setData('gradus_type', 6);
                 $product->setData('manufactered_date', $da['manufactered_date']);
-                $product->save();
             } else {
                 $product->setData('name', $pname);
             }
             foreach ($da as $k => $d) {
+                var_dump($k);
                 $ea = $this->eavAttribute->loadByCode('catalog_product', $k);
                 if ($k == '') {
                     continue;
@@ -253,7 +253,8 @@ class Save extends \Magento\Backend\App\Action
                 }
                 try {
                     $product->setData($k, $d);
-                    $product->getResource()->saveAttribute($product, $k);
+//                    $product->getResource()->saveAttribute($product, $k);
+//                    $product->save();
                     $this->addSuccess("Product Name: " . $pname . " saved attribute: " . $k, $pname);
                 } catch (\Exception $e) {
                     var_dump($e);
