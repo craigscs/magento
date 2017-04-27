@@ -256,7 +256,7 @@ class Save extends \Magento\Backend\App\Action
                     $product->getResource()->saveAttribute($product, $k);
                     $this->addSuccess("Product Name: " . $pname . " saved attribute: " . $k, $pname);
                 } catch (\Exception $e) {
-
+                    var_dump($e);
                 }
             }
             $product->save();
