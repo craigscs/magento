@@ -152,7 +152,10 @@ class Save extends \Magento\Backend\App\Action
 
         foreach ($productData as $data) {
             foreach ($data as $k => $d) {
-                array_push($options[$k], $d);
+                $expanded = explode(",", $d);
+                foreach ($expanded as $qq) {
+                    array_push($options[$k], $qq);
+                }
             }
         }
 
@@ -160,6 +163,7 @@ class Save extends \Magento\Backend\App\Action
             $options[$k] = array_unique($options[$k]);
             $options[$k] = array_filter($options[$k]);
         }
+        var_dump($options); die();
 
         foreach ($options as $key => $op) {
             $ea = $this->eavAttribute->loadByCode('catalog_product', $key);
