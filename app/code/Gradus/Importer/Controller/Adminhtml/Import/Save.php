@@ -243,8 +243,11 @@ class Save extends \Magento\Backend\App\Action
                 $product->setData('name', $pname);
             }
             foreach ($da as $k => $d) {
-                var_dump($k);
+                $ops = array();
                 $ea = $this->eavAttribute->loadByCode('catalog_product', $k);
+                foreach ($ea->getOptions() as $o) {
+                    $ops[$o->getLabel()] = $o->getValue();
+                }
                 if ($k == '') {
                     continue;
                 }
@@ -252,17 +255,31 @@ class Save extends \Magento\Backend\App\Action
                     continue;
                 }
                 try {
-                    $product->setData($k, $d);
+                    $ea_type = $ea->getData('frontend_input');
+                    if ($ea_type == "select" || $ea_type == "multiselect") {
+                        $vals = explode(",",  $d);
+                        $save_vals = array();
+                        foreach ($vals as $v) {
+                            if (isset($ops[$v])) {
+                                array_push($save_vals, $ops[$v]);
+                            }
+                            $product->setData($k, implode(',',$save_vals));
+                            var_dump($product->getData($k)." :: ".$k);
+                            $this->addSuccess("Converted the data for: ".$pname." // ".$k." with ".implode(",",$save_vals));
+                        }
+                    } else {
+                        $product->setData($k, $d);
+                    }
 //                    $product->getResource()->saveAttribute($product, $k);
-//                    $product->save();
-                    $this->addSuccess("Product Name: " . $pname . " saved attribute: " . $k, $pname);
+                    $this->addSuccess("Product Name: " . $pname . " saved attribute: " . $k." with the data: ".$d, $pname);
                 } catch (\Exception $e) {
-                    var_dump($e);
                 }
             }
             $product->save();
             $this->addSuccess("Sku was created and saved: ", $pname);
         }
+        die();
+        $this->addDebug("Import is finished", "N/A");
     }
 
     public function inthebox($brand, $f, $claer)
