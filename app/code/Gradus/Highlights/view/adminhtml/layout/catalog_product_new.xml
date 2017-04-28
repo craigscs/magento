@@ -1,8 +1,5 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <head>
-        <css src="Gradus_TechSpecs::css/techspec.css" />
-    </head>
     <body>
         <referenceBlock name="product_form">
             <block class="Gradus\Highlights\Block\Adminhtml\Catalog\Product\Edit\Tab\Highlights" name="highlights.tab">

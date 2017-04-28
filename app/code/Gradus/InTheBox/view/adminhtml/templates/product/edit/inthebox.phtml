@@ -6,18 +6,21 @@ $count = 1;
 <div id="in_the_box_container" style="width:900px; margin:auto;">
     <?php if (count($info) > 0) : ?>
     <?php foreach ($info as $i) : ?>
-            <?php if (!is_null($i)) : ?>
-        <div class="specs_row" id="in_the_box_<?= $count ?>">
-            <div class="draggable-handle"></div>
-            <label for="in_the_box_value_<?= $count ?>">In The Box <?= $count ?></label>
-            <input id="in_the_box_value_<?= $count ?>" style="width:30%;" data-form-part="product_form" value="<?= $i['value'] ?>" name="in_the_box[<?= $count ?>][value]" />
-            <label for="in_the_box_count_<?= $count ?>">Amount <?= $count ?></label>
-            <input id="in_the_box_count_<?= $count ?>" style="width:30%;" data-form-part="product_form" value="<?= $i['count'] ?>" name="in_the_box[<?= $count ?>][count]" />
-        <a class="delete_icon" src="javascript:void(0)" onclick="deleteinthebox('in_the_box_<?= $count ?>//////')"></a>
-        </div>
-        <?php $count++ ?>
+    <?php if (!is_null($i)) : ?>
+    <div style="margin:auto" class="gradus_fields" id="in_the_box_<?= $count ?>">
+        <div class="draggable-handle inthebox_drag"><b><?= $count ?></b></div>
+        <label class="gradus_label" for="in_the_box_amount_'+clb+'">Amount</label>
+        <input name="in_the_box[<?= $count ?>][count]" data-form-part="product_form" style="margin-left:6px;" class="gradus_text_mini"
+               id="in_the_box_amount_<?= $count ?>" value="<?= $i['count'] ?>" />
+        <label class="gradus_label" for="in_the_box_value_<?= $count ?>">Item</label>
+        <input name="in_the_box[<?= $count ?>][value]" data-form-part="product_form" style="margin-left:6px; width:58%"
+               class="gradus_text_medium" style="width:70%" id="in_the_box_value_<?= $count ?>" value="<?= $i['value'] ?>" />
+        <a src="javascript:void(0)" style="margin-left:6px;" onclick="deleteinthebox(\'in_the_box_<?= $count ?>\')">
+        <img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>"></a>
+    </div>
+                <?php $count++ ?>
             <?php endif ?>
-    <?php endforeach ?>
+        <?php endforeach ?>
     <?php endif ?>
 </div>
 <button class="action-secondary" style="margin-right:5px; margin-top:5px" onclick="addinthebox()">Add InTheBox</button>
