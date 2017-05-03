@@ -163,7 +163,6 @@ class Save extends \Magento\Backend\App\Action
             $options[$k] = array_unique($options[$k]);
             $options[$k] = array_filter($options[$k]);
         }
-        var_dump($options); die();
 
         foreach ($options as $key => $op) {
             $ea = $this->eavAttribute->loadByCode('catalog_product', $key);
