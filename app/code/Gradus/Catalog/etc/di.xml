@@ -3,4 +3,5 @@
     <preference for="Magento\Ui\Model\Export\ConvertToCsv" type="Gradus\Catalog\Ui\ConvertToCsv" />
     <preference for="Magento\Ui\Model\Export\ConvertToXml" type="Gradus\Catalog\Ui\ConvertToXml" />
     <preference for="Magento\Ui\Controller\Adminhtml\Export\GridToCsv" type="Gradus\Catalog\Ui\GridToCsv" />
+    <preference for="Magento\Ui\Controller\Adminhtml\Export\GridToXml" type="Gradus\Catalog\Ui\GridToXml" />
 </config>
