@@ -118,7 +118,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
     {
         return array(
             'features'=>'Features',
-            'inthebox'=>'In The Boz',
+            'inthebox'=>'In The Box',
             'overview'=>'Overview',
             'accessories'=>'Accessories',
             'metadata'=>'Meta Data',

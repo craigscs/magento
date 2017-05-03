@@ -254,7 +254,6 @@ class Save extends \Magento\Backend\App\Action
                 if ($k == "categories") {
                     continue;
                 }
-                try {
                     $ea_type = $ea->getData('frontend_input');
                     if ($ea_type == "select" || $ea_type == "multiselect") {
                         $vals = explode(",",  $d);
@@ -263,22 +262,20 @@ class Save extends \Magento\Backend\App\Action
                             if (isset($ops[$v])) {
                                 array_push($save_vals, $ops[$v]);
                             }
+                            $d = implode(',', $save_vals);
                             $product->setData($k, implode(',',$save_vals));
-                            var_dump($product->getData($k)." :: ".$k);
-                            $this->addSuccess("Converted the data for: ".$pname." // ".$k." with ".implode(",",$save_vals));
                         }
                     } else {
                         $product->setData($k, $d);
                     }
-//                    $product->getResource()->saveAttribute($product, $k);
+                    if ($d == '') {
+                        $d = "None";
+                    }
                     $this->addSuccess("Product Name: " . $pname . " saved attribute: " . $k." with the data: ".$d, $pname);
-                } catch (\Exception $e) {
-                }
             }
             $product->save();
             $this->addSuccess("Sku was created and saved: ", $pname);
         }
-        die();
         $this->addDebug("Import is finished", "N/A");
     }
 
