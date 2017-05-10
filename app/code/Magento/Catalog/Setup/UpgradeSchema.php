@@ -24,42 +24,43 @@ class UpgradeSchema implements UpgradeSchemaInterface
     {
         $setup->startSetup();
 
-        if (version_compare($context->getVersion(), '2.0.1', '<')) {
-            $this->addSupportVideoMediaAttributes($setup);
-            $this->removeGroupPrice($setup);
-        }
+        $installer->startSetup();
 
-        if (version_compare($context->getVersion(), '2.0.6', '<')) {
-            $this->addUniqueKeyToCategoryProductTable($setup);
-        }
-
-        if (version_compare($context->getVersion(), '2.1.4', '<')) {
-            $this->addPercentageValueColumn($setup);
-            $tables = [
-                'catalog_product_index_price_cfg_opt_agr_idx',
-                'catalog_product_index_price_cfg_opt_agr_tmp',
-                'catalog_product_index_price_cfg_opt_idx',
-                'catalog_product_index_price_cfg_opt_tmp',
-                'catalog_product_index_price_final_idx',
-                'catalog_product_index_price_final_tmp',
-                'catalog_product_index_price_idx',
-                'catalog_product_index_price_opt_agr_idx',
-                'catalog_product_index_price_opt_agr_tmp',
-                'catalog_product_index_price_opt_idx',
-                'catalog_product_index_price_opt_tmp',
-                'catalog_product_index_price_tmp',
-            ];
-            foreach ($tables as $table) {
-                $setup->getConnection()->modifyColumn(
-                    $setup->getTable($table),
-                    'customer_group_id',
-                    ['type' => 'integer', 'nullable' => false]
-                );
-            }
-            $this->addSourceEntityIdToProductEavIndex($setup);
-            $this->recreateCatalogCategoryProductIndexTmpTable($setup);
-        }
-
+        $table = $installer->getConnection()->newTable(
+            $installer->getTable('downloads')
+        )->addColumn(
+            'download_id',
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            null,
+            array('identity' => true, 'nullable' => false, 'primary' => true),
+            'Download ID'
+        )->addColumn(
+            'name',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            '2M',
+            array('nullable' => false),
+            'Name'
+        )->addColumn(
+            'type',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            '2M',
+            array('nullable' => false),
+            'Type'
+        )->addColumn(
+            'file_id',
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            null,
+            array(),
+            'File ID'
+        )->addColumn(
+            'url',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            null,
+            array(),
+            'File Url'
+        )->setComment(
+            'Downloads Table'
+        );
         $setup->endSetup();
     }
 
