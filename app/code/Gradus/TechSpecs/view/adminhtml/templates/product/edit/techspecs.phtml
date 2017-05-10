@@ -38,7 +38,7 @@ $count = 1;
                                     <div style="display:inline-block; margin-left:-30px; cursor:move" class="draggable-handle2 specs_drag"><b><?= $speccount ?></b></div>
                                     <label class="gradus_label" for="spec_name_.<?= $speccount ?>">Spec Name</label>
                                     <a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader('spec_row_<?= $count ?>_<?= $speccount ?>')">
-                                        <img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>">
+                                        <img style="width:20px; margin-top:10px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>">
                                     </a>
                                     <input style="width:99%" class="gradus_text_large" data-form-part="product_form" name="techspec[<?= $count?>][header][<?= $speccount ?>][name]"
                                            id="spec_name_".<?= $speccount ?> value="<?= $spec['name'] ?>"/>
@@ -182,7 +182,7 @@ $count = 1;
             '<div style="display:inline-block; margin-left:-30px;" class="draggable-handle2 specs_drag"><b>1</b></div>'+
             '<label class="gradus_label" for="spec_name_0">Spec Name</label>'+
             '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader(\'spec_row'+lbc+'\')">'+
-            '<img style="width:20px;" src="<?= $this->getViewFileUrl("Gradus_Catalog::images/trash.png") ?>"></a>'+
+            '<img style="width:20px; margin-top:10px;" src="<?= $this->getViewFileUrl("Gradus_Catalog::images/trash.png") ?>"></a>'+
             '<input style="width:99%" class="gradus_text_large" data-form-part="product_form" name="techspec['+lbc+'][header][0][name]"'+
             '<label class="gradus_label" for="spec_desc_0">Spec Description</label>'+
             '<textarea style="width:99%" class="gradus_text_large" data-form-part="product_form" name="techspec['+lbc+'][header][0][desc] id="spec_desc_0"'+
@@ -222,7 +222,7 @@ $count = 1;
             '<div style="display:inline-block; margin-left:-30px;" class="draggable-handle2 specs_drag"><b>'+counts+'</div>'+
             '<label class="gradus_label" for="spec_name_"'+counts+'>Spec Name</label>'+
             '<a style="margin-right: src="javascript:void(0)" onclick="deleteHeader(\'spec_row_'+count+'_'+counts+'\')">'+
-            '<img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>"></a>'+
+            '<img style="width:20px; margin-top:10px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>"></a>'+
             '<input style="width:99%" class="gradus_text_large" data-form-part="product_form" name="techspec['+count+'][header]['+counts+'][name]" id="spec_name_'+counts+'" value="">'+
             '<label class="gradus_label" for="spec_desc_"+count>Spec Description</label>'+
             '<textarea style="width:99%" class="gradus_text_large" data-form-part="product_form" name="techspec['+count+'][header]['+counts+'][desc]" id="spec_desc_0" value=""/>'+

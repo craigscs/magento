@@ -11,7 +11,7 @@ $count = 1;
                 <div style="margin:auto" class="gradus_fields" id="features_<?= $count ?>">
                     <div class="draggable-handle features_drag"><b><?= $count ?></b></div>
                     <label class="gradus_label" for="feat_n_<?= $count ?>">Label</label>
-                    <input name="features[<?= $count ?>][name]" data-form-part="product_form" class="gradus_text_large" id="feat_n_<?= $count ?>" value="<?= $i['name'] ?>" />
+                    <input style="margin-bottom:5px;" name="features[<?= $count ?>][name]" data-form-part="product_form" class="gradus_text_large" id="feat_n_<?= $count ?>" value="<?= $i['name'] ?>" />
                     <div style="line-break:auto" />
                     <label style="margin-left:18px" class="gradus_label" for="feat_d_<?= $count ?>">Feature</label>
                     <textarea data-form-part="product_form" name="features[<?= $count?>][desc]" style="margin-top:5px; width:79.5%;" class="gradus_text_large" id="feat_d_<?= $count ?>">
@@ -75,7 +75,7 @@ $count = 1;
         q += '<div style="margin:auto" class="gradus_fields" id="features_'+clb+'">';
         q += '<div class="draggable-handle features_drag"><b>'+clb+'</b></div>';
         q += '<label class="gradus_label" for="feat_n_'+clb+'">Label</label>';
-        q += '<input name="features['+clb+'][name]" data-form-part="product_form" class="gradus_text_large" id="feat_n_'+clb+'" value="" />';
+        q += '<input style="margin-bottom:5px" name="features['+clb+'][name]" data-form-part="product_form" class="gradus_text_large" id="feat_n_'+clb+'" value="" />';
         q += '<div style="line-break:auto" />';
         q += '<label style="margin-left:18px" class="gradus_label" for="feat_d_'+clb+'">Feature</label>';
         q += '<textarea data-form-part="product_form" name="features['+clb+'][desc]" style="width:79.5%; top-margin:5px;" data-form-part="product_form" class="gradus_text_large" id="feat_d_'+clb+'>" value=""></textarea>';
