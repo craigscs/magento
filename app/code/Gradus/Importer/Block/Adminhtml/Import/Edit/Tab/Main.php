@@ -127,6 +127,8 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'techspecs'=>'Tech Specs',
             'parent'=>'Parent Products',
             'attr'=>'Attributes',
+            'catNames' => 'Category Names',
+            'categories' => 'Categories'
         );
     }
 

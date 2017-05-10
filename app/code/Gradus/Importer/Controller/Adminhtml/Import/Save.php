@@ -28,6 +28,7 @@ class Save extends \Magento\Backend\App\Action
     protected $optionLabelFactory;
     protected $optionFactory;
     protected $attributeOptionManagement;
+    protected $catFactory;
 
     /**
      * @param Action\Context $context
@@ -44,10 +45,11 @@ class Save extends \Magento\Backend\App\Action
                                 \Magento\Framework\Registry $registry,
                                 \Magento\Eav\Api\Data\AttributeOptionLabelInterfaceFactory $optionLabelFactory,
                                 \Magento\Eav\Api\Data\AttributeOptionInterfaceFactory $optionFactory,
-                                \Magento\Eav\Api\AttributeOptionManagementInterface $attributeOptionManagement
-
+                                \Magento\Eav\Api\AttributeOptionManagementInterface $attributeOptionManagement,
+                                \Magento\Catalog\Model\CategoryFactory $categoryFactory
     )
     {
+        $this->catFactory = $categoryFactory;
         $this->reg = $registry;
         $this->cont = $cont;
         $this->imgProcessor = $imgp;
@@ -104,6 +106,64 @@ class Save extends \Magento\Backend\App\Action
             } catch (\Exception $e) {}
             return $resultRedirect->setPath('*/*/');
         }
+    }
+
+    public function catNames($brand, $f, $clear)
+    {
+        $success = true;
+        $message = '';
+        $file = fopen('shell/import/csv/'.$f, 'r');
+        $c = 0;
+        $productData = array();
+
+        while (($row = fgetcsv($file, 4096)) !== false) {
+            if ($c == 0) {
+                $c++;
+                continue;
+            }
+            $productData[$row[0]] = array(
+                'name' => $row[1],
+                'url' => $row[3],
+                'parent' => $row[6]
+            );
+        }
+        fclose($file);
+        $ids = array();
+        foreach ($productData as $rowId => $value) {
+            try {
+                $foundcat = false;
+                $collection = $this->catFactory->create()->getCollection()->addAttributeToFilter('title',$row[1])->setPageSize(1);
+                if ($collection->getSize()) {
+                    $foundcat = $collection->getFirstItem();
+                    $this->addDebug("Found category with the name ".$value['name']." and the rowID: ".$rowId, $rowId);
+                    continue;
+                }
+
+                $parent = 0;
+                if ($collection->getSize()) {
+                    $parent = $collection->getFirstItem()->getCategoryId();
+                    $this->addDebug("Found parent category with the name ".$value['parent']." and the rowID: ".$rowId, $rowId);
+                }
+
+                $newcat = $this->catFactory->create();
+                $newcat->setName($value['name']);
+                $newcat->setUrlKey($row['url']);
+                $newcat->setParentId($parent);
+                $newcat->setIsActive(true);
+                $newcat->setIncludeInMenu(true);
+                $newcat->save();
+                $this->addSuccess("Added category ".$value['name'], $rowId);
+            } catch (\Exception $e) {
+                $success = false;
+                $this->addError($e->getMessage().": ROWID: ".$rowId, $rowId);
+            }
+        }
+        $this->addDebug("Import is finished.", "None");
+    }
+
+    public function categories($brand, $f, $clear)
+    {
+
     }
 
     public function attr($brand, $f, $clear)
