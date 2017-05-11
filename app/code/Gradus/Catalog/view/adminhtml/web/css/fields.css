@@ -14,10 +14,17 @@
     position: absolute;
     top: 0;
 }
+.abs-field-no-label,
+.admin__fieldset > .admin__field.admin__field-no-label > .admin__field-control,
+.admin__field-no-label,
+.admin__field-group-additional {
+    margin-left: 180px;
+}
 .admin__fieldset > .admin__field > .admin__field-control {
     width: 75%;
     float: left;
     margin-left: 30px;
+    max-width:450px;
 }
 .data-grid .data-grid-draggable-row-cell {
     width:30px;
