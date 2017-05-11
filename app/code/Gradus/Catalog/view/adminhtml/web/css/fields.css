@@ -1,3 +1,8 @@
+.admin__fieldset > .admin__field > .admin__field-label {
+    width: 150px;
+    float: left;
+}
+
 .gradus_fields {
     padding:5px;
     padding-bottom:10px;
