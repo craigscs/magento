@@ -10,6 +10,7 @@ $count = 1;
             <th class="data-grid-draggable-row-cell"></th>
             <th class="data-grid-th position" style="width:75px"><span>Position</span></th>
             <th class="data-grid-th"><span>Highlight Text</span></th>
+            <th style="width:100px"/>
         </tr>
         </thead>
     <?php foreach ($info as $i) : ?>
@@ -21,8 +22,9 @@ $count = 1;
                 <?= $count ?>
             </td>
             <td>
-                Input
+                <input style="width:100%" value="<?= $i ?>" />
             </td>
+            <td>Remove</td>
         </tr>
         <?php $count++ ?>
     <?php endforeach; ?>
@@ -88,7 +90,7 @@ $count = 1;
             }
         }).disableSelection();
 
-        $q('#highlight_container2').sortable({
+        $q('#highlight_container2 > table > tbody').sortable({
             handle: '.draggable-handle3',
             revert: 300,
             placeholder: "jqplaceholder",
