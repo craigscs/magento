@@ -1,11 +1,46 @@
 .admin__fieldset > .admin__field > .admin__field-label {
     width: 150px;
     float: left;
+    margin-left:0px;
+}
+[class*='admin__control-grouped'] > .admin__field:first-child > .admin__field-label,
+.admin__control-fields > .admin__field:first-child > .admin__field-label {
+    width: 150px;
+    float: left;
+    margin-left: 0px;
+    background: #ffffff;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+.admin__fieldset > .admin__field > .admin__field-control {
+    width: 75%;
+    float: left;
+    margin-left: 30px;
+}
+.data-grid .data-grid-draggable-row-cell {
+    width:30px;
+}
+.data-grid > .position {
+    width:75px;
+}
+.draggable {
+    content: '\e617';
+    font-family: 'Admin Icons';
+    color: #9e9e9e;
+    cursor: -webkit-grab;
+}
+
+.jqplaceholder {
+    height:25px;
+    border:3px dotted #cc0000;
 }
 
 .gradus_fields {
     padding:5px;
     padding-bottom:10px;
+    border:1px solid #DDDDDD;
 }
 
 .gradus_label {
@@ -102,6 +137,18 @@
     width: 15px;
     height: 15px;
     /*background-image: url(../images/draggable.png);*/
+    background-size: 15px;
+    padding: 5px;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.draggable-handle3 {
+    display: inline-block;
+    cursor: move;
+    width: 15px;
+    height: 15px;
+    background-image: url(../images/draggable.png);
     background-size: 15px;
     padding: 5px;
     margin-right: 10px;

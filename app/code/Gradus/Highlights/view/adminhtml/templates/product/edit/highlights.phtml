@@ -3,6 +3,32 @@ $tech = $this->getProduct()->getData('highlights');
 $info = json_decode($tech, true);
 $count = 1;
 ?>
+<div id="highlight_container2">
+    <table class="admin__dynamic-rows data-grid">
+        <thead>
+        <tr>
+            <th class="data-grid-draggable-row-cell"></th>
+            <th class="data-grid-th position" style="width:75px"><span>Position</span></th>
+            <th class="data-grid-th"><span>Highlight Text</span></th>
+        </tr>
+        </thead>
+    <?php foreach ($info as $i) : ?>
+        <tr>
+            <td class=""data-grid-draggable-row-cell">
+            <div class="draggable-handle3"></div>
+            </td>
+            <td>
+                <?= $count ?>
+            </td>
+            <td>
+                Input
+            </td>
+        </tr>
+        <?php $count++ ?>
+    <?php endforeach; ?>
+        </table>
+</div>
+
 <div id="highlight_container">
     <?php if (count($info) > 0) : ?>
         <?php foreach ($info as $i) : ?>
@@ -60,8 +86,21 @@ $count = 1;
                    $q(this).html(ii);
                 })
             }
-
         }).disableSelection();
+
+        $q('#highlight_container2').sortable({
+            handle: '.draggable-handle3',
+            revert: 300,
+            placeholder: "jqplaceholder",
+            tolerance: "intersect",
+            update: function( event, ui ) {
+                $q('.highlight_drag').each(function(i, obj) {
+                    var ii = i+1;
+                    $q(this).html(ii);
+                })
+            }
+        }).disableSelection();
+
     });
     function addHighlight()
     {
