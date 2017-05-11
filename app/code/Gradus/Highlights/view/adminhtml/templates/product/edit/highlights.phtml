@@ -58,16 +58,6 @@ $count = 1;
     <?php endforeach; ?>
 </select>
     <button class="action-secondary" onclick="copyhighlight()">Copy from</button>
-    </div>
-
-
-<div id="demo">
-    <button style="margin-right:15px; display:inline-block" onclick="adddiv('25%')">25%</button>
-    <button style="margin-right:15px; display:inline-block" onclick="adddiv('50%')">50%</button>
-    <button style="margin-right:15px; display:inline-block" onclick="adddiv('75%')">75%</button>
-    <button style="margin-right:15px; display:inline-block" onclick="adddiv('100%')">100%</button>
-    Enter Your Label into these input fields
-    <div style="clear: both" />
 </div>
 
 <script>
@@ -98,7 +88,6 @@ $count = 1;
     }
 
     $q( document ).ready(function() {
-        $q('#copy_from_highlights').chosen();
         $q('#highlight_container').sortable({
             handle: '.draggable-handle',
             revert: 300,
