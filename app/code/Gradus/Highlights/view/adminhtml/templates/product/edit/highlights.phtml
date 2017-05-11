@@ -18,7 +18,7 @@ $count = 1;
             <td class=""data-grid-draggable-row-cell">
             <div class="draggable-handle3"></div>
             </td>
-            <td>
+            <td class="posrow">
                 <?= $count ?>
             </td>
             <td>
@@ -59,8 +59,30 @@ $count = 1;
 </select>
     <button class="action-secondary" onclick="copyhighlight()">Copy from</button>
     </div>
+
+
+<div id="demo">
+    <button style="margin-right:15px; display:inline-block" onclick="adddiv('25%')">25%</button>
+    <button style="margin-right:15px; display:inline-block" onclick="adddiv('50%')">50%</button>
+    <button style="margin-right:15px; display:inline-block" onclick="adddiv('75%')">75%</button>
+    <button style="margin-right:15px; display:inline-block" onclick="adddiv('100%')">100%</button>
+    Enter Your Label into these input fields
+    <div style="clear: both" />
+</div>
+
 <script>
     var $q = jQuery.noConflict();
+
+
+    function adddiv(per)
+    {
+        console.log(per);
+        var inp = "<input style='border:2px solid; width:"+per+"' />";
+        console.log(inp);
+        $q('#demo').append(inp);
+    }
+
+
 
     function copyhighlight()
     {
@@ -97,6 +119,10 @@ $count = 1;
             tolerance: "intersect",
             update: function( event, ui ) {
                 $q('.highlight_drag').each(function(i, obj) {
+                    var ii = i+1;
+                    $q(this).html(ii);
+                })
+                $q('.posrow').each(function(i, obj) {
                     var ii = i+1;
                     $q(this).html(ii);
                 })
