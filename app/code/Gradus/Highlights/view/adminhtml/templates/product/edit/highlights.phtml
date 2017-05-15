@@ -3,18 +3,20 @@ $tech = $this->getProduct()->getData('highlights');
 $info = json_decode($tech, true);
 $count = 1;
 ?>
-<div id="highlight_container2">
-    <table class="admin__dynamic-rows data-grid">
+<div style="width:800px;" id="highlights_container">
+    <?php if (count($info) > 0) : ?>
+    <table id="highlight_table" class="admin__dynamic-rows data-grid">
         <thead>
         <tr>
             <th class="data-grid-draggable-row-cell"></th>
-            <th class="data-grid-th position" style="width:75px"><span>Position</span></th>
+            <th class="data-grid-th position" style="width:30px"><span>Seq</span></th>
             <th class="data-grid-th"><span>Highlight Text</span></th>
             <th style="width:100px"/>
         </tr>
         </thead>
+        <tbody>
     <?php foreach ($info as $i) : ?>
-        <tr>
+        <tr id="highlight_row_<?= $count ?>">
             <td class=""data-grid-draggable-row-cell">
             <div class="draggable-handle3"></div>
             </td>
@@ -22,56 +24,95 @@ $count = 1;
                 <?= $count ?>
             </td>
             <td>
-                <input style="width:100%" value="<?= $i ?>" />
+                <input style="width:100%; padding:3px;" value="<?= $i ?>" />
             </td>
-            <td>Remove</td>
+            <td><a onclick="deleteHighlight('highlight_row_<?= $count ?>')" href"#">Remove</a></td>
         </tr>
         <?php $count++ ?>
     <?php endforeach; ?>
+        </tbody>
         </table>
-</div>
-
-<div id="highlight_container">
-    <?php if (count($info) > 0) : ?>
-        <?php foreach ($info as $i) : ?>
-            <?php if (!is_null($i)) : ?>
-                <div style="margin:auto" class="gradus_fields" id="highlight_<?= $count ?>">
-                    <div class="draggable-handle highlight_drag"><b><?= $count ?></b></div>
-                    <label class="gradus_label" for="highlight_<?= $count ?>">Highlight</label>
-                    <input data-form-part="product_form" name=highlights[<?= $count ?>]" style="width:75%" class="gradus_text_large" id="hightlight_<?= $count ?>" value="<?= $i ?>" />
-                    <a src="javascript:void(0)" onclick="deleteHighlight('highlight_<?= $count ?>')">
-                        <img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>">
-                    </a>
-                </div>
-                <?php $count++ ?>
     <?php endif ?>
-    <?php endforeach ?>
-<?php endif ?>
 </div>
 
-<button class="action-secondary" style="margin-right:5px;" onclick="addHighlight()">Add Highlight</button>
-<div class="select_pad">
-<select class="search_select" id="copy_from_highlights">
-    <option value="-1">SKU | Name</option>
-    <?php foreach ($this->getProducts() as $p) : ?>
-        <option value="<?= $p->getId() ?>"><?= $p->getSku() ?> | <?= $p->getName() ?></option>
-    <?php endforeach; ?>
-</select>
-    <button class="action-secondary" onclick="copyhighlight()">Copy from</button>
+<h4 id="copyToggle" onclick="toggleSearch()">Copy From (Hide)</h4>
+<div id="searchContainer" style="border:1px solid; width:750px; padding:10px;">
+<div class="admin__action-multiselect-search-wrap" style="width:400px; display:inline-block">
+    <input onkeyup="getHighlightSearch()" id="highlight_search" class="admin__control-text admin__action-multiselect-search" type="text">
+    <label class="admin__action-multiselect-search-label"></label>
+</div>
+        <select multiple style="display: inline-block; max-height:250px; overflow:auto;" id="copy_items">
+            <option value="name">Name</option>
+            <option value="categories">Categories</option>
+            <option value="highlights">Highlights</option>
+            <option value="techspecs">Specifications</option>
+            <option value="description">Description</option>
+            <option value="InTheBox">Includes</option>
+            <option value="features">Features</option>
+            <option value="images">Images & Videos</option>
+            <option value="seo">Seo Information</option>
+            <option value="related">Related Products</option>
+            <option value="accessories">Accessories</option>
+            <option value="compatibility">Compatibility</option>
+            <option values="downloads">Downloadable Files</option>
+        </select>
+    <button type="button" class="action-secondary" onclick="runCopy()" style="display:inline-block">Copy fields</button>
+    <div  style="display:none;">
+        <input id="searchPicked" />
+    </div>
+    <div id="highlight_results" style="max-height:250px; overflow:auto;">
+
+    </div>
 </div>
 
 <script>
     var $q = jQuery.noConflict();
 
-
-    function adddiv(per)
+    function runCopy()
     {
-        console.log(per);
-        var inp = "<input style='border:2px solid; width:"+per+"' />";
-        console.log(inp);
-        $q('#demo').append(inp);
+        var fields = $q('#copy_items').val();
+        var item = $q('#searchPicked').val();
+        if (item == "") {
+            alert("Please choose an item to copy from!");
+            return;
+        }
+        $q('#copy_items').val().each(function (i, obj) {
+            $q.ajax({
+                url: 'http://'+window.location.hostname+"/admin/catalog/product/copy/id/"+item+"/field/"+i+"/",
+                data: {form_key: window.FORM_KEY},
+                context: document.body
+            }).done(function(res) {
+                $q('#'+i+'_container').html(res.res);
+            })
+        });
     }
 
+    function toggleSearch()
+    {
+        $q('#searchContainer').toggle();
+        if ($q('#searchContainer').is(':visible')) {
+            $q('#copyToggle').text("Copy From (Hide)");
+        } else {
+            $q('#copyToggle').text("Copy From (Show)");
+        }
+    }
+
+    function copyitem(mfr)
+    {
+        $q('#searchPicked').val(mfr);
+    }
+
+    function getHighlightSearch()
+    {
+        var qid = $q('#highlight_search').val();
+        $q.ajax({
+            url: 'http://'+window.location.hostname+"/admin/catalog/product/search/text/"+qid,
+            data: {form_key: window.FORM_KEY},
+            context: document.body
+        }).done(function(res) {
+            $q('#highlight_results').html(res.res);
+        });
+    }
 
 
     function copyhighlight()
@@ -82,25 +123,11 @@ $count = 1;
             data: {form_key: window.FORM_KEY},
             context: document.body
         }).done(function(res) {
-            var q = res.res;
             $q('#highlight_container').html(q);
         });
     }
 
     $q( document ).ready(function() {
-        $q('#highlight_container').sortable({
-            handle: '.draggable-handle',
-            revert: 300,
-            placeholder: "jqplaceholder",
-            tolerance: "intersect",
-            update: function( event, ui ) {
-                $q('.highlight_drag').each(function(i, obj) {
-                    var ii = i+1;
-                   $q(this).html(ii);
-                })
-            }
-        }).disableSelection();
-
         $q('#highlight_container2 > table > tbody').sortable({
             handle: '.draggable-handle3',
             revert: 300,
@@ -121,23 +148,23 @@ $count = 1;
     });
     function addHighlight()
     {
-        var counts = $q('#highlight_container input').length;
+        var counts = $q('#highlight_table > tbody > tr').length;
         var clb = counts+1;
         var q = '';
-        q += '<div style="margin:auto" class="gradus_fields" id="highlight_'+clb+'">';
-        q += '<div class="draggable-handle highlight_drag"><b>'+clb+'</b></div>';
-        q += '<label class="gradus_label" for="highlight_'+clb+'">Highlight</label>';
-        q += '<input data-form-part="product_form" name="highlights['+clb+']" style="margin-left:6px; width:75%;" class="gradus_text_large" id="hightlight_'+clb+'" value="" />';
-        q += ' <a src="javascript:void(0)" onclick="deleteHighlight(\'highlight_'+clb+'\')">';
-        q += '<img style="width:20px;" src="<?= $this->getViewFileUrl("Gradus_Catalog::images/trash.png") ?>"></a></div>';
-        $q('#highlight_container').append
-        (q);
+
+            q += '<tr id="highlight_row_'+clb+'">'+
+                '<td class="data-grid-draggable-row-cell">'+
+                '<div class="draggable-handle3"></div></td>'+
+                '<td class="posrow">'+clb+'</td><td>'+
+                '<input style="width:100%; padding:3px;" value="" />'+
+                '</td><td><a href"#" onclick="deleteHighlight(\'highlight_row_'+clb+'\')">Remove</a></td></tr>';
+        $q('#highlight_table > tbody').append(q);
     }
 
     function deleteHighlight(h)
     {
         $q('#'+h).remove();
-        $q('.highlight_drag').each(function(i, obj) {
+        $q('.posrow').each(function(i, obj) {
             var ii = i+1;
             $q(this).html(ii);
         });

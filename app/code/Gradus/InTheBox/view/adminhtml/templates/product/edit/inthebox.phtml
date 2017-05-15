@@ -3,7 +3,7 @@ $tech = $this->getProduct()->getData('in_the_box');
 $info = json_decode($tech, true);
 $count = 1;
 ?>
-<div id="in_the_box_container" style="width:900px; margin:auto;">
+<div id="InTheBox_container" style="width:900px; margin:auto;">
     <?php if (count($info) > 0) : ?>
     <?php foreach ($info as $i) : ?>
             <?php if (!is_null($i)) : ?>
@@ -34,7 +34,7 @@ $count = 1;
 <script>
     var $q = jQuery.noConflict();
     $q( document ).ready(function() {
-        $q('#in_the_box_container').sortable({
+        $q('#InTheBox_container').sortable({
             handle: '.draggable-handle',
             revert: 300,
             placeholder: "ui-state-in_the_box myHover",
@@ -43,7 +43,7 @@ $count = 1;
     });
     function addinthebox()
     {
-        var counts = $q('#in_the_box_container .gradus_fields').length;
+        var counts = $q('#InTheBox_container .gradus_fields').length;
         var clb = counts+1;
         var vals = '';
 
@@ -58,7 +58,7 @@ $count = 1;
         vals += '<a src="javascript:void(0)" style="margin-left:6px;" onclick="deleteinthebox(\'in_the_box_'+clb+'\')">';
         vals += '<img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>"></a></div>';
 
-        $q('#in_the_box_container').append(vals);
+        $q('#InTheBox_container').append(vals);
     }
 
     function deleteinthebox(h)
@@ -75,7 +75,7 @@ $count = 1;
             context: document.body
         }).done(function(res) {
             var q = res.res;
-            $q('#in_the_box_container').html(q);
+            $q('#InTheBox_container').html(q);
             updateaccord();
             updateaccord();
         });

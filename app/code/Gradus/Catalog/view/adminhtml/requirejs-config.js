@@ -1,10 +1,10 @@
 var config = {
     map: {
         '*': {
-            chosen: 'Gradus_Requires/js/chosen.jquery',
+            multiselect: 'Gradus_Requires/js/jquery.multi-select.js',
         }
     },
     paths: {
-        'chosen': 'Gradus_Requires/js/chosen.jquery',
+        'multiselect': 'Gradus_Requires/js/jquery.multi-select.js',
     },
 };
