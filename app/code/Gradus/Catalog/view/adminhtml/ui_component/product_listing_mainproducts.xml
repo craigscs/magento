@@ -160,27 +160,17 @@
                 </item>
             </argument>
         </selectionsColumn>
-        <actionsColumn name="mrf_num_action" class="Gradus\Catalog\Ui\Component\Listing\Columns\EditLink">
+        <actionsColumn name="mrf_num" class="Gradus\Catalog\Ui\Component\Listing\Columns\EditLink">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="indexField" xsi:type="string">entity_id</item>
-                    <item name="sortOrder" xsi:type="number">0</item>
+                    <item name="sortOrder" xsi:type="number">1</item>
                     <item name="label" xsi:type="string" translate="true">Mfr #</item>
                     <item name="add_field" xsi:type="boolean">true</item>
                     <item name="filter" xsi:type="string">text</item>
                 </item>
             </argument>
         </actionsColumn>
-        <column name="entity_id">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">textRange</item>
-                    <item name="sorting" xsi:type="string">asc</item>
-                    <item name="label" xsi:type="string" translate="true">ID</item>
-                    <item name="sortOrder" xsi:type="number">10</item>
-                </item>
-            </argument>
-        </column>
         <column name="thumbnail" class="Magento\Catalog\Ui\Component\Listing\Columns\Thumbnail">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
