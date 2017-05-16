@@ -295,8 +295,8 @@ class Save extends \Magento\Backend\App\Action
                 }
                 $s .= "</div>";
                 $p = $this->pr->get($sku);
-                $p->setData("inthebox", json_encode($value));
-                $p->getResource()->saveAttribute($p, 'inthebox');
+                $p->setData("in_the_box", json_encode($value));
+                $p->getResource()->saveAttribute($p, 'in_the_box');
                 $this->addSuccess("Added include(s)".$s, $sku);
             } catch (\Exception $e) {
                 $success = false;
