@@ -290,7 +290,7 @@ class Save extends \Magento\Backend\App\Action
                 $counter = 0;
                 $s = '<div onclick="jQuery(\'#row_'.$sku.'\').toggle()">Details</div><div id="row_'.$sku.'" style="display:none">';
                 foreach ($value as $v) {
-                    $s .= "[".$counter."] ".$v['name'].": ".$v['desc']."<br>";
+                    $s .= "[".$counter."] ".$v['count'].": ".$v['value']."<br>";
                     $counter++;
                 }
                 $s .= "</div>";
