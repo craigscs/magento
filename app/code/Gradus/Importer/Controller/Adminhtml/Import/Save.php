@@ -94,6 +94,7 @@ class Save extends \Magento\Backend\App\Action
                 $model->setData('messages', json_encode($this->mes));
                 $model->setData('process', ucwords($func));
                 $model->setData('succeeded', $this->success);
+                $model->setData('brand', $data['brand']);
                 $model->save();
             } catch (\Exception $e) {
                 $this->messageManager->addError(
@@ -395,7 +396,7 @@ class Save extends \Magento\Backend\App\Action
                 $p = $this->pr->get($sku);
                 $p->setData("features", json_encode($value));
                 $p->getResource()->saveAttribute($p, 'features');
-                $this->addSuccess("Added feature ".$value, $sku);
+                $this->addSuccess("Added feature ".json_decode($value), $sku);
             } catch (\Exception $e) {
                 $success = false;
                 $this->addError($e->getMessage(), $sku);
