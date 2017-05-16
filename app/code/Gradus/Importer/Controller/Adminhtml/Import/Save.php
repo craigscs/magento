@@ -404,7 +404,7 @@ class Save extends \Magento\Backend\App\Action
                 {
                     $productData[$row[2]] = array();
                 }
-                $productData[$row[2]] = array(
+                $productData[$row[2]][] = array(
                     "name" => $row[4],
                     "desc" => $row[5]
                 );
