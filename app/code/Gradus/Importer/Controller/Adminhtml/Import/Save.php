@@ -421,7 +421,7 @@ class Save extends \Magento\Backend\App\Action
                 $s = '';
                 $counter = 0;
                 foreach ($value as $v) {
-                    $s .= "[".$counter."] ".$v['name'].": ".$v['desc']."\n";
+                    $s .= "[".$counter."] ".$v['name'].": ".$v['desc']."<br>";
                     $counter++;
                 }
                 $p = $this->pr->get($sku);
