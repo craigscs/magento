@@ -10,41 +10,48 @@
 <?php if ($block->getChildHtml()):?>
     <div data-mage-init='{"floatingHeader": {}}' class="page-actions" <?php /* @escapeNotVerified */ echo $block->getUiId('content-header') ?>>
         <?php echo $block->getChildHtml(); ?>
-    </div>
 
-    <div id="copy_from_div">
-        <div id="searchContainer" style="border:1px solid; width:750px; padding:10px;">
-            <div class="admin__action-multiselect-search-wrap" style="width:400px; display:inline-block">
-                <input onkeyup="getHighlightSearch()" id="highlight_search" class="admin__control-text admin__action-multiselect-search" type="text">
-                <label class="admin__action-multiselect-search-label"></label>
-            </div>
-            <select multiple style="display: inline-block; max-height:250px; overflow:auto;" id="copy_items">
-                <option value="name">Name</option>
-                <option value="categories">Categories</option>
-                <option value="highlights">Highlights</option>
-                <option value="techspecs">Specifications</option>
-                <option value="description">Description</option>
-                <option value="InTheBox">Includes</option>
-                <option value="features">Features</option>
-                <option value="images">Images & Videos</option>
-                <option value="seo">Seo Information</option>
-                <option value="related">Related Products</option>
-                <option value="accessories">Accessories</option>
-                <option value="compatibility">Compatibility</option>
-                <option values="downloads">Downloadable Files</option>
-            </select>
-            <button type="button" class="action-secondary" onclick="runCopy()" style="display:inline-block">Copy fields</button>
-            <div  style="display:none;">
-                <input id="searchPicked" />
-            </div>
-            <br>
-            Selected MFR <div id="picked"></div>
-            <div id="highlight_results" style="max-height:250px; overflow:auto;">
+        <div style="clear:both"></div>
+        <div id="copy_from_div" style="display:none;">
+            <div id="searchContainer" style="border:1px solid; width:750px; padding:10px;">
+                <div class="admin__action-multiselect-search-wrap" style="width:400px; display:inline-block">
+                    <input onkeyup="getHighlightSearch()" id="highlight_search" class="admin__control-text admin__action-multiselect-search" type="text">
+                    <label class="admin__action-multiselect-search-label"></label>
+                </div>
+                <select multiple style="display: inline-block; max-height:250px; overflow:auto;" id="copy_items">
+                    <option value="name">Name</option>
+                    <option value="categories">Categories</option>
+                    <option value="highlights">Highlights</option>
+                    <option value="techspecs">Specifications</option>
+                    <option value="description">Description</option>
+                    <option value="InTheBox">Includes</option>
+                    <option value="features">Features</option>
+                    <option value="images">Images & Videos</option>
+                    <option value="seo">Seo Information</option>
+                    <option value="related">Related Products</option>
+                    <option value="accessories">Accessories</option>
+                    <option value="compatibility">Compatibility</option>
+                    <option values="downloads">Downloadable Files</option>
+                </select>
+                <button type="button" class="action-secondary" onclick="runCopy()" style="display:inline-block; float:right;">Copy fields</button>
+                <div  style="display:none;">
+                    <input id="searchPicked" />
+                </div>
+                <br>
+                Selected MFR <div style="display:inline-block; margin-left:5px; font-weight:bold;" id="picked_mfr"></div>
+                <div id="copy_messages"></div>
+                <h3>Search Results</h3>
+                <div id="highlight_results" style="max-height:250px; overflow:auto;">
 
+                </div>
             </div>
         </div>
     </div>
-
+    <style>
+        .copy_success {
+            color:#00aa00;
+        }
+    </style>
 <script>
     var $q = jQuery.noConflict();
 
@@ -67,16 +74,17 @@
     data: {form_key: window.FORM_KEY},
     context: document.body
     }).done(function(res) {
-    $q('#'+i+'_container').html(res.res);
+        console.log(res);
+        $q('#'+i+'_container').html(res.res);
+        $q('#copy_messages').append("<div class='copy_success'>"+res.mes+"</div>");
     })
     });
     }
 
-    function copyitem(mfr)
+    function copyitem(id, mfr)
     {
-        $q('#searchPicked').val(mfr);
-        $q('#picked').html(mfr);
-        togglePicked(id);
+        $q('#searchPicked').val(id);
+        $q('#picked_mfr').html(mfr);
     }
 
     function getHighlightSearch()

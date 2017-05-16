@@ -51,7 +51,7 @@ class Search extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
                 $t .= "<tr id='row_".$c->getId()."'><td style='padding:5px;'>" . $c->getData('mfr_num') . "</td>";
                 $t .= "<td style='padding:5px;'>" . $c->getData('name') . "</td>";
                 $t .= "<td style='padding:5px;'><a href='javascript:void(0)'";
-                $t .= " onclick=\"copyitem('".$c->getId()."')\"";
+                $t .= " onclick=\"copyitem('".$c->getId()."', '".$c->getData('mfr_num')."')\"";
                 $t .= ">Select</a></td>";
                 $t .= "</tr>";
             }

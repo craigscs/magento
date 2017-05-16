@@ -1,3 +1,20 @@
+.page-actions .actions-split {
+    height:45.5px;
+    float: right;
+    margin-left: 1.3rem;
+    -ms-flex-order: 2;
+    -webkit-order: 2;
+    order: 2;
+}
+.abs-actions-split-xl .action-toggle,
+.page-actions .actions-split .action-toggle {
+    padding-right: 4rem;
+    height: 45.5px;
+}
+.page-actions-buttons > .action-secondary {
+    height:60px;
+}
+
 .admin__fieldset > .admin__field > .admin__field-label {
     width: 150px;
     float: left;
