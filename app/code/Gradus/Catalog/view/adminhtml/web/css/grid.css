@@ -1,0 +1,8 @@
+.admin__data-grid-wrap {
+    max-height:500px;
+    margin-bottom: 2rem;
+    max-width: 100%;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    padding-top: 2rem;
+}
