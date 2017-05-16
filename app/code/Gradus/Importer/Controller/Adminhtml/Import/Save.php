@@ -418,10 +418,10 @@ class Save extends \Magento\Backend\App\Action
                 if (isset($this->links[$sku])) {
                     $sku = $this->links[$sku];
                 }
-                $s = '';
+                $s = '<div onclick="jQuery(this).next().toggle()"><div style="display:none">';
                 $counter = 0;
                 foreach ($value as $v) {
-                    $s .= "[".$counter."] ".$v['name'].": ".$v['desc']."<br>";
+                    $s .= "[".$counter."] ".$v['name'].": ".$v['desc']."</div></div>";
                     $counter++;
                 }
                 $p = $this->pr->get($sku);
