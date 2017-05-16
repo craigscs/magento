@@ -418,10 +418,14 @@ class Save extends \Magento\Backend\App\Action
                 if (isset($this->links[$sku])) {
                     $sku = $this->links[$sku];
                 }
+                $s = '';
+                foreach ($value as $v) {
+                    $s .= $v['name'].": ".$v['desc']."\n";
+                }
                 $p = $this->pr->get($sku);
                 $p->setData("features", json_encode($value));
                 $p->getResource()->saveAttribute($p, 'features');
-                $this->addSuccess("Added feature ".json_encode($value), $sku);
+                $this->addSuccess("Added feature(s) ".$s, $sku);
             } catch (\Exception $e) {
                 $success = false;
                 $this->addError($e->getMessage(), $sku);
