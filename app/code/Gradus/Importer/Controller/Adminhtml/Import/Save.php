@@ -385,9 +385,34 @@ class Save extends \Magento\Backend\App\Action
 
     public function features($brand, $f, $clear)
     {
+        $success = true;
+        $message = '';
+        $rowcount = 0;
         $file = fopen('shell/import/csv/'.$f, 'r');
         $c = 0;
-        $productData = $this->processFile($file, $brand, "feature");
+        $productData = array();
+
+        while (($row = fgetcsv($file, 4096)) !== false) {
+            if ($c == 0) {
+                $c++;
+                continue;
+            }
+            $rowBrand = $row[0];
+            $rowBrand = strtolower($rowBrand);
+            if (strtolower($brand) == $rowBrand || $brand == "All") {
+                if(!isset($productData[$row[2]]))
+                {
+                    $productData[$row[2]] = array();
+                }
+                $productData[$row[2]] = array(
+                    "name" => $row[5],
+                    "desc" => $row[7]
+                );
+                $rowcount++;
+            }
+        }
+        fclose($file);
+        $this->addDebug("Starting features import with ".count($productData)." products and ".$rowcount." rows.", 'None');
         foreach ($productData as $sku => $value) {
             try {
                 if (isset($this->links[$sku])) {
