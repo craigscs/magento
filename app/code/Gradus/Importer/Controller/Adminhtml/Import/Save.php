@@ -419,8 +419,10 @@ class Save extends \Magento\Backend\App\Action
                     $sku = $this->links[$sku];
                 }
                 $s = '';
+                $counter = 0;
                 foreach ($value as $v) {
-                    $s .= $v['name'].": ".$v['desc']."\n";
+                    $s .= "[".$counter."] ".$v['name'].": ".$v['desc']."\n";
+                    $counter++;
                 }
                 $p = $this->pr->get($sku);
                 $p->setData("features", json_encode($value));
