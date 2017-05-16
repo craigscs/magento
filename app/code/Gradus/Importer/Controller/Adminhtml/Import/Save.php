@@ -418,12 +418,13 @@ class Save extends \Magento\Backend\App\Action
                 if (isset($this->links[$sku])) {
                     $sku = $this->links[$sku];
                 }
-                $s = '<div onclick="jQuery(this).next().toggle()">Details<div style="display:none">';
+                $s = '<div onclick="jQuery("#row_"'.$sku.').toggle()">Details<div id="row_"'.$sku.' style="display:none">';
                 $counter = 0;
                 foreach ($value as $v) {
-                    $s .= "[".$counter."] ".$v['name'].": ".$v['desc']."</div></div>";
+                    $s .= "[".$counter."] ".$v['name'].": ".$v['desc']."<br>";
                     $counter++;
                 }
+                $s .= "</div></div>";
                 $p = $this->pr->get($sku);
                 $p->setData("features", json_encode($value));
                 $p->getResource()->saveAttribute($p, 'features');
