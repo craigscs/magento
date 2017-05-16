@@ -28,6 +28,7 @@ class Save extends \Magento\Backend\App\Action
     protected $optionLabelFactory;
     protected $optionFactory;
     protected $attributeOptionManagement;
+    protected $func;
 
     /**
      * @param Action\Context $context
@@ -87,6 +88,7 @@ class Save extends \Magento\Backend\App\Action
                         __('File cannot be saved to path: $1', $destinationPath)
                     );
                 }
+                $this->func = $data['process'];
                 $res = $this->$func($data['brand'], $_FILES['upl']['name'], $data['clear']);
                 $model->setData($data);
                 $model->setData('messages', json_encode($this->mes));
@@ -393,10 +395,10 @@ class Save extends \Magento\Backend\App\Action
                 $p = $this->pr->get($sku);
                 $p->setData("features", json_encode($value));
                 $p->getResource()->saveAttribute($p, 'features');
-                $this->addSuccess("SKU " . $sku . " saved.", $sku);
+                $this->addSuccess("Added feature ".$value, $sku);
             } catch (\Exception $e) {
                 $success = false;
-                $this->addError($e->getMessage().": SKU: ".$sku, $sku);
+                $this->addError($e->getMessage(), $sku);
             }
         }
         $this->addDebug("Feature import is finished.", "None");
@@ -581,6 +583,7 @@ class Save extends \Magento\Backend\App\Action
 
     public function processFile($file, $brand, $type, $c=0)
     {
+        $rowcount = 0;
         while (($row = fgetcsv($file, 4096)) !== false) {
             if ($c == 0) {
                 $c++;
@@ -594,10 +597,11 @@ class Save extends \Magento\Backend\App\Action
                     $productData[$row[2]] = array();
                 }
                 $productData[$row[2]][$row[3]] = $row[4];
+                $rowcount++;
             }
         }
         fclose($file);
-        $this->addDebug("Starting ".$type." import with ".count($productData)." products and ".count($row)." rows.", 'None');
+        $this->addDebug("Starting ".$type." import with ".count($productData)." products and ".$rowcount." rows.", 'None');
         return $productData;
     }
 
