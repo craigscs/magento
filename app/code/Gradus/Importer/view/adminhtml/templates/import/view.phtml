@@ -5,7 +5,7 @@ $mes = json_decode($message);
 ?>
 <div style="font-size:140%"><b>Process: </b><?= $im->getData('process') ?></div>
 
-<table id="messages">
+<table class="bord" id="messages">
     <thead>
     <tr>
         <th>Time</th>
@@ -17,16 +17,20 @@ $mes = json_decode($message);
     <tbody>
     <?php foreach ($mes as $m) : ?>
     <tr class="<?= $m->type ?>">
-        <td><?= $m->time ?></td>
-        <td><?= $m->sku ?></td>
-        <td><?= $m->type ?></td>
-        <td><?= $m->mes ?></td>
+        <td class="bord"><?= $m->time ?></td>
+        <td class="bord"><?= $m->sku ?></td>
+        <td class="bord"><?= $m->type ?></td>
+        <td class="bord"><?= $m->mes ?></td>
     </tr>
     <?php endforeach ?>
     </tbody>
 </table>
 
 <style>
+    .bord {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
     .error {
         background: #ff6666 !important;
     }

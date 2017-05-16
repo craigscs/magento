@@ -116,9 +116,9 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
 
     public function getOptions()
     {
-        return array(
+        $vals = array(
             'features'=>'Features',
-            'inthebox'=>'In The Boz',
+            'inthebox'=>'In The Box',
             'overview'=>'Overview',
             'accessories'=>'Accessories',
             'metadata'=>'Meta Data',
@@ -127,7 +127,10 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'techspecs'=>'Tech Specs',
             'parent'=>'Parent Products',
             'attr'=>'Attributes',
+            "links" => "Sku Links",
         );
+        ksort($vals);
+        return $vals;
     }
 
     protected function getFiles()

@@ -256,6 +256,7 @@ class Save extends \Magento\Backend\App\Action
     {
         $success = true;
         $message = '';
+        $rowcount = 0;
         $file = fopen('shell/import/csv/'.$f, 'r');
         $c = 0;
         $productData = array();
@@ -276,18 +277,27 @@ class Save extends \Magento\Backend\App\Action
                     "value" => $row[5],
                     "count" => $row[6]
                 );
+                $rowcount++;
             }
         }
         fclose($file);
+        $this->addDebug("Starting features import with ".count($productData)." products and ".$rowcount." rows.", 'None');
         foreach ($productData as $sku => $value) {
             try {
                 if (isset($this->links[$sku])) {
                     $sku = $this->links[$sku];
                 }
+                $counter = 0;
+                $s = '<div onclick="jQuery(\'#row_'.$sku.'\').toggle()">Details</div><div id="row_'.$sku.'" style="display:none">';
+                foreach ($value as $v) {
+                    $s .= "[".$counter."] ".$v['name'].": ".$v['desc']."<br>";
+                    $counter++;
+                }
+                $s .= "</div>";
                 $p = $this->pr->get($sku);
                 $p->setData("inthebox", json_encode($value));
                 $p->getResource()->saveAttribute($p, 'inthebox');
-                $this->addSuccess("SKU " . $sku . " saved.", $sku);
+                $this->addSuccess("Added include(s)".$s, $sku);
             } catch (\Exception $e) {
                 $success = false;
                 $this->addError($e->getMessage().": SKU: ".$sku, $sku);
@@ -418,13 +428,13 @@ class Save extends \Magento\Backend\App\Action
                 if (isset($this->links[$sku])) {
                     $sku = $this->links[$sku];
                 }
-                $s = '<div onclick="jQuery(\'#row_'.$sku.'\').toggle()">Details<div id="row_'.$sku.'" style="display:none">';
+                $s = '<div onclick="jQuery(\'#row_'.$sku.'\').toggle()">Details</div><div id="row_'.$sku.'" style="display:none">';
                 $counter = 0;
                 foreach ($value as $v) {
                     $s .= "[".$counter."] ".$v['name'].": ".$v['desc']."<br>";
                     $counter++;
                 }
-                $s .= "</div></div>";
+                $s .= "</div>";
                 $p = $this->pr->get($sku);
                 $p->setData("features", json_encode($value));
                 $p->getResource()->saveAttribute($p, 'features');
