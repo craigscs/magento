@@ -64,7 +64,6 @@ class Save extends \Magento\Backend\App\Action
         $this->optionLabelFactory = $optionLabelFactory;
         $this->optionFactory = $optionFactory;
         $this->attributeOptionManagement = $attributeOptionManagement;
-        $this->makeLinks('shell/import/csv/links.csv');
         parent::__construct($context);
     }
 
@@ -79,6 +78,7 @@ class Save extends \Magento\Backend\App\Action
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
         if ($data) {
+            $this->makeLinks('shell/import/csv/links.csv');
             $destinationPath = "shell/import/csv/";
             $func = explode(".php", $data['process'])[0];
             try {
@@ -112,11 +112,10 @@ class Save extends \Magento\Backend\App\Action
         }
     }
 
-    public function links($brand, $f, $clear)
+    public function skulinks($brand, $f, $clear)
     {
         try {
             $file = file_get_contents('shell/import/csv/' . $f);
-            var_dump($file); die();
             file_put_contents('shell/import/csv/links.csv', $file);
         } catch (\Exception $e) {
             $this->addError($e->getMessage(), "N/A");
@@ -347,7 +346,7 @@ class Save extends \Magento\Backend\App\Action
             $rowcount++;
         }
         fclose($file);
-        $this->addDebug("Starting features import with ".count($productData)." products and ".$rowcount." rows.", 'None');
+        $this->addDebug("Starting highlights import with ".count($productData)." products and ".$rowcount." rows.", 'None');
         foreach ($productData as $sku => $value) {
             try {
                 if (isset($this->links[$sku])) {
@@ -363,7 +362,7 @@ class Save extends \Magento\Backend\App\Action
                 $p = $this->pr->get($sku);
                 $p->setData("highlights", json_encode($value));
                 $p->getResource()->saveAttribute($p, 'highlights');
-                $this->addSuccess("Added feature(s) ".$s, $sku);
+                $this->addSuccess("Added highlight(s) ".$s, $sku);
             } catch (\Exception $e) {
                 $success = false;
                 $this->addError($e->getMessage().": SKU: ".$sku, $sku);
@@ -515,7 +514,7 @@ class Save extends \Magento\Backend\App\Action
                 $g = $p->getMediaGallery();
                 foreach ($g['images'] as $gg) {
                     if ($gg['label'] == $v['caption']) {
-                        $this->addDebug("We found the image already, skipping.", $sku);
+                        $this->addDebug("We found the image ".$v['file']." already, skipping.", $sku);
                         continue;
                     }
                 }
@@ -684,6 +683,9 @@ class Save extends \Magento\Backend\App\Action
         while (($row = fgetcsv($file2, 4096)) !== false) {
             if ($c == 0) {
                 $c++;
+                continue;
+            }
+            if (count($row[0]) == null) {
                 continue;
             }
             $links[$row[3]] = $row[2];

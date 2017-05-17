@@ -82,7 +82,11 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
                 'title' => __('Clear Data?'),
                 'required' => true,
                 'disabled' => $isElementDisabled,
-                'options' => array(1=>'yes',0=>'no')
+                'options' => array(
+                    'add' => "Add/Update",
+                    'replace' => "Replace",
+                    'delete' => "Delete"
+                )
             ]
         );
         $fieldset->addField(
@@ -128,7 +132,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'techspecs'=>'Tech Specs',
             'parent'=>'Parent Products',
             'attr'=>'Attributes',
-            "links" => "Sku Links",
+            "skulinks" => "Sku Links",
         );
         ksort($vals);
         return $vals;
