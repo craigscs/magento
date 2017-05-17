@@ -1,0 +1,42 @@
+<h2><b>Process CSV Headers</b></h2>
+<div id="sample_div"></div>
+<br>
+<h2 onclick="jQuery('#link_div').toggle()"><b>View Current Sku Links</b></h2>
+<a href="../../../../shell/import/csv/links.csv">Current Links File</a>
+<script>
+    function sampleProcess()
+    {
+        switch (jQuery('#page_process').val()) {
+            case "accessories":
+                jQuery('#sample_div').html("BRAND |  DNLA | SKU_NO | REQUIRED_FLAG |  LABEL |  ACC_SKU_NO | ACC_ITEMCODE |  ACC_DESCRIPTION |  ACC_DNLA");
+                break;
+            case "attr":
+                jQuery('#sample_div').html("BRAND | DNLA | SKU_NO | ATTRIBUTE_NAME | ATTRIBUTE_VALUE");
+                break;
+            case "features":
+                jQuery('#sample_div').html("BRAND | DNLA | SKU_NO | SEQNUM | FEATURE_NAME | FEATURE_DESCRIPTION | FEATURES_RAW");
+                break;
+            case "highlights":
+                jQuery('#sample_div').html("BRAND | DNLA | SKU_NO | SEQNUM | SELL_POINT");
+                break;
+            case "includes":
+            jQuery('#sample_div').html("BRAND | DNLA | SKU_NO | SEQNUM | INCLUDES | INCLUDES_RAW | INCLUDED_QTY | LINK_SKU");
+            break;
+            case "links":
+                jQuery('#sample_div').html("Item Code | Cust Item Code | Internal SKU | B&H Internal SKU");
+                break;
+            case "manuals":
+                jQuery('#sample_div').html("BRAND | DNLA | SKU_NO | LIT_URL | LIT_TYPE");
+                break;
+            case "overview":
+                jQuery('#sample_div').html("BRAND | DNLA | SKU_NO | OVERVIEW | OVERVIEW2 | OVERVIEW_RAW | OVERVIEW2_RAW | OVERVIEW_NOTE");
+                break;
+            case "techspecs":
+                jQuery('#sample_div').html("BRAND | DNLA | SKU_NO | SEQNUM | SPEC_NAME | SPEC_VALUE | SPEC_VALUE_RAW");
+                break;
+            default:
+                jQuery('#sample_div').html("Please select a process");
+                break;
+        }
+    }
+</script>

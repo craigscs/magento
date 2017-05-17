@@ -78,6 +78,19 @@ class Save extends \Magento\Backend\App\Action
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
         if ($data) {
+            if ($data['process'] == "links") {
+                $destinationPath = "shell/import/csv/";
+                $uploader = $this->uploaderFactory->create(array('fileId' => $this->fileId))
+                    ->setAllowCreateFolders(true)
+                    ->setAllowedExtensions($this->allowedExtensions);
+                if (!$uploader->save($destinationPath)) {
+                    throw new LocalizedException(
+                        __('File cannot be saved to path: $1', $destinationPath)
+                    );
+                }
+
+                return $resultRedirect->setPath('*/*/');
+            }
             $destinationPath = "shell/import/csv/";
             $this->makeLinks('shell/import/csv/links.csv');
             $func = explode(".php", $data['process'])[0];
@@ -253,6 +266,11 @@ class Save extends \Magento\Backend\App\Action
             $product->save();
             $this->addSuccess("Sku was created and saved: ", $pname);
         }
+    }
+
+    public function links($brand, $f, $clear)
+    {
+
     }
 
     public function inthebox($brand, $f, $claer)
@@ -576,17 +594,20 @@ class Save extends \Magento\Backend\App\Action
                 $s .= "</div>";
 
                 $p = $this->pr->get($sku);
-                $linkDataAll = array();
+                $linkDataAll = $p->getProductLinks();
                 foreach ($value as $v) {
                     $lsku = "";
                     if (isset($this->links[$v['sku']])) {
                         $lsku = $this->links[$v['sku']];
                     }
-                    $linkData = $this->prodlink
+                    $plink = clone $this->prodlink;
+                    $linkData = $plink
                         ->setSku($p->getSku())
                         ->setLinkedProductSku($lsku)
-                        ->setLinkType('related');
-                    $linkDataAll[] = $linkData;
+                        ->setLinkType('accessory');
+                    if (!$this->doesLinkExist($linkDataAll, $sku, $lsku, 'accessory')) {
+                        $linkDataAll[] = $linkData;
+                    }
                 }
                 $p->setProductLinks($linkDataAll);
                 $p->save();
@@ -598,6 +619,19 @@ class Save extends \Magento\Backend\App\Action
         }
         $this->addDebug("Import is finished.", "None");
     }
+
+    public function doesLinkExist($links, $sku, $linksku, $type)
+    {
+        foreach ($links as $l) {
+            if ($l->getSku() == $sku &&
+            $l->getLinkedProductSku() == $linksku &&
+            $l->getLinkType() == $type) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public function metaata($brand, $f, $clear)
     {

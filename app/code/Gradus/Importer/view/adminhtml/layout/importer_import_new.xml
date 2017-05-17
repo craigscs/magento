@@ -1,5 +1,10 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="import_edit"/>
-    <body/>
+    <body>
+    <referenceContainer name="content">
+        <block class="Gradus\Importer\Block\Adminhtml\Import\Sample"  name="importer.import.sample"
+               template="Gradus_Importer::import/sample.phtml"  />
+    </referenceContainer>
+    </body>
 </page>

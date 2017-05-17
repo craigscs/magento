@@ -53,11 +53,12 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'select',
             [
                 'name' => 'process',
-                'label' => __('What are you importing?'),
-                'title' => __('What are you importing?'),
+                'label' => __('Data type'),
+                'title' => __('Data type'),
                 'required' => true,
                 'disabled' => $isElementDisabled,
-                'options' => $this->getOptions()
+                'options' => $this->getOptions(),
+                'onchange' => 'sampleProcess()'
             ]
         );
         $fieldset->addField(

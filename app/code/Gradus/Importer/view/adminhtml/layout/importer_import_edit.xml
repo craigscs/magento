@@ -7,6 +7,8 @@
     <body>
         <referenceContainer name="content">
             <block class="Gradus\Importer\Block\Adminhtml\Import\Edit" name="import_edit"/>
+            <block class="Gradus\Importer\Block\Adminhtml\Import\Sample"  name="importer.import.sample"
+                   template="Gradus_Importer::import/sample.phtml"  />
         </referenceContainer>
         <referenceContainer name="left">
             <block class="Gradus\Importer\Block\Adminhtml\Import\Edit\Tabs" name="import_edit_tabs">
