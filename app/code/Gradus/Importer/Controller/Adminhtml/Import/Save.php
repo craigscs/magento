@@ -266,7 +266,7 @@ class Save extends \Magento\Backend\App\Action
         }
     }
 
-    public function inthebox($brand, $f, $claer)
+    public function inthebox($brand, $f, $clear)
     {
         $success = true;
         $message = '';
@@ -301,6 +301,14 @@ class Save extends \Magento\Backend\App\Action
                 if (isset($this->links[$sku])) {
                     $sku = $this->links[$sku];
                 }
+                if ($clear == "delete" || $clear == "replace") {
+                    $p = $this->pr->get($sku);
+                    $p->setData('in_the_box', '');
+                    $p->getResource()->saveAttribute($p, 'in_the_box');
+                    $this->addSuccess("Cleared includes",$sku);
+                    continue;
+                }
+
                 $counter = 0;
                 $s = '<div onclick="jQuery(\'#row_'.$sku.'\').toggle()">Details</div><div id="row_'.$sku.'" style="display:none">';
                 foreach ($value as $v) {
@@ -352,6 +360,15 @@ class Save extends \Magento\Backend\App\Action
                 if (isset($this->links[$sku])) {
                     $sku = $this->links[$sku];
                 }
+
+                if ($clear == "delete" || $clear == "replace") {
+                    $p = $this->pr->get($sku);
+                    $p->setData('highlights', '');
+                    $p->getResource()->saveAttribute($p, 'highlights');
+                    $this->addSuccess("Cleared highlights",$sku);
+                    continue;
+                }
+
                 $s = '<div onclick="jQuery(\'#row_'.$sku.'\').toggle()">Details</div><div id="row_'.$sku.'" style="display:none">';
                 $counter = 0;
                 foreach ($value as $v) {
@@ -403,6 +420,17 @@ class Save extends \Magento\Backend\App\Action
                 if (isset($this->links[$sku])) {
                     $sku = $this->links[$sku];
                 }
+
+                if ($clear == "delete" || $clear == "replace") {
+                    $p = $this->pr->get($sku);
+                    $p->setData('description', '');
+                    $p->getResource()->saveAttribute($p, 'description');
+                    $p->setData('overview_note', '');
+                    $p->getResource()->saveAttribute($p, 'overview_note');
+                    $this->addSuccess("Cleared description and overview note",$sku);
+                    continue;
+                }
+
                 $p = $this->pr->get($sku);
                 $p->setData("description", $value['overview']);
                 $p->setData("overview_note", $value['overview_note']);
@@ -452,6 +480,15 @@ class Save extends \Magento\Backend\App\Action
                 if (isset($this->links[$sku])) {
                     $sku = $this->links[$sku];
                 }
+
+                if ($clear == "delete" || $clear == "replace") {
+                    $p = $this->pr->get($sku);
+                    $p->setData('features', '');
+                    $p->getResource()->saveAttribute($p, 'features');
+                    $this->addSuccess("Cleared features",$sku);
+                    continue;
+                }
+
                 $s = '<div onclick="jQuery(\'#row_'.$sku.'\').toggle()">Details</div><div id="row_'.$sku.'" style="display:none">';
                 $counter = 0;
                 foreach ($value as $v) {
@@ -529,9 +566,9 @@ class Save extends \Magento\Backend\App\Action
                         $p->addImageToMediaGallery('/bhimp/' . $v['name'], array(), false, false);
                     }
                     $s .= "[".$counter."] ".$v['name']."<br>";
-                $gallery = $p->getData('media_gallery');
-                $lastimg = array_pop($gallery['images']);
-                $this->imgProcessor->updateImage($p, $lastimg['file'], array('label' => $v['caption'], 'label_default' => $v['caption'], 'position' => $v['pos']));
+                    $gallery = $p->getData('media_gallery');
+                    $lastimg = array_pop($gallery['images']);
+                    $this->imgProcessor->updateImage($p, $lastimg['file'], array('label' => $v['caption'], 'label_default' => $v['caption'], 'position' => $v['pos']));
                 try {
                     unlink('pub/media/bhimp/' . $v['name']);
                 } catch (\Exception $e) {}
@@ -633,7 +670,7 @@ class Save extends \Magento\Backend\App\Action
     }
 
 
-    public function metaata($brand, $f, $clear)
+    public function metadata($brand, $f, $clear)
     {
         $file = fopen('shell/import/csv/'.$f, 'r');
         $c = 0;
@@ -666,6 +703,17 @@ class Save extends \Magento\Backend\App\Action
                     $sku = $this->links[$sku];
                 }
                 $p = $this->pr->get($sku);
+
+                if ($clear == "delete" || $clear == "replace") {
+                    $p = $this->pr->get($sku);
+                    $p->setData('meta_keyword', '');
+                    $p->getResource()->saveAttribute($p, 'meta_keyword');
+                    $p->setData('meta_description', '');
+                    $p->getResource()->saveAttribute($p, 'meta_description');
+                    $this->addSuccess("Cleared metaData",$sku);
+                    continue;
+                }
+
                 $metaKeywords = implode(" ", $metaData['keywords']);
                 $metaDescription = implode(" ", $metaData['desc']);
                 $p->setData("meta_keyword", $metaKeywords);
