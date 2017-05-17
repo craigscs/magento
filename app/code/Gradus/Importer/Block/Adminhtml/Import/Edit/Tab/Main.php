@@ -133,6 +133,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'parent'=>'Parent Products',
             'attr'=>'Attributes',
             "skulinks" => "Sku Links",
+            "images" => "Images",
         );
         ksort($vals);
         return $vals;

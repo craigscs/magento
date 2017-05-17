@@ -498,40 +498,47 @@ class Save extends \Magento\Backend\App\Action
                 $sku = $links[$sku];
             }
             try {
-            $p = $this->pr->get($sku);
-
-            if ($clear == 1) {
-                $gals = $p->getMediaGalleryEntries();
-                foreach ($gals as $key => $entry) {
-                    //We can add your condition here
-                    unset($gals[$key]);
-                }
-                $p->setMediaGalleryEntries($gals);
+                $p = $this->pr->get($sku);
+            if ($clear == 'delete' || $clear == "replace") {
+                $p->setMediaGalleryEntries(array());
                 $this->pr->save($p);
-
+                $this->addSuccess("Cleared images", $sku);
+                if ($clear == "delete") { continue; }
             }
-            foreach ($value as $v) {
-                $g = $p->getMediaGallery();
-                foreach ($g['images'] as $gg) {
-                    if ($gg['label'] == $v['caption']) {
-                        $this->addDebug("We found the image ".$v['file']." already, skipping.", $sku);
+                $pgallery = $p->getMediaGallery();
+                $galnames = array();
+                foreach ($pgallery['images'] as $gal) {
+                    $galnames[] = explode("/", $gal['file'])[3];
+                }
+                $value_count = 0;
+                $s = '<div onclick="jQuery(\'#row_'.$sku.'\').toggle()">Details</div><div id="row_'.$sku.'" style="display:none">';
+                $counter = 0;
+                foreach ($value as $v) {
+                    if (in_array($v['name'], $galnames)) {
+                        $s .= "[".$counter."] We found the image ".$v['name']." already, skipping.";
+                        $this->addDebug("We found the image ".$v['name']." already, skipping.", $sku);
                         continue;
                     }
-                }
                 $url = $v['file'];
                 $img = 'pub/media/bhimp/' . $v['name'];
                 file_put_contents($img, file_get_contents($url));
-                $p->addImageToMediaGallery('/bhimp/' . $v['name'], array('image', 'small_image', 'thumbnail'), false, false);
+                    if ($value_count == 0) {
+                        $p->addImageToMediaGallery('/bhimp/' . $v['name'], array('image', 'small_image', 'thumbnail'), false, false);
+                        $value_count++;
+                    } else {
+                        $p->addImageToMediaGallery('/bhimp/' . $v['name'], array(), false, false);
+                    }
+                    $s .= "[".$counter."] ".$v['name']."<br>";
                 $gallery = $p->getData('media_gallery');
                 $lastimg = array_pop($gallery['images']);
                 $this->imgProcessor->updateImage($p, $lastimg['file'], array('label' => $v['caption'], 'label_default' => $v['caption'], 'position' => $v['pos']));
-                $this->addSuccess("Added image: ".$v['caption'].' to sku '.$sku,$sku);
                 try {
                     unlink('pub/media/bhimp/' . $v['name']);
                 } catch (\Exception $e) {}
+                    $counter++;
             }
             $p->save();
-            $this->addSuccess("SKU saved: ".$sku,$sku);
+            $this->addSuccess("Added images".$s,$sku);
         } catch (\Exception $e) {
         $success = false;
         $this->addError($e->getMessage().": SKU: ".$sku, $sku);

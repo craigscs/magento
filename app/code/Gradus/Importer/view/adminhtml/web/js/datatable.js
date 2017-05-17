@@ -1,9 +1,9 @@
-require(['jquery','datatables', 'sticky'],function($){
-    $(window).load(function() {
-        $('#messages').dataTable({
+require(['jquery','datatables', 'sticky'],function($z){
+    $z(window).load(function() {
+        $z('#messages').dataTable({
             paging: true,
-            "dom": "lifrtp"
+            "dom": "lifrtp",
+            fixedHeader: true
         });
-        $('#tr_stick').stick_in_parent();
     })
 });
