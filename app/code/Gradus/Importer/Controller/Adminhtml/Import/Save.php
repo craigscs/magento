@@ -29,6 +29,7 @@ class Save extends \Magento\Backend\App\Action
     protected $optionFactory;
     protected $attributeOptionManagement;
     protected $func;
+    protected $prodlink;
 
     /**
      * @param Action\Context $context
@@ -45,10 +46,12 @@ class Save extends \Magento\Backend\App\Action
                                 \Magento\Framework\Registry $registry,
                                 \Magento\Eav\Api\Data\AttributeOptionLabelInterfaceFactory $optionLabelFactory,
                                 \Magento\Eav\Api\Data\AttributeOptionInterfaceFactory $optionFactory,
-                                \Magento\Eav\Api\AttributeOptionManagementInterface $attributeOptionManagement
+                                \Magento\Eav\Api\AttributeOptionManagementInterface $attributeOptionManagement,
+                                \Magento\Catalog\Api\Data\ProductLinkInterface $prodlink
 
     )
     {
+        $this->prodlink = $prodlink;
         $this->reg = $registry;
         $this->cont = $cont;
         $this->imgProcessor = $imgp;
@@ -310,6 +313,7 @@ class Save extends \Magento\Backend\App\Action
     {
         $success = true;
         $message = '';
+        $rowcount = 0;
         $file = fopen('shell/import/csv/'.$f, 'r');
         $c = 0;
         $productData = array();
@@ -328,17 +332,26 @@ class Save extends \Magento\Backend\App\Action
                 }
                 $productData[$row[2]][$row[3]] = $row[4];
             }
+            $rowcount++;
         }
         fclose($file);
+        $this->addDebug("Starting features import with ".count($productData)." products and ".$rowcount." rows.", 'None');
         foreach ($productData as $sku => $value) {
             try {
                 if (isset($this->links[$sku])) {
                     $sku = $this->links[$sku];
                 }
+                $s = '<div onclick="jQuery(\'#row_'.$sku.'\').toggle()">Details</div><div id="row_'.$sku.'" style="display:none">';
+                $counter = 0;
+                foreach ($value as $v) {
+                    $s .= "[".$counter."] ".$v."<br>";
+                    $counter++;
+                }
+                $s .= "</div>";
                 $p = $this->pr->get($sku);
                 $p->setData("highlights", json_encode($value));
                 $p->getResource()->saveAttribute($p, 'highlights');
-                $this->addSuccess("SKU " . $sku . " saved.", $sku);
+                $this->addSuccess("Added feature(s) ".$s, $sku);
             } catch (\Exception $e) {
                 $success = false;
                 $this->addError($e->getMessage().": SKU: ".$sku, $sku);
@@ -519,6 +532,7 @@ class Save extends \Magento\Backend\App\Action
     {
         $file = fopen('shell/import/csv/'.$f, 'r');
         $c = 0;
+        $rowcount = 0;
         $productData = array();
 
         while (($row = fgetcsv($file, 4096)) !== false) {
@@ -539,19 +553,44 @@ class Save extends \Magento\Backend\App\Action
                     "required" => $row[3]
                 );
                 $productIndexes[$row[2]]++;
+                $rowcount++;
             }
         }
         fclose($file);
+        $this->addDebug("Starting accessories import with ".count($productData)." products and ".$rowcount." rows.", 'None');
         foreach ($productData as $sku => $value) {
             try {
                 if (isset($this->links[$sku])) {
                     $sku = $this->links[$sku];
                 }
+                $s = '<div onclick="jQuery(\'#row_'.$sku.'\').toggle()">Details</div><div id="row_'.$sku.'" style="display:none">';
+                $counter = 0;
+                foreach ($value as $v) {
+                    $lsku = "Unknown";
+                    if (isset($this->links[$v['sku']])) {
+                        $lsku = $this->links[$v['sku']];
+                    }
+                    $s .= "[".$counter."] ".$lsku."<br>";
+                    $counter++;
+                }
+                $s .= "</div>";
+
                 $p = $this->pr->get($sku);
-                $p->setData("accessories", json_encode($value));
-                $p->getResource()->saveAttribute($p, 'accessories');
+                $linkDataAll = array();
+                foreach ($value as $v) {
+                    $lsku = "";
+                    if (isset($this->links[$v['sku']])) {
+                        $lsku = $this->links[$v['sku']];
+                    }
+                    $linkData = $this->prodlink
+                        ->setSku($p->getSku())
+                        ->setLinkedProductSku($lsku)
+                        ->setLinkType('related');
+                    $linkDataAll[] = $linkData;
+                }
+                $p->setProductLinks($linkDataAll);
                 $p->save();
-                $this->addSuccess("SKU " . $sku . " saved.", $sku);
+                $this->addSuccess("Added accessories ".$s, $sku);
             } catch (\Exception $e) {
                 $success = false;
                 $this->addError($e->getMessage().": SKU: ".$sku, $sku);
