@@ -64,6 +64,7 @@ class Save extends \Magento\Backend\App\Action
         $this->optionLabelFactory = $optionLabelFactory;
         $this->optionFactory = $optionFactory;
         $this->attributeOptionManagement = $attributeOptionManagement;
+        $this->makeLinks('shell/import/csv/links.csv');
         parent::__construct($context);
     }
 
@@ -78,21 +79,7 @@ class Save extends \Magento\Backend\App\Action
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
         if ($data) {
-            if ($data['process'] == "links") {
-                $destinationPath = "shell/import/csv/";
-                $uploader = $this->uploaderFactory->create(array('fileId' => $this->fileId))
-                    ->setAllowCreateFolders(true)
-                    ->setAllowedExtensions($this->allowedExtensions);
-                if (!$uploader->save($destinationPath)) {
-                    throw new LocalizedException(
-                        __('File cannot be saved to path: $1', $destinationPath)
-                    );
-                }
-
-                return $resultRedirect->setPath('*/*/');
-            }
             $destinationPath = "shell/import/csv/";
-            $this->makeLinks('shell/import/csv/links.csv');
             $func = explode(".php", $data['process'])[0];
             try {
                 $model = $this->_objectManager->create('Gradus\Importer\Model\Imports');
@@ -123,6 +110,18 @@ class Save extends \Magento\Backend\App\Action
             } catch (\Exception $e) {}
             return $resultRedirect->setPath('*/*/');
         }
+    }
+
+    public function links($brand, $f, $clear)
+    {
+        try {
+            $file = file_get_contents('shell/import/csv/' . $f);
+            var_dump($file); die();
+            file_put_contents('shell/import/csv/links.csv', $file);
+        } catch (\Exception $e) {
+            $this->addError($e->getMessage(), "N/A");
+        }
+        $this->addSuccess("Links have been updated", "N/A");
     }
 
     public function attr($brand, $f, $clear)
@@ -266,11 +265,6 @@ class Save extends \Magento\Backend\App\Action
             $product->save();
             $this->addSuccess("Sku was created and saved: ", $pname);
         }
-    }
-
-    public function links($brand, $f, $clear)
-    {
-
     }
 
     public function inthebox($brand, $f, $claer)
