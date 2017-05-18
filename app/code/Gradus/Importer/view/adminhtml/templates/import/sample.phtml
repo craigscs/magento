@@ -4,10 +4,23 @@
 <h2 onclick="jQuery('#link_div').toggle()"><b>View Current Sku Links</b></h2>
 <a href="../../../../shell/import/csv/links.csv">Current Links File</a>
 <script>
+    function toggleLinks()
+    {
+        jQuery( document ).ready(function() {
+            jQuery('#page_linktype').parent().parent().hide();
+        });
+        if (jQuery('#page_process').val() == 'productlinks') {
+            jQuery('#page_linktype').parent().parent().show();
+        } else
+        {
+            jQuery('#page_linktype').parent().parent().hide();
+        }
+    }
+
     function sampleProcess()
     {
         switch (jQuery('#page_process').val()) {
-            case "accessories":
+            case "productlinks":
                 jQuery('#sample_div').html("BRAND |  DNLA | SKU_NO | REQUIRED_FLAG |  LABEL |  ACC_SKU_NO | ACC_ITEMCODE |  ACC_DESCRIPTION |  ACC_DNLA");
                 break;
             case "attr":

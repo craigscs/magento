@@ -58,7 +58,32 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
                 'required' => true,
                 'disabled' => $isElementDisabled,
                 'options' => $this->getOptions(),
-                'onchange' => 'sampleProcess()'
+                'onchange' => 'sampleProcess(); toggleLinks();'
+            ]
+        );
+        $fieldset->addField(
+            'linktype',
+            'select',
+            [
+                'name' => 'linktype',
+                'label' => __('Link Type?'),
+                'title' => __('Link Type?'),
+                'required' => true,
+                'disabled' => $isElementDisabled,
+                'display' => 'none',
+                'options' => $this->getLinkTypes()
+            ]
+        );
+        $fieldset->addField(
+            'findby',
+            'select',
+            [
+                'name' => 'findby',
+                'label' => __('Get product by'),
+                'title' => __('Get product by'),
+                'required' => true,
+                'disabled' => $isElementDisabled,
+                'options' => $this->getFindBy()
             ]
         );
         $fieldset->addField(
@@ -119,13 +144,37 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
         return $s;
     }
 
+    public function getFindBy()
+    {
+        $vals = array(
+            'bhsku'=>'B&H Sku',
+            'sku'=>'Gradus Group Sku',
+            'mfr_num'=>'Mfr #'
+        );
+        ksort($vals);
+        return $vals;
+    }
+
+    public function getLinkTypes()
+    {
+        $vals = array(
+            'accessories'=>'Accessories',
+            'realted'=>'Related',
+            'crosssell'=>'Cross Sell',
+            'upsell'=>'Upsell',
+            'compatible'=>'Compatible',
+        );
+        ksort($vals);
+        return $vals;
+    }
+
     public function getOptions()
     {
         $vals = array(
             'features'=>'Features',
             'inthebox'=>'In The Box',
             'overview'=>'Overview',
-            'accessories'=>'Accessories',
+            'productlinks'=>'Product Links',
             'metadata'=>'Meta Data',
             'highlights'=>'Highlights',
             'manuals'=>'Manuals',

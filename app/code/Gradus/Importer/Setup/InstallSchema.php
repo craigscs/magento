@@ -46,7 +46,7 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             '2M',
             array('nullable' => false),
-            'NBrand'
+            'Brand'
         )->addColumn(
             'start',
             \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,

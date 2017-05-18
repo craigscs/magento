@@ -30,6 +30,8 @@ class Save extends \Magento\Backend\App\Action
     protected $attributeOptionManagement;
     protected $func;
     protected $prodlink;
+    protected $findBy;
+    protected $p;
 
     /**
      * @param Action\Context $context
@@ -51,6 +53,7 @@ class Save extends \Magento\Backend\App\Action
 
     )
     {
+        $this->p = $p;
         $this->prodlink = $prodlink;
         $this->reg = $registry;
         $this->cont = $cont;
@@ -78,6 +81,7 @@ class Save extends \Magento\Backend\App\Action
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
         if ($data) {
+            $this->findBy = $data['findby'];
             $this->makeLinks('shell/import/csv/links.csv');
             $destinationPath = "shell/import/csv/";
             $func = explode(".php", $data['process'])[0];
@@ -92,7 +96,7 @@ class Save extends \Magento\Backend\App\Action
                     );
                 }
                 $this->func = $data['process'];
-                $res = $this->$func($data['brand'], $_FILES['upl']['name'], $data['clear']);
+                $res = $this->$func($data['brand'], $_FILES['upl']['name'], $data['clear'], $data['linktype']);
                 $model->setData($data);
                 $model->setData('messages', json_encode($this->mes));
                 $model->setData('process', ucwords($func));
@@ -112,7 +116,28 @@ class Save extends \Magento\Backend\App\Action
         }
     }
 
-    public function skulinks($brand, $f, $clear)
+    public function getProduct($sku)
+    {
+        switch ($this->findBy) {
+            case "sku":
+                $p = $this->pr->get($sku);
+                break;
+            case "bhsku":
+                if (isset($this->links[$sku])) {
+                    $sku = $this->links[$sku];
+                }
+                $p = $this->pr->get($sku);
+                break;
+            case "mfr_num":
+                $p = $this->p->loadByAttribute('mfr_num', $sku);
+                break;
+            default:
+                $p = null;
+        }
+        return $p;
+    }
+
+    public function skulinks()
     {
         try {
             $file = file_get_contents('shell/import/csv/' . $f);
@@ -123,7 +148,7 @@ class Save extends \Magento\Backend\App\Action
         $this->addSuccess("Links have been updated", "N/A");
     }
 
-    public function attr($brand, $f, $clear)
+    public function attr($brand, $f, $clear, $linktype = "none")
     {
         $success = true;
         $handled = array();
@@ -210,7 +235,7 @@ class Save extends \Magento\Backend\App\Action
         }
     }
 
-    public function parent($brand, $f, $clear)
+    public function parent($brand, $f, $clear, $linktype = "none")
     {
         $success = true;
         $handled = array();
@@ -266,7 +291,7 @@ class Save extends \Magento\Backend\App\Action
         }
     }
 
-    public function inthebox($brand, $f, $clear)
+    public function inthebox($brand, $f, $clear, $linktype = "none")
     {
         $success = true;
         $message = '';
@@ -298,39 +323,37 @@ class Save extends \Magento\Backend\App\Action
         $this->addDebug("Starting features import with ".count($productData)." products and ".$rowcount." rows.", 'None');
         foreach ($productData as $sku => $value) {
             try {
-                if (isset($this->links[$sku])) {
-                    $sku = $this->links[$sku];
-                }
+                $p = $this->getProduct($sku);
+                $p->setStoreId(0);
                 if ($clear == "delete" || $clear == "replace") {
-                    $p = $this->pr->get($sku);
                     $p->setData('in_the_box', '');
                     $p->getResource()->saveAttribute($p, 'in_the_box');
-                    $this->addSuccess("Cleared includes",$sku);
+                    $this->addSuccess("Cleared includes",$p->getSku());
                     if ($clear == "delete") {
                         continue;
                     }
                 }
 
                 $counter = 0;
-                $s = '<div onclick="jQuery(\'#row_'.$sku.'\').toggle()">Details</div><div id="row_'.$sku.'" style="display:none">';
+                $s = '<div onclick="jQuery(\'#row_'.$sku.'\').toggle()">Details</div><div id="row_'.$p->getSku().'" style="display:none">';
                 foreach ($value as $v) {
                     $s .= "[".$counter."] ".$v['value'].": ".$v['count']."<br>";
                     $counter++;
                 }
                 $s .= "</div>";
-                $p = $this->pr->get($sku);
+                $p->setStoreId(0);
                 $p->setData("in_the_box", json_encode($value));
                 $p->getResource()->saveAttribute($p, 'in_the_box');
-                $this->addSuccess("Added include(s)".$s, $sku);
+                $this->addSuccess("Added include(s)".$s, $p->getSku());
             } catch (\Exception $e) {
                 $success = false;
-                $this->addError($e->getMessage().": SKU: ".$sku, $sku);
+                $this->addError($e->getMessage().": SKU: ".$sku, $p->getSku());
             }
         }
         $this->addDebug("Import is finished.", "None");
     }
 
-    public function highlights($brand, $f, $clear)
+    public function highlights($brand, $f, $clear, $linktype = "none")
     {
         $success = true;
         $message = '';
@@ -359,14 +382,13 @@ class Save extends \Magento\Backend\App\Action
         $this->addDebug("Starting highlights import with ".count($productData)." products and ".$rowcount." rows.", 'None');
         foreach ($productData as $sku => $value) {
             try {
-                if (isset($this->links[$sku])) {
-                    $sku = $this->links[$sku];
-                }
+                $p = $this->getProduct($sku);
                 if ($clear == "delete" || $clear == "replace") {
-                    $p = $this->pr->get($sku);
+                    $p->setStoreId(0);
                     $p->setData('highlights', '');
                     $p->getResource()->saveAttribute($p, 'highlights');
-                    $this->addSuccess("Cleared highlights",$sku);
+                    $p->save();
+                    $this->addSuccess("Cleared highlights",$p->getSku());
                     if ($clear == "delete") {
                         continue;
                     }
@@ -379,10 +401,10 @@ class Save extends \Magento\Backend\App\Action
                     $counter++;
                 }
                 $s .= "</div>";
-                $p = $this->pr->get($sku);
+                $p->setStoreId(0);
                 $p->setData("highlights", json_encode($value));
                 $p->getResource()->saveAttribute($p, 'highlights');
-                $this->addSuccess("Added highlight(s) ".$s, $sku);
+                $this->addSuccess("Added highlight(s) ".$s, $p->getSku());
             } catch (\Exception $e) {
                 $success = false;
                 $this->addError($e->getMessage().": SKU: ".$sku, $sku);
@@ -391,7 +413,7 @@ class Save extends \Magento\Backend\App\Action
         $this->addDebug("Import is finished.", "None");
     }
 
-    public function overview($brand, $f, $clear)
+    public function overview($brand, $f, $clear, $linktype = "none")
     {
         $success = true;
         $message = '';
@@ -420,28 +442,25 @@ class Save extends \Magento\Backend\App\Action
         fclose($file);
         foreach ($productData as $sku => $value) {
             try {
-                if (isset($this->links[$sku])) {
-                    $sku = $this->links[$sku];
-                }
+                $p = $this->getProduct($sku);
 
                 if ($clear == "delete" || $clear == "replace") {
-                    $p = $this->pr->get($sku);
+                    $p->setStoreId(0);
                     $p->setData('description', '');
                     $p->getResource()->saveAttribute($p, 'description');
                     $p->setData('overview_note', '');
                     $p->getResource()->saveAttribute($p, 'overview_note');
-                    $this->addSuccess("Cleared description and overview note",$sku);
+                    $this->addSuccess("Cleared description and overview note",$p->getSku());
                     if ($clear == "delete") {
                         continue;
                     }
                 }
-
-                $p = $this->pr->get($sku);
+                $p->setStoreId(0);
                 $p->setData("description", $value['overview']);
                 $p->setData("overview_note", $value['overview_note']);
                 $p->getResource()->saveAttribute($p, 'description');
                 $p->getResource()->saveAttribute($p, 'overview_note');
-                $this->addSuccess("SKU " . $sku . " saved.", $sku);
+                $this->addSuccess("SKU " . $sku . " saved.", $p->getSku());
             } catch (\Exception $e) {
                 $success = false;
                 $this->addError($e->getMessage().": SKU: ".$sku, $sku);
@@ -450,7 +469,7 @@ class Save extends \Magento\Backend\App\Action
         $this->addDebug("Import is finished.", "None");
     }
 
-    public function features($brand, $f, $clear)
+    public function features($brand, $f, $clear, $linktype = "none")
     {
         $success = true;
         $message = '';
@@ -482,15 +501,13 @@ class Save extends \Magento\Backend\App\Action
         $this->addDebug("Starting features import with ".count($productData)." products and ".$rowcount." rows.", 'None');
         foreach ($productData as $sku => $value) {
             try {
-                if (isset($this->links[$sku])) {
-                    $sku = $this->links[$sku];
-                }
+                $p = $this->getProduct($sku);
 
                 if ($clear == "delete" || $clear == "replace") {
-                    $p = $this->pr->get($sku);
+                    $p->setStoreId(0);
                     $p->setData('features', '');
                     $p->getResource()->saveAttribute($p, 'features');
-                    $this->addSuccess("Cleared features",$sku);
+                    $this->addSuccess("Cleared features",$p->getSku());
                     if ($clear == "delete") {
                         continue;
                     }
@@ -503,10 +520,10 @@ class Save extends \Magento\Backend\App\Action
                     $counter++;
                 }
                 $s .= "</div>";
-                $p = $this->pr->get($sku);
+                $p->setStoreId(0);
                 $p->setData("features", json_encode($value));
                 $p->getResource()->saveAttribute($p, 'features');
-                $this->addSuccess("Added feature(s) ".$s, $sku);
+                $this->addSuccess("Added feature(s) ".$s, $p->getSku());
             } catch (\Exception $e) {
                 $success = false;
                 $this->addError($e->getMessage(), $sku);
@@ -515,7 +532,7 @@ class Save extends \Magento\Backend\App\Action
         $this->addDebug("Feature import is finished.", "None");
     }
 
-    public function images($brand, $f, $clear)
+    public function images($brand, $f, $clear, $linktype = "none")
     {
         $file = fopen('shell/import/csv/'.$f, 'r');
         $productData = array();
@@ -538,15 +555,13 @@ class Save extends \Magento\Backend\App\Action
         }
         fclose($file);
         foreach ($productData as $sku => $value) {
-            if (isset($links[$sku])) {
-                $sku = $links[$sku];
-            }
             try {
-                $p = $this->pr->get($sku);
+                $p = $this->getProduct($sku);
+                $p->setStoreId(0);
             if ($clear == 'delete' || $clear == "replace") {
                 $p->setMediaGalleryEntries(array());
                 $this->pr->save($p);
-                $this->addSuccess("Cleared images", $sku);
+                $this->addSuccess("Cleared images", $p->getSku());
                 if ($clear == "delete") { continue; }
             }
                 $pgallery = $p->getMediaGallery();
@@ -560,7 +575,7 @@ class Save extends \Magento\Backend\App\Action
                 foreach ($value as $v) {
                     if (in_array($v['name'], $galnames)) {
                         $s .= "[".$counter."] We found the image ".$v['name']." already, skipping.";
-                        $this->addDebug("We found the image ".$v['name']." already, skipping.", $sku);
+                        $this->addDebug("We found the image ".$v['name']." already, skipping.", $p->getSku());
                         continue;
                     }
                 $url = $v['file'];
@@ -581,16 +596,17 @@ class Save extends \Magento\Backend\App\Action
                 } catch (\Exception $e) {}
                     $counter++;
             }
-            $p->save();
-            $this->addSuccess("Added images".$s,$sku);
-        } catch (\Exception $e) {
-        $success = false;
-        $this->addError($e->getMessage().": SKU: ".$sku, $sku);
-    }
+                $p->setStoreId(0);
+                $p->save();
+                $this->addSuccess("Added images".$s,$p->getSku());
+            } catch (\Exception $e) {
+                $success = false;
+                $this->addError($e->getMessage().": SKU: ".$sku, $sku);
+            }
         }
     }
 
-    public function accessories($brand, $f, $clear)
+    public function productlinks($brand, $f, $clear, $linktype)
     {
         $file = fopen('shell/import/csv/'.$f, 'r');
         $c = 0;
@@ -619,11 +635,21 @@ class Save extends \Magento\Backend\App\Action
             }
         }
         fclose($file);
-        $this->addDebug("Starting accessories import with ".count($productData)." products and ".$rowcount." rows.", 'None');
+        $this->addDebug("Starting ".$linktype." import with ".count($productData)." products and ".$rowcount." rows.", 'None');
         foreach ($productData as $sku => $value) {
             try {
-                if (isset($this->links[$sku])) {
-                    $sku = $this->links[$sku];
+                $p = $this->getProduct($sku);
+                if ($clear == "delete" || $clear == "replace") {
+                    $newlinks = array();
+                    $p->setStoreId(0);
+                    foreach ($p->getProductLinks() as $link) {
+                        if ($link->getLinkType() != $linktype) {
+                            $newlinks[] = $link;
+                        }
+                    }
+                    $p->setProductLinks($newlinks);
+                    $p->save();
+                    $this->addSuccess("Removed ".$linktype);
                 }
                 $s = '<div onclick="jQuery(\'#row_'.$sku.'\').toggle()">Details</div><div id="row_'.$sku.'" style="display:none">';
                 $counter = 0;
@@ -637,7 +663,7 @@ class Save extends \Magento\Backend\App\Action
                 }
                 $s .= "</div>";
 
-                $p = $this->pr->get($sku);
+                $p->setStoreId(0);
                 $linkDataAll = $p->getProductLinks();
                 foreach ($value as $v) {
                     $lsku = "";
@@ -648,14 +674,15 @@ class Save extends \Magento\Backend\App\Action
                     $linkData = $plink
                         ->setSku($p->getSku())
                         ->setLinkedProductSku($lsku)
-                        ->setLinkType('accessory');
-                    if (!$this->doesLinkExist($linkDataAll, $sku, $lsku, 'accessory')) {
+                        ->setLinkType($linktype);
+                    if (!$this->doesLinkExist($linkDataAll, $p->getSku(), $lsku, $linktype)) {
                         $linkDataAll[] = $linkData;
                     }
                 }
                 $p->setProductLinks($linkDataAll);
+                $p->setStoreId(0);
                 $p->save();
-                $this->addSuccess("Added accessories ".$s, $sku);
+                $this->addSuccess("Added ".$linktype." ".$s, $p->getSku());
             } catch (\Exception $e) {
                 $success = false;
                 $this->addError($e->getMessage().": SKU: ".$sku, $sku);
@@ -677,7 +704,7 @@ class Save extends \Magento\Backend\App\Action
     }
 
 
-    public function metadata($brand, $f, $clear)
+    public function metadata($brand, $f, $clear, $linktype = "none")
     {
         $file = fopen('shell/import/csv/'.$f, 'r');
         $c = 0;
@@ -706,18 +733,15 @@ class Save extends \Magento\Backend\App\Action
         fclose($file);
         foreach ($productData as $sku => $metaData) {
             try {
-                if (isset($this->links[$sku])) {
-                    $sku = $this->links[$sku];
-                }
-                $p = $this->pr->get($sku);
+                $p = $this->getProduct($sku);
+                $p->setStoreId(0);
 
                 if ($clear == "delete" || $clear == "replace") {
-                    $p = $this->pr->get($sku);
                     $p->setData('meta_keyword', '');
                     $p->getResource()->saveAttribute($p, 'meta_keyword');
                     $p->setData('meta_description', '');
                     $p->getResource()->saveAttribute($p, 'meta_description');
-                    $this->addSuccess("Cleared metaData",$sku);
+                    $this->addSuccess("Cleared metaData",$p->getSku());
                     if ($clear == "delete") {
                         continue;
                     }
@@ -729,8 +753,7 @@ class Save extends \Magento\Backend\App\Action
                 $p->setData("meta_description", $metaDescription);
                 $p->getResource()->saveAttribute($p, 'meta_keyword');
                 $p->getResource()->saveAttribute($p, 'meta_description');
-                $p->save();
-                $this->addSuccess("SKU " . $sku . " saved.", $sku);
+                $this->addSuccess("SKU " . $sku . " saved.", $p->getSku());
             } catch (\Exception $e) {
                 $success = false;
                 $this->addError($e->getMessage().": SKU: ".$sku, $sku);
