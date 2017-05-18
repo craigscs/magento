@@ -328,7 +328,7 @@ class Save extends \Magento\Backend\App\Action
                 if ($clear == "delete" || $clear == "replace") {
                     $p->setData('in_the_box', '');
                     $p->getResource()->saveAttribute($p, 'in_the_box');
-                    $this->addSuccess("Cleared includes",$p->getSku());
+                    $this->addSuccess("Cleared includes",$p->getSku()." / ".$p->getData('mfr_num'));
                     if ($clear == "delete") {
                         continue;
                     }
@@ -344,10 +344,10 @@ class Save extends \Magento\Backend\App\Action
                 $p->setStoreId(0);
                 $p->setData("in_the_box", json_encode($value));
                 $p->getResource()->saveAttribute($p, 'in_the_box');
-                $this->addSuccess("Added include(s)".$s, $p->getSku());
+                $this->addSuccess("Added include(s)".$s, $p->getSku()." / ".$p->getData('mfr_num'));
             } catch (\Exception $e) {
                 $success = false;
-                $this->addError($e->getMessage().": SKU: ".$sku, $p->getSku());
+                $this->addError($e->getMessage().": SKU: ".$sku, $p->getSku()." / ".$p->getData('mfr_num'));
             }
         }
         $this->addDebug("Import is finished.", "None");
@@ -388,7 +388,7 @@ class Save extends \Magento\Backend\App\Action
                     $p->setData('highlights', '');
                     $p->getResource()->saveAttribute($p, 'highlights');
                     $p->save();
-                    $this->addSuccess("Cleared highlights",$p->getSku());
+                    $this->addSuccess("Cleared highlights",$p->getSku()." / ".$p->getData('mfr_num'));
                     if ($clear == "delete") {
                         continue;
                     }
@@ -404,7 +404,7 @@ class Save extends \Magento\Backend\App\Action
                 $p->setStoreId(0);
                 $p->setData("highlights", json_encode($value));
                 $p->getResource()->saveAttribute($p, 'highlights');
-                $this->addSuccess("Added highlight(s) ".$s, $p->getSku());
+                $this->addSuccess("Added highlight(s) ".$s, $p->getSku()." / ".$p->getData('mfr_num'));
             } catch (\Exception $e) {
                 $success = false;
                 $this->addError($e->getMessage().": SKU: ".$sku, $sku);
@@ -450,7 +450,7 @@ class Save extends \Magento\Backend\App\Action
                     $p->getResource()->saveAttribute($p, 'description');
                     $p->setData('overview_note', '');
                     $p->getResource()->saveAttribute($p, 'overview_note');
-                    $this->addSuccess("Cleared description and overview note",$p->getSku());
+                    $this->addSuccess("Cleared description and overview note",$p->getSku()." / ".$p->getData('mfr_num'));
                     if ($clear == "delete") {
                         continue;
                     }
@@ -460,7 +460,7 @@ class Save extends \Magento\Backend\App\Action
                 $p->setData("overview_note", $value['overview_note']);
                 $p->getResource()->saveAttribute($p, 'description');
                 $p->getResource()->saveAttribute($p, 'overview_note');
-                $this->addSuccess("SKU " . $sku . " saved.", $p->getSku());
+                $this->addSuccess("SKU " . $sku . " saved.", $p->getSku()." / ".$p->getData('mfr_num'));
             } catch (\Exception $e) {
                 $success = false;
                 $this->addError($e->getMessage().": SKU: ".$sku, $sku);
@@ -507,7 +507,7 @@ class Save extends \Magento\Backend\App\Action
                     $p->setStoreId(0);
                     $p->setData('features', '');
                     $p->getResource()->saveAttribute($p, 'features');
-                    $this->addSuccess("Cleared features",$p->getSku());
+                    $this->addSuccess("Cleared features",$p->getSku()." / ".$p->getData('mfr_num'));
                     if ($clear == "delete") {
                         continue;
                     }
@@ -523,7 +523,7 @@ class Save extends \Magento\Backend\App\Action
                 $p->setStoreId(0);
                 $p->setData("features", json_encode($value));
                 $p->getResource()->saveAttribute($p, 'features');
-                $this->addSuccess("Added feature(s) ".$s, $p->getSku());
+                $this->addSuccess("Added feature(s) ".$s, $p->getSku()." / ".$p->getData('mfr_num'));
             } catch (\Exception $e) {
                 $success = false;
                 $this->addError($e->getMessage(), $sku);
@@ -561,7 +561,7 @@ class Save extends \Magento\Backend\App\Action
             if ($clear == 'delete' || $clear == "replace") {
                 $p->setMediaGalleryEntries(array());
                 $this->pr->save($p);
-                $this->addSuccess("Cleared images", $p->getSku());
+                $this->addSuccess("Cleared images", $p->getSku()." / ".$p->getData('mfr_num'));
                 if ($clear == "delete") { continue; }
             }
                 $pgallery = $p->getMediaGallery();
@@ -575,7 +575,7 @@ class Save extends \Magento\Backend\App\Action
                 foreach ($value as $v) {
                     if (in_array($v['name'], $galnames)) {
                         $s .= "[".$counter."] We found the image ".$v['name']." already, skipping.";
-                        $this->addDebug("We found the image ".$v['name']." already, skipping.", $p->getSku());
+                        $this->addDebug("We found the image ".$v['name']." already, skipping.", $p->getSku()." / ".$p->getData('mfr_num'));
                         continue;
                     }
                 $url = $v['file'];
@@ -741,7 +741,7 @@ class Save extends \Magento\Backend\App\Action
                     $p->getResource()->saveAttribute($p, 'meta_keyword');
                     $p->setData('meta_description', '');
                     $p->getResource()->saveAttribute($p, 'meta_description');
-                    $this->addSuccess("Cleared metaData",$p->getSku());
+                    $this->addSuccess("Cleared metaData",$p->getSku()." / ".$p->getData('mfr_num'));
                     if ($clear == "delete") {
                         continue;
                     }
@@ -753,7 +753,7 @@ class Save extends \Magento\Backend\App\Action
                 $p->setData("meta_description", $metaDescription);
                 $p->getResource()->saveAttribute($p, 'meta_keyword');
                 $p->getResource()->saveAttribute($p, 'meta_description');
-                $this->addSuccess("SKU " . $sku . " saved.", $p->getSku());
+                $this->addSuccess("SKU " . $sku . " saved.", $p->getSku()." / ".$p->getData('mfr_num'));
             } catch (\Exception $e) {
                 $success = false;
                 $this->addError($e->getMessage().": SKU: ".$sku, $sku);

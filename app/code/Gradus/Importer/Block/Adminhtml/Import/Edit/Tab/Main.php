@@ -70,7 +70,6 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
                 'title' => __('Link Type?'),
                 'required' => true,
                 'disabled' => $isElementDisabled,
-                'display' => 'none',
                 'options' => $this->getLinkTypes()
             ]
         );
