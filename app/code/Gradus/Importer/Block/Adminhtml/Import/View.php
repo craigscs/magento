@@ -34,4 +34,13 @@ class View extends  \Magento\Backend\Block\Template
     {
         return $this->import;
     }
+    /**
+     * Retrieve text for header element depending on loaded post
+     *
+     * @return \Magento\Framework\Phrase
+     */
+    public function getHeaderText()
+    {
+        return __('Import '.$this->getImport()->getId());
+    }
 }

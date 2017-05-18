@@ -306,7 +306,9 @@ class Save extends \Magento\Backend\App\Action
                     $p->setData('in_the_box', '');
                     $p->getResource()->saveAttribute($p, 'in_the_box');
                     $this->addSuccess("Cleared includes",$sku);
-                    continue;
+                    if ($clear == "delete") {
+                        continue;
+                    }
                 }
 
                 $counter = 0;
@@ -360,13 +362,14 @@ class Save extends \Magento\Backend\App\Action
                 if (isset($this->links[$sku])) {
                     $sku = $this->links[$sku];
                 }
-
                 if ($clear == "delete" || $clear == "replace") {
                     $p = $this->pr->get($sku);
                     $p->setData('highlights', '');
                     $p->getResource()->saveAttribute($p, 'highlights');
                     $this->addSuccess("Cleared highlights",$sku);
-                    continue;
+                    if ($clear == "delete") {
+                        continue;
+                    }
                 }
 
                 $s = '<div onclick="jQuery(\'#row_'.$sku.'\').toggle()">Details</div><div id="row_'.$sku.'" style="display:none">';
@@ -428,7 +431,9 @@ class Save extends \Magento\Backend\App\Action
                     $p->setData('overview_note', '');
                     $p->getResource()->saveAttribute($p, 'overview_note');
                     $this->addSuccess("Cleared description and overview note",$sku);
-                    continue;
+                    if ($clear == "delete") {
+                        continue;
+                    }
                 }
 
                 $p = $this->pr->get($sku);
@@ -486,7 +491,9 @@ class Save extends \Magento\Backend\App\Action
                     $p->setData('features', '');
                     $p->getResource()->saveAttribute($p, 'features');
                     $this->addSuccess("Cleared features",$sku);
-                    continue;
+                    if ($clear == "delete") {
+                        continue;
+                    }
                 }
 
                 $s = '<div onclick="jQuery(\'#row_'.$sku.'\').toggle()">Details</div><div id="row_'.$sku.'" style="display:none">';
@@ -711,7 +718,9 @@ class Save extends \Magento\Backend\App\Action
                     $p->setData('meta_description', '');
                     $p->getResource()->saveAttribute($p, 'meta_description');
                     $this->addSuccess("Cleared metaData",$sku);
-                    continue;
+                    if ($clear == "delete") {
+                        continue;
+                    }
                 }
 
                 $metaKeywords = implode(" ", $metaData['keywords']);
