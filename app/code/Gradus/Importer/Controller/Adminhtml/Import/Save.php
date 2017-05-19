@@ -703,6 +703,71 @@ class Save extends \Magento\Backend\App\Action
         return false;
     }
 
+    public function productData($brand, $f, $clear, $linktype)
+    {
+        $success = true;
+        $message = '';
+        $rowcount = 0;
+        $file = fopen('shell/import/csv/'.$f, 'r');
+        $c = 0;
+        $productData = array();
+
+        while (($row = fgetcsv($file, 4096)) !== false) {
+            if ($c == 0) {
+                $c++;
+                continue;
+            }
+            $rowBrand = $row[0];
+            $rowBrand = strtolower($rowBrand);
+            if (strtolower($brand) == $rowBrand || $brand == "All") {
+                $productData[$row[3]] = array(
+                    'name' => $row[6],
+                    'price' => str_replace("$", "", $row[5]),
+                    'weight'=> $row[10],
+                    //'brand' => $row[0],
+                    'box_length' => $row[7],
+                    'box_height' => $row[8],
+                    'box_width' => $row[9],
+                );
+            }
+            $rowcount++;
+        }
+        fclose($file);
+        $this->addDebug("Starting product data import with ".count($productData)." products and ".$rowcount." rows.", 'None');
+        foreach ($productData as $sku => $value) {
+            try {
+                $p = $this->getProduct($sku);
+                if ($clear == "delete" || $clear == "replace") {
+                    $p->setStoreId(0);
+                    foreach ($value as $k => $v) {
+                        $p->setData($k, '');
+                        $p->getResource()->saveAttribute($p, $k);
+                    }
+                    $this->addSuccess("Cleared product data",$p->getSku()." / ".$p->getData('mfr_num'));
+                    if ($clear == "delete") {
+                        continue;
+                    }
+                }
+
+                $s = '<div onclick="jQuery(\'#row_'.$sku.'\').toggle()">Details</div><div id="row_'.$sku.'" style="display:none">';
+                $counter = 0;
+                foreach ($value as $k => $v) {
+                    $s .= "[".$counter."] ".$k."=>".$v."<br>";
+                    $counter++;
+                    $p->setData($k, $v);
+                    $p->getResource()->saveAttribute($p, $k);
+                }
+                $s .= "</div>";
+                $p->setStoreId(0);
+                $this->addSuccess("Added product data ".$s, $p->getSku()." / ".$p->getData('mfr_num'));
+            } catch (\Exception $e) {
+                $success = false;
+                $this->addError($e->getMessage().": SKU: ".$sku, $sku);
+            }
+        }
+        $this->addDebug("Import is finished.", "None");
+    }
+
 
     public function metadata($brand, $f, $clear, $linktype = "none")
     {

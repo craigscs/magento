@@ -18,13 +18,18 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
+
+    protected $auth;
+
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\System\Store $systemStore,
+        \Magento\Backend\Model\Auth\Session $authSession,
         array $data = []
     ) {
+        $this->auto = $authSession;
         $this->_systemStore = $systemStore;
         parent::__construct($context, $registry, $formFactory, $data);
     }
@@ -182,6 +187,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'attr'=>'Attributes',
             "skulinks" => "Sku Links",
             "images" => "Images",
+            "productData" => "Product Data",
         );
         ksort($vals);
         return $vals;
