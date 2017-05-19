@@ -38,7 +38,8 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
         $field = $this->getRequest()->getParam('field');
         $prod = $this->pf->load($id);
 
-        $res = $this->jf->create()->setData(['res'=>$this->$field($prod)]);
+        $result = $this->$field($prod);
+        $res = $this->jf->create()->setData(['res'=>$result['res'], 'mes' => $result['mes']]);
         return $res;
     }
 
@@ -63,7 +64,7 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
                 $count++;
             }
         }
-        return $q;
+        return array('res' =>$q, 'mes' => "Includes updated");
     }
 
     public function techspecs($prod)
@@ -123,7 +124,7 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
                 $count++;
             }
         }
-        return $q;
+        return array('res' =>$q, 'mes' => "Includes updated");
     }
 
     public function highlights($prod)
@@ -143,7 +144,7 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
                 $count++;
             }
         }
-        return $q;
+        return array('res' =>$q, 'mes' => "Includes updated");
     }
 
     public function features($prod)
@@ -165,6 +166,6 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
                 $count++;
             }
         }
-        return $q;
+        return array('res' =>$q, 'mes' => "Includes updated");
     }
 }

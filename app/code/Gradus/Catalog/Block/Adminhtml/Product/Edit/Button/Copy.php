@@ -18,23 +18,7 @@ class Copy extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Button\Generic
         return [
             'label' => __('Copy From'),
             'class' => 'action-secondary',
-            'data_attribute' => [
-                'mage-init' => [
-                    'Magento_Ui/js/form/button-adapter' => [
-                        'actions' => [
-                            [
-                                'targetName' => 'product_form.product_form.add_attribute_modal',
-                                'actionName' => 'toggleModal'
-                            ],
-                            [
-                                'targetName' => 'product_form.product_form.add_attribute_modal.product_attributes_grid',
-                                'actionName' => 'render'
-                            ]
-                        ]
-                    ]
-                ]
-            ],
-            'on_click' => '',
+            'on_click' => 'toggleCopy()',
             'sort_order' => 20
         ];
     }

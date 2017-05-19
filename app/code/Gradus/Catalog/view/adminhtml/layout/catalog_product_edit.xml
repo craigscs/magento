@@ -1,6 +1,5 @@
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <head>
-        <link src="Gradus_Catalog::js/copy.js"/>
         <link src="Gradus_Catalog::css/chosen.min.css"/>
         <link src="Gradus_Catalog::css/fields.css"/>
     </head>
