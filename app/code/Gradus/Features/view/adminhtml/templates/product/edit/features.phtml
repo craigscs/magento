@@ -1,5 +1,5 @@
 <?php
-$tech = $this->getProduct()->getData('highlights');
+$tech = $this->getProduct()->getData('features');
 $info = json_decode($tech, true);
 $count = 1;
 ?>
@@ -25,9 +25,9 @@ $count = 1;
                     <?= $count ?>
                 </td>
                 <td>
-                    <input name="features[<?= $count ?>][name]" data-form-part="product_form" name="features[<?= $count ?>[name]" style="width:100%; padding:3px;" value="<?= $i ?>" />
+                    <input name="features[<?= $count ?>][name]" data-form-part="product_form" name="features[<?= $count ?>[name]" style="width:100%; padding:3px;" value="<?= $i["name"] ?>" />
                 </td>
-                <td><textarea name="features[<?= $count?>][desc]" data-form-part="product_form" style="width:100%;"></textarea></td>
+                <td><textarea name="features[<?= $count?>][desc]" data-form-part="product_form" style="width:100%;"><?= $i['desc'] ?></textarea></td>
                 <td><a onclick="deleteHighlight('highlight_row_<?= $count ?>')" href"#">Remove</a></td>
             </tr>
             <?php $count++ ?>
