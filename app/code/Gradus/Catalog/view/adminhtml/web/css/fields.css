@@ -154,19 +154,7 @@
     padding:5px;
 }
 
-.draggable-handle, .draggable-handle2 {
-    display: inline-block;
-    cursor: move;
-    width: 15px;
-    height: 15px;
-    /*background-image: url(../images/draggable.png);*/
-    background-size: 15px;
-    padding: 5px;
-    margin-right: 10px;
-    margin-left: 5px;
-}
-
-.draggable-handle3 {
+.draggable-handle, .draggable-handle2, .draggable-handle_features, .draggable-handle_inthebox, .draggable-handle3 {
     display: inline-block;
     cursor: move;
     width: 15px;

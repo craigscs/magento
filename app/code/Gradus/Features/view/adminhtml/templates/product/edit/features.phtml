@@ -19,7 +19,7 @@ $count = 1;
         <?php foreach ($info as $i) : ?>
             <tr id="features_row_<?= $count ?>">
                 <td class=""data-grid-draggable-row-cell">
-                <div class="draggable-handle3"></div>
+                <div class="draggable-handle_features"></div>
                 </td>
                 <td class="posrow">
                     <?= $count ?>
@@ -28,12 +28,26 @@ $count = 1;
                     <input name="features[<?= $count ?>][name]" data-form-part="product_form" name="features[<?= $count ?>[name]" style="width:100%; padding:3px;" value="<?= $i["name"] ?>" />
                 </td>
                 <td><textarea name="features[<?= $count?>][desc]" data-form-part="product_form" style="width:100%;"><?= $i['desc'] ?></textarea></td>
-                <td><a onclick="deleteHighlight('highlight_row_<?= $count ?>')" href"#">Remove</a></td>
+                <td><a onclick="deleteFeature('features_row_<?= $count ?>')" href"#">Remove</a></td>
             </tr>
             <?php $count++ ?>
         <?php endforeach; ?>
         </tbody>
     </table>
+    <?php else : ?>
+        <tr id="features_row_<?= $count ?>">
+            <td class=""data-grid-draggable-row-cell">
+            <div class="draggable-handle_features"></div>
+            </td>
+            <td class="posrow">
+                <?= $count ?>
+            </td>
+            <td>
+                <input name="features[<?= $count ?>][name]" data-form-part="product_form" name="features[<?= $count ?>[name]" style="width:100%; padding:3px;" value="" />
+            </td>
+            <td><textarea name="features[<?= $count?>][desc]" data-form-part="product_form" style="width:100%;"></textarea></td>
+            <td><a onclick="deleteFeature('features_row_<?= $count ?>')" href"#">Remove</a></td>
+        </tr>
     <?php endif ?>
 </div>
 
@@ -65,17 +79,11 @@ $count = 1;
     }
 
     $q( document ).ready(function() {
-        $q('#features_container > table > tbody').sortable({
-            handle: '.draggable-handle3',
+        $q('#features_table > tbody').sortable({
+            handle: '.draggable-handle_features',
             revert: 300,
             placeholder: "jqplaceholder",
             tolerance: "intersect",
-            update: function( event, ui ) {
-                $q('.features_drag').each(function(i, obj) {
-                    var ii = i+1;
-                    $q(this).html(ii);
-                })
-            }
         }).disableSelection();
     });
     function addFeature()
@@ -84,7 +92,7 @@ $count = 1;
         var clb = counts+1;
         q = '<tr id="features_row_'+clb+'">'+
             '<td class="data-grid-draggable-row-cell">'+
-            '<div class="draggable-handle3"></div></td>'+
+            '<div class="draggable-handle_features"></div></td>'+
             '<td class="posrow">'+clb+'</td><td>'+
             '<input name="features['+clb+'][name]" data-form-part="product_form" id="features[' + clb + '][name]" style="width:100%; padding:3px;" value="" /></td>'+
             '<td><textarea name="features['+clb+'][desc]" data-form-part="product_form" style="width:100%;"></textarea></td>'+
