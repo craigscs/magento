@@ -11,38 +11,54 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
     private $storeManager;
     public function execute()
     {
-        if (isset($_POST['techspec'])) {
-            $ts = $_POST['techspec'];
-            $tss = json_encode($ts);
-            $_POST['product']['tech_specs'] = $tss;
-            $this->tss = $tss;
-            $this->getRequest()->setParams($_POST);
-        } else {
-            $this->tss = '';
-        }
-
-        if (isset($_POST['highlights'])) {
-            $h = $_POST['highlights'];
-            $hs = json_encode($h);
-            $this->highlight = $hs;
-        } else {
-            $this->highlight = '';
-        }
-
-            if (isset($_POST['features'])) {
-                $h = $_POST['features'];
-                $hs = json_encode($h);
-                $this->features = $hs;
-            } else {
-                $this->features = '';
-            }
-
         if (isset($_POST['in_the_box'])) {
             $h = $_POST['in_the_box'];
             $hs = json_encode($h);
             $this->inthebox = $hs;
         } else {
             $this->inthebox = '';
+        }
+
+        //Clear empty ones
+        if (isset($_POST['techspec'])) {
+            $ts = $_POST['techspec'];
+            $realts = array();
+            foreach ($ts as $t) {
+                if ($t['header']['header_name'] != '') {
+                    $realts[] = $t;
+                }
+            }
+            $this->tss = json_encode($realts);
+        }
+        if (isset($_POST['highlights'])) {
+            $highlight = $_POST['highlights'];
+            $highlights = array();
+            foreach ($highlight as $h) {
+                if ($h != '') {
+                    $highlights[] = $h;
+                }
+            }
+            $this->highlights = json_encode($highlights);
+        }
+        if (isset($_POST['features'])) {
+            $feats = $_POST['features'];
+            $feat = array();
+            foreach ($feats as $f) {
+                if ($f['name'] != '') {
+                    $feat[] = $f;
+                }
+            }
+            $this->features = json_encode($feat);
+        }
+        if (isset($_POST['in_the_box'])) {
+            $inc = $_POST['in_the_box'];
+            $includes = array();
+            foreach ($inc as $i) {
+                if ($i['count'] != '') {
+                    $includes[] = $i;
+                }
+            }
+            $this->inthebox = json_encode($includes);
         }
 
         $storeId = $this->getRequest()->getParam('store', 0);
@@ -68,7 +84,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
 
                 $originalSku = $product->getSku();
                 $product->setData('tech_specs', $this->tss);
-                $product->setData('highlights', $this->highlight);
+                $product->setData('highlights', $this->highlights);
                 $product->setData('features', $this->features);
                 $product->setData('in_the_box', $this->inthebox);
                 $product->save();

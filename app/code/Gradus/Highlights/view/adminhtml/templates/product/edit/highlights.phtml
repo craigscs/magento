@@ -1,45 +1,8 @@
-<?php
-$tech = $this->getProduct()->getData('highlights');
-$info = json_decode($tech, true);
-$count = 1;
-?>
-<div style="width:800px;" id="highlights_container">
-    <?php if (count($info) > 0) : ?>
-    <table id="highlight_table" class="admin__dynamic-rows data-grid">
-        <thead>
-        <tr>
-            <th class="data-grid-draggable-row-cell"></th>
-            <th class="data-grid-th position" style="width:30px"><span>Seq</span></th>
-            <th class="data-grid-th"><span>Highlight Text</span></th>
-            <th style="width:100px"/>
-        </tr>
-        </thead>
-        <tbody>
-    <?php foreach ($info as $i) : ?>
-        <tr id="highlight_row_<?= $count ?>">
-            <td class=""data-grid-draggable-row-cell">
-            <div class="draggable-handle3"></div>
-            </td>
-            <td class="posrow">
-                <?= $count ?>
-            </td>
-            <td>
-                <input style="width:100%; padding:3px;" value="<?= $i ?>" />
-            </td>
-            <td><a onclick="deleteHighlight('highlight_row_<?= $count ?>')" href"#">Remove</a></td>
-        </tr>
-        <?php $count++ ?>
-    <?php endforeach; ?>
-        </tbody>
-        </table>
-    <?php endif ?>
-</div>
-
 <script>
     var $q = jQuery.noConflict();
 
     $q( document ).ready(function() {
-        $q('#highlight_container2 > table > tbody').sortable({
+        $q('#highlight_container > table > tbody').sortable({
             handle: '.draggable-handle3',
             revert: 300,
             placeholder: "jqplaceholder",
@@ -63,12 +26,13 @@ $count = 1;
         var clb = counts+1;
         var q = '';
 
-            q += '<tr id="highlight_row_'+clb+'">'+
-                '<td class="data-grid-draggable-row-cell">'+
-                '<div class="draggable-handle3"></div></td>'+
-                '<td class="posrow">'+clb+'</td><td>'+
-                '<input style="width:100%; padding:3px;" value="" />'+
-                '</td><td><a href"#" onclick="deleteHighlight(\'highlight_row_'+clb+'\')">Remove</a></td></tr>';
+        q += '<tr id="highlight_row_'+clb+'">'+
+            '<td class="data-grid-draggable-row-cell">'+
+            '<div class="draggable-handle3"></div></td>'+
+            '<td class="posrow">'+clb+'</td><td>'+
+            '<input data-form-part="product_form" id="highlights[' + clb + ']["value"]" name="highlights[' + clb + ']["value"]"' +
+            ' style="width:100%; padding:3px;" value="" />'+
+            '</td><td><a href"#" onclick="deleteHighlight(\'highlight_row_'+clb+'\')">Remove</a></td></tr>';
         $q('#highlight_table > tbody').append(q);
     }
 
@@ -81,3 +45,41 @@ $count = 1;
         });
     }
 </script>
+
+<?php
+$tech = $this->getProduct()->getData('highlights');
+$info = json_decode($tech, true);
+$count = 1;
+?>
+<div style="width:800px;" id="highlights_container">
+    <table id="highlight_table" class="admin__dynamic-rows data-grid">
+        <thead>
+        <tr>
+            <th class="data-grid-draggable-row-cell"></th>
+            <th class="data-grid-th position" style="width:30px"><span>Seq</span></th>
+            <th class="data-grid-th"><span>Highlight Text</span></th>
+            <th style="width:100px"/>
+        </tr>
+        </thead>
+        <tbody>
+        <?php if (count($info) > 0) : ?>
+    <?php foreach ($info as $i) : ?>
+        <tr id="highlight_row_<?= $count ?>">
+            <td class=""data-grid-draggable-row-cell">
+            <div class="draggable-handle3"></div>
+            </td>
+            <td class="posrow">
+                <?= $count ?>
+            </td>
+            <td>
+                <input data-form-part="product_form" name="highlights[<?= $count ?>[value]" style="width:100%; padding:3px;" value="<?= $i ?>" />
+            </td>
+            <td><a onclick="deleteHighlight('highlight_row_<?= $count ?>')" href"#">Remove</a></td>
+        </tr>
+        <?php $count++ ?>
+    <?php endforeach; ?>
+        </tbody>
+        </table>
+    <?php endif ?>
+</div>
+<button class="action-secondary" style="margin-right:5px;" onclick="addHighlight()">Add Highlight</button>
