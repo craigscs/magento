@@ -43,9 +43,9 @@ $count = 1;
                 <?= $count ?>
             </td>
             <td>
-                <input name="inthebox[<?= $count ?>][name]" data-form-part="product_form" style="width:100%; padding:3px;" value="" />
+                <input name="inthebox[<?= $count ?>][count]" data-form-part="product_form" style="width:100%; padding:3px;" value="" />
             </td>
-            <td><textarea name="inthebox[<?= $count?>][desc]" data-form-part="product_form" style="width:100%;"></textarea></td>
+            <td><textarea name="inthebox[<?= $count?>][value]" data-form-part="product_form" style="width:100%;"></textarea></td>
             <td><a onclick="deleteFeature('inthebox_row_<?= $count ?>')" href"#">Remove</a></td>
         </tr>
     <?php endif ?>

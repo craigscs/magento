@@ -50,8 +50,8 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
             }
             $this->features = json_encode($feat);
         }
-        if (isset($_POST['in_the_box'])) {
-            $inc = $_POST['in_the_box'];
+        if (isset($_POST['inthebox'])) {
+            $inc = $_POST['inthebox'];
             $includes = array();
             foreach ($inc as $i) {
                 if ($i['count'] != '') {
