@@ -11,6 +11,7 @@ class Features extends \Magento\Framework\View\Element\Template
      */
     protected $_template = 'product/edit/features.phtml';
     protected $col;
+    protected $w;
     /**
      * Core registry
      *
@@ -22,9 +23,11 @@ class Features extends \Magento\Framework\View\Element\Template
         Context $context,
         Registry $registry,
         \Magento\Catalog\Model\ResourceModel\Product\Collection $col,
+        \Magento\Catalog\Controller\Adminhtml\Product\Wysiwyg $wysiwyg,
         array $data = []
     )
     {
+        $this->w = $wysiwyg;
         $this->col = $col;
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -48,6 +51,10 @@ class Features extends \Magento\Framework\View\Element\Template
     public function getProducts()
     {
         return $this->col->addAttributeToSelect('*')->load();
+    }
+    public function getIt()
+    {
+        return $this->w->execute()->renderResult();
     }
 
 }

@@ -178,7 +178,7 @@ class Config extends \Magento\Framework\DataObject implements ConfigInterface
                     'mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/content.css'
                 ),
                 'width' => '100%',
-                'height' => '500px',
+                'height' => '250px',
                 'plugins' => [],
             ]
         );

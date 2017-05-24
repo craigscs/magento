@@ -9,7 +9,6 @@ define([
     'uiCollection'
 ], function (_, utils, $t, Collection) {
     'use strict';
-
     return Collection.extend({
         defaults: {
             template: 'ui/grid/controls/columns',

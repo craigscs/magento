@@ -20,9 +20,10 @@
             '<td class="data-grid-draggable-row-cell">'+
             '<div class="draggable-handle3"></div></td>'+
             '<td class="posrow">'+clb+'</td><td>'+
-            '<input data-form-part="product_form" id="highlights[' + clb + ']["value"]" name="highlights[' + clb + ']["value"]"' +
+            '<input class="admin__control-text" style="width:100%" data-form-part="product_form" id="highlights[' + clb + ']["value"]" name="highlights[' + clb + ']["value"]"' +
             ' style="width:100%; padding:3px;" value="" />'+
-            '</td><td><a href"#" onclick="deleteHighlight(\'highlight_row_'+clb+'\')">Remove</a></td></tr>';
+            '</td><td><a href"#" onclick="deleteHighlight(\'highlight_row_'+clb+'\')"><img style="width:20px;" ' +
+            'src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>"></a></td></tr>';
         $q('#highlight_table > tbody').append(q);
     }
 
@@ -48,7 +49,7 @@ $count = 1;
             <th class="data-grid-draggable-row-cell"></th>
             <th class="data-grid-th position" style="width:30px"><span>Seq</span></th>
             <th class="data-grid-th"><span>Highlight Text</span></th>
-            <th style="width:100px"/>
+            <th style="width:40px;" />
         </tr>
         </thead>
         <tbody>
@@ -62,9 +63,9 @@ $count = 1;
                 <?= $count ?>
             </td>
             <td>
-                <input data-form-part="product_form" name="highlights[<?= $count ?>[value]" style="width:100%; padding:3px;" value="<?= $i ?>" />
+                <input data-form-part="product_form" name="highlights[<?= $count ?>[value]" class="admin__control-text" style="width:100%" value="<?= $i ?>" />
             </td>
-            <td><a onclick="deleteHighlight('highlight_row_<?= $count ?>')" href"#">Remove</a></td>
+            <td><a onclick="deleteHighlight('highlight_row_<?= $count ?>')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>
         </tr>
                 <?php $count++ ?>
             <?php endforeach; ?>
@@ -77,9 +78,9 @@ $count = 1;
                     <?= $count ?>
                 </td>
                 <td>
-                    <input data-form-part="product_form" name="highlights[<?= $count ?>[value]" style="width:100%; padding:3px;" value="" />
+                    <input data-form-part="product_form" name="highlights[<?= $count ?>[value]" class="admin__control-text" style="width:100%" value="" />
                 </td>
-                <td><a onclick="deleteHighlight('highlight_row_<?= $count ?>')" href"#">Remove</a></td>
+                <td><a onclick="deleteHighlight('highlight_row_<?= $count ?>')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>
             </tr>
         <?php endif ?>
         </tbody>

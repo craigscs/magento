@@ -11,7 +11,7 @@ $count = 1;
             <th class="data-grid-th position" style="width:30px"><span>Seq</span></th>
             <th class="data-grid-th" style="width:50px;"><span>Include Count</span></th>
             <th class="data-grid-th"><span>Include Value</span></th>
-            <th style="width:100px"/>
+            <th style="width:40px"/>
         </tr>
         </thead>
         <tbody>
@@ -25,10 +25,10 @@ $count = 1;
                     <?= $count ?>
                 </td>
                 <td>
-                    <input name="inthebox[<?= $count ?>][count]" data-form-part="product_form" name="inthebox[<?= $count ?>[count]" style="width:100%; padding:3px;" value="<?= $i["count"] ?>" />
+                    <input class="admin__control-text" name="inthebox[<?= $count ?>][count]" data-form-part="product_form" name="inthebox[<?= $count ?>[count]" style="width:100%;" value="<?= $i["count"] ?>" />
                 </td>
                 <td><textarea name="inthebox[<?= $count?>][value]" data-form-part="product_form" style="width:100%;"><?= $i['value'] ?></textarea></td>
-                <td><a onclick="deleteinthebox('inthebox_row_<?= $count ?>')" href"#">Remove</a></td>
+                <td><a onclick="deleteinthebox('inthebox_row_<?= $count ?>')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>
             </tr>
             <?php $count++ ?>
         <?php endforeach; ?>
@@ -43,10 +43,10 @@ $count = 1;
                 <?= $count ?>
             </td>
             <td>
-                <input name="inthebox[<?= $count ?>][count]" data-form-part="product_form" style="width:100%; padding:3px;" value="" />
+                <input class="admin__control-text" name="inthebox[<?= $count ?>][count]" data-form-part="product_form" style="width:100%;" value="" />
             </td>
             <td><textarea name="inthebox[<?= $count?>][value]" data-form-part="product_form" style="width:100%;"></textarea></td>
-            <td><a onclick="deleteFeature('inthebox_row_<?= $count ?>')" href"#">Remove</a></td>
+            <td><a onclick="deleteFeature('inthebox_row_<?= $count ?>')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>
         </tr>
     <?php endif ?>
 </div>
@@ -80,9 +80,9 @@ $count = 1;
             '<td class="data-grid-draggable-row-cell">'+
             '<div class="draggable-handle_inthebox"></div></td>'+
             '<td class="posrow">'+clb+'</td><td>'+
-            '<input name="inthebox['+clb+'][name]" data-form-part="product_form" id="inthebox[' + clb + '][count]" style="width:100%; padding:3px;" value="" /></td>'+
+            '<input class="admin__control-text" name="inthebox['+clb+'][name]" data-form-part="product_form" id="inthebox[' + clb + '][count]" style="width:100%;" value="" /></td>'+
             '<td><textarea name="inthebox['+clb+'][value]" data-form-part="product_form" style="width:100%;"></textarea></td>'+
-            '</td><td><a href"#" onclick="deleteinthebox(\'inthebox_row_'+clb+'\')">Remove</a></td></tr>';
+            '</td><td><a href"#" onclick="deleteinthebox(\'inthebox_row_'+clb+'\')"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td></tr>';
         $q('#InTheBox_table > tbody').append(q);
     }
 

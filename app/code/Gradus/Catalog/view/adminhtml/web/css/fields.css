@@ -6,25 +6,27 @@
     -webkit-order: 2;
     order: 2;
 }
+.admin__fieldset > .admin__field {
+    margin-left: 0px;
+}
+.admin__control-wysiwig textarea {
+    max-height:250px;
+}
 .abs-actions-split-xl .action-toggle,
 .page-actions .actions-split .action-toggle {
     padding-right: 4rem;
     height: 45.5px;
 }
-.page-actions-buttons > .action-secondary {
-    height:60px;
-}
-
 .admin__fieldset > .admin__field > .admin__field-label {
     width: 150px;
     float: left;
-    margin-left:0px;
+    margin-left:20px;
 }
 [class*='admin__control-grouped'] > .admin__field:first-child > .admin__field-label,
 .admin__control-fields > .admin__field:first-child > .admin__field-label {
     width: 150px;
     float: left;
-    margin-left: 0px;
+    margin-left: 20px;
     background: #ffffff;
     cursor: pointer;
     left: 0;

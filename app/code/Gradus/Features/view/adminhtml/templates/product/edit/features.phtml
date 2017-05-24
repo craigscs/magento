@@ -2,6 +2,7 @@
 $tech = $this->getProduct()->getData('features');
 $info = json_decode($tech, true);
 $count = 1;
+
 ?>
 <div style="width:800px;" id="features_container">
     <table id="features_table" class="admin__dynamic-rows data-grid">
@@ -11,7 +12,7 @@ $count = 1;
             <th class="data-grid-th position" style="width:30px"><span>Seq</span></th>
             <th class="data-grid-th"><span>Feature Label</span></th>
             <th class="data-grid-th"><span>Feature Value</span></th>
-            <th style="width:100px"/>
+            <th style="width:40px"/>
         </tr>
         </thead>
         <tbody>
@@ -25,10 +26,10 @@ $count = 1;
                     <?= $count ?>
                 </td>
                 <td>
-                    <input name="features[<?= $count ?>][name]" data-form-part="product_form" name="features[<?= $count ?>[name]" style="width:100%; padding:3px;" value="<?= $i["name"] ?>" />
+                    <input class="admin__control-text" name="features[<?= $count ?>][name]" data-form-part="product_form" name="features[<?= $count ?>[name]" style="width:100%; padding:3px;" value="<?= $i["name"] ?>" />
                 </td>
                 <td><textarea name="features[<?= $count?>][desc]" data-form-part="product_form" style="width:100%;"><?= $i['desc'] ?></textarea></td>
-                <td><a onclick="deleteFeature('features_row_<?= $count ?>')" href"#">Remove</a></td>
+                <td><a onclick="deleteFeature('features_row_<?= $count ?>')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>
             </tr>
             <?php $count++ ?>
         <?php endforeach; ?>
@@ -43,10 +44,10 @@ $count = 1;
                 <?= $count ?>
             </td>
             <td>
-                <input name="features[<?= $count ?>][name]" data-form-part="product_form" name="features[<?= $count ?>[name]" style="width:100%; padding:3px;" value="" />
+                <input class="admin__control-text" name="features[<?= $count ?>][name]" data-form-part="product_form" name="features[<?= $count ?>[name]" style="width:100%;" value="" />
             </td>
-            <td><textarea name="features[<?= $count?>][desc]" data-form-part="product_form" style="width:100%;"></textarea></td>
-            <td><a onclick="deleteFeature('features_row_<?= $count ?>')" href"#">Remove</a></td>
+            <td><textarea id="qwerty" name="features[<?= $count?>][desc]" data-form-part="product_form" style="width:100%;"></textarea></td>
+            <td><a onclick="deleteFeature('features_row_<?= $count ?>')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>
         </tr>
     <?php endif ?>
 </div>
@@ -94,9 +95,9 @@ $count = 1;
             '<td class="data-grid-draggable-row-cell">'+
             '<div class="draggable-handle_features"></div></td>'+
             '<td class="posrow">'+clb+'</td><td>'+
-            '<input name="features['+clb+'][name]" data-form-part="product_form" id="features[' + clb + '][name]" style="width:100%; padding:3px;" value="" /></td>'+
-            '<td><textarea name="features['+clb+'][desc]" data-form-part="product_form" style="width:100%;"></textarea></td>'+
-            '</td><td><a href"#" onclick="deleteFeature(\'features_row_'+clb+'\')">Remove</a></td></tr>';
+            '<input class="admin__control-text" name="features['+clb+'][name]" data-form-part="product_form" id="features[' + clb + '][name]" style="width:100%;" value="" /></td>'+
+                '<td><textarea id="qwerty" name="features['+clb+'][desc]" data-form-part="product_form" style="width:100%;"></textarea></td>'+
+            '</td><td><a href"#" onclick="deleteFeature(\'features_row_'+clb+'\')"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td></tr>';
         $q('#features_table > tbody').append(q);
     }
 
