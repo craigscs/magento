@@ -51,7 +51,7 @@ $count = 1;
     <?php endif ?>
 </div>
 
-<button class="action-secondary" style="margin-right:5px; margin-top:5px;" onclick="addFeature()">Add Feature</button>
+<button class="action-secondary" style="margin-right:5px; margin-bottom: 5px;" onclick="addFeature()">Add Feature</button>
 <div class="select_pad">
     <select class="search_select" id="copy_from_feature">
         <option value="-1">SKU | Name</option>
@@ -88,7 +88,16 @@ $count = 1;
     });
     function addFeature()
     {
-        0
+        var counts = $q('#features_table > tbody > tr').length;
+        var clb = counts+1;
+        q = '<tr id="features_row_'+clb+'">'+
+            '<td class="data-grid-draggable-row-cell">'+
+            '<div class="draggable-handle_features"></div></td>'+
+            '<td class="posrow">'+clb+'</td><td>'+
+            '<input name="features['+clb+'][name]" data-form-part="product_form" id="features[' + clb + '][name]" style="width:100%; padding:3px;" value="" /></td>'+
+            '<td><textarea name="features['+clb+'][desc]" data-form-part="product_form" style="width:100%;"></textarea></td>'+
+            '</td><td><a href"#" onclick="deleteFeature(\'features_row_'+clb+'\')">Remove</a></td></tr>';
+        $q('#features_table > tbody').append(q);
     }
 
     function deleteFeature(h)
