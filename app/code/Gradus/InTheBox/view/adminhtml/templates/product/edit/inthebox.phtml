@@ -52,7 +52,7 @@ $count = 1;
 </div>
 
 <button class="action-secondary" style="margin-right:5px; margin-top:5px" onclick="addinthebox()">Add InTheBox</button>
-<div class="select_pad">
+<div style="display:none;" class="select_pad">
     <select class="search_select" id="copy_from_inthebox">
         <option value="-1">SKU | Name</option>
         <?php foreach ($this->getProducts() as $p) : ?>
@@ -80,8 +80,8 @@ $count = 1;
             '<td class="data-grid-draggable-row-cell">'+
             '<div class="draggable-handle_inthebox"></div></td>'+
             '<td class="posrow">'+clb+'</td><td>'+
-            '<input name="inthebox['+clb+'][name]" data-form-part="product_form" id="inthebox[' + clb + '][name]" style="width:100%; padding:3px;" value="" /></td>'+
-            '<td><textarea name="inthebox['+clb+'][desc]" data-form-part="product_form" style="width:100%;"></textarea></td>'+
+            '<input name="inthebox['+clb+'][name]" data-form-part="product_form" id="inthebox[' + clb + '][count]" style="width:100%; padding:3px;" value="" /></td>'+
+            '<td><textarea name="inthebox['+clb+'][value]" data-form-part="product_form" style="width:100%;"></textarea></td>'+
             '</td><td><a href"#" onclick="deleteinthebox(\'inthebox_row_'+clb+'\')">Remove</a></td></tr>';
         $q('#InTheBox_table > tbody').append(q);
     }

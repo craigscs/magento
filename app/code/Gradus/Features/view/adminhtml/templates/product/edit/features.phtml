@@ -52,7 +52,7 @@ $count = 1;
 </div>
 
 <button class="action-secondary" style="margin-right:5px; margin-bottom: 5px;" onclick="addFeature()">Add Feature</button>
-<div class="select_pad">
+<div style="display:none" class="select_pad">
     <select class="search_select" id="copy_from_feature">
         <option value="-1">SKU | Name</option>
         <?php foreach ($this->getProducts() as $p) : ?>
