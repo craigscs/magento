@@ -45,12 +45,14 @@ $count = 1;
                     <td><textarea name="headers[<?= $count ?>][specs][<?= $speccount ?>][value]" data-form-part="product_form" style="width:100%;"><?= $spec['value'] ?></textarea></td>
                     <td><a onclick="deleteFeature('specs_row_<?= $speccount ?>')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>
                 </tr>
+                    <?php $speccount++ ?>
             <?php endforeach ?>
                 </tbody>
             </table>
             <button class="action-secondary" onclick="addSpec('spec_table_<?= $count ?>', <?= $count ?>)">Add spec</button>
         </div>
     </div>
+            <?php $count++ ?>
     <?php endforeach ?>
     <?php endif ?>
 </div>
