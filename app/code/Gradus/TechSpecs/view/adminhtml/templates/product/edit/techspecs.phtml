@@ -56,15 +56,6 @@ $count = 1;
 </div>
 
 <button class="action-secondary" style="margin-right:5px; margin-top:5px" onclick="addHeader()">Add Header</button>
-<div class="select_pad">
-    <select class="search_select" id="copy_from_techspecs">
-        <option value="-1">SKU | Name</option>
-        <?php foreach ($this->getProducts() as $p) : ?>
-            <option value="<?= $p->getId() ?>"><?= $p->getSku() ?> | <?= $p->getName() ?></option>
-        <?php endforeach; ?>
-    </select>
-    <button class="action-secondary" onclick="copytechspecs()">Copy from</button>
-</div>
 
 <script>
     var $q = jQuery.noConflict();
