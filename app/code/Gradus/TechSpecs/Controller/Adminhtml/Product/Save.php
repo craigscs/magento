@@ -24,7 +24,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
             $ts = $_POST['headers'];
             $realts = array();
             foreach ($ts as $t) {
-                if ($t['name'] != '') {
+                if (isset($t['name']) && $t['name'] != '') {
                     $realts[] = $t;
                 }
             }
