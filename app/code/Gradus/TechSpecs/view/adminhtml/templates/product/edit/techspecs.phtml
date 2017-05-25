@@ -10,7 +10,7 @@ $count = 1;
     <?php foreach ($info as $head) : ?>
     <div id="header_container_<?= $count ?>" class="header_container">
         <h3>
-            <div class="draggable-handle_headers" />
+            <div onclick="event.stopPropagation();" class="draggable-handle_headers" />
             <input style="width:400px;" onclick="event.stopPropagation()" class="admin__control-text" name="headers[<?= $count ?>][name]"
                    data-form-part="product_form" value="<?= $head['name'] ?>" />
             <a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader('header_container_<?= $count ?>')">
@@ -129,7 +129,7 @@ $count = 1;
         var headcount = $q('.header_container').length+1;
         var q = '<div id="header_container_'+headcount+'" class="header_container">'+
             '<h3>'+
-            '<div class="draggable-handle_headers" />'+
+            '<div onclick="event.stopPropagation();" class="draggable-handle_headers" />'+
             '<input style="width:400px;" onclick="event.stopPropagation()" class="admin__control-text" name="headers['+headcount+'][name]"'+
             'data-form-part="product_form" value="" />'+
             '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader(\'header_container_'+headcount+'\')">'+
