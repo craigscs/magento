@@ -2,7 +2,12 @@
 $tech = $this->getProduct()->getData('in_the_box');
 $info = json_decode($tech, true);
 $count = 1;
-$manual = false;
+if (isset($info['has_manual'])) {
+    $manual = $info['has_manual'];
+    unset($info['has_manual']);
+} else {
+    $manual = false;
+}
 
 $warranty = $this->getProduct()->getData('warranty');
 if ($warranty < 12) {
