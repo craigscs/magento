@@ -7,6 +7,7 @@ $count = 1;
 ?>
 
 <div id='techspecs_container' class="techspec_header_container">
+    <?php if (count($info) > 0) : ?>
     <?php foreach ($info as $head) : ?>
     <div id="header_container_<?= $count ?>" class="header_container">
         <h3>
@@ -51,6 +52,7 @@ $count = 1;
         </div>
     </div>
     <?php endforeach ?>
+    <?php endif ?>
 </div>
 
 <button class="action-secondary" style="margin-right:5px; margin-top:5px" onclick="addHeader()">Add Header</button>
