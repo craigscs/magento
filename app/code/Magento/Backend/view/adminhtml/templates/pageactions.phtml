@@ -87,16 +87,17 @@
         $q('#picked_mfr').html(mfr);
     }
 
-    function getHighlightSearch()
-    {
-    var qid = $q('#highlight_search').val();
-    $q.ajax({
-    url: 'http://'+window.location.hostname+"/admin/catalog/product/search/text/"+qid,
-    data: {form_key: window.FORM_KEY},
-    context: document.body
-    }).done(function(res) {
-    $q('#highlight_results').html(res.res);
-    });
+    function getHighlightSearch() {
+        var qid = $q('#highlight_search').val();
+        if (qid.length >= 3) {
+            $q.ajax({
+                url: 'http://' + window.location.hostname + "/admin/catalog/product/search/text/" + qid,
+                data: {form_key: window.FORM_KEY},
+                context: document.body
+            }).done(function (res) {
+                $q('#highlight_results').html(res.res);
+            });
+        }
     }
     </script>
 
