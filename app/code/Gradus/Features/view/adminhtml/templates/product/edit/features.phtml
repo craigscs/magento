@@ -26,7 +26,8 @@ $count = 1;
                     <?= $count ?>
                 </td>
                 <td>
-                    <input class="admin__control-text" name="features[<?= $count ?>][name]" data-form-part="product_form" name="features[<?= $count ?>[name]" style="width:100%; padding:3px;" value="<?= $i["name"] ?>" />
+                    <input class="admin__control-text" name="features[<?= $count ?>][name]" data-form-part="product_form" name="features[<?= $count ?>[name]"
+                           style="width:100%; padding:3px;" value="<?= $i["name"] ?>" />
                 </td>
                 <td><textarea name="features[<?= $count?>][desc]" data-form-part="product_form" style="width:100%;"><?= $i['desc'] ?></textarea></td>
                 <td><a onclick="deleteFeature('features_row_<?= $count ?>')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>

@@ -6,62 +6,53 @@ $info = json_decode($tech, true);
 $count = 1;
 ?>
 
-<div id="headers_container" style="min-width:775px;">
-    <?php if (!is_null($info)) : ?>
-    <?php foreach ($info as $header) : ?>
-    <div class="header_div" id="header_div_<?= $count ?>">
-        <h3 id="header_title_<?= $count ?>">
-            <div class="draggable-handle header_drag"><b></b><?= $count ?></b></div>
-            <div style="display:inline-block" id="h_text_<?= $count ?>" class="header_txt"><?= $header['header']['header_name'] ?></div>
-            <a class="delete_icon" style="float:right" src="javascript:void(0)" onclick="deleteHeader('header_div_<?= $count ?>')">
-                <img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>">
-            </a>
+<div id='techspecs_container' class="techspec_header_container">
+    <?php foreach ($info as $head) : ?>
+    <div id="header_container_<?= $count ?>" class="header_container">
+        <h3>
+            <div class="draggable-handle_headers" />
+            <input style="width:400px;" onclick="event.stopPropagation()" class="admin__control-text" name="headers[<?= $count ?>][name]"
+                   data-form-part="product_form" value="<?= $head['name'] ?>" />
+            <a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader('header_container_<?= $count ?>')">
+                <img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>"></a>
         </h3>
         <div>
-        <table class="tech_spec_table" id="header_table_<?= $count ?>">
-            <tr class="header_row">
-                <td>
-                    <label class="gradus_label" for="header_text_<?= $count ?>">Header Text</label>
-                    <input style="width:85%" class="gradus_text_large" onkeyup="updateHeader(this.value, 'h_text_<?= $count ?>')" id="header_title_<?= $count ?>"
-                           data-form-part="product_form" name="techspec[<?= $count?>][header][header_name]"
-                           id="header_text_<?= $count ?>" value="<?= $header['header']['header_name'] ?>"/>
-                </td>
-            </tr>
-            <tr style="height:10px;"></tr>
-            <tr>
+            <table id="spec_table_<?= $count ?>" style="width:800px;" class="admin__dynamic-rows data-grid spectable">
+                <thead>
+                <tr>
+                    <th class="data-grid-draggable-row-cell"></th>
+                    <th class="data-grid-th position" style="width:30px"><span>Seq</span></th>
+                    <th class="data-grid-th"><span>Spec Label</span></th>
+                    <th class="data-grid-th"><span>Spec Value</span></th>
+                    <th style="width:40px"/>
+                </tr>
+                </thead>
+                <tbody>
                 <?php $speccount = 1 ?>
-                <td class="spec_td">
-                    <?php foreach ($header as $specs) : ?>
-                        <?php foreach ($specs as $spec) : ?>
-                            <?php if (isset($spec['name'])) : ?>
-                                <div class="specs_row" id ="spec_row_<?= $count ?>_<?= $speccount ?>">
-                                    <div style="display:inline-block; margin-left:-30px; cursor:move" class="draggable-handle2 specs_drag"><b><?= $speccount ?></b></div>
-                                    <label class="gradus_label" for="spec_name_.<?= $speccount ?>">Spec Name</label>
-                                    <a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader('spec_row_<?= $count ?>_<?= $speccount ?>')">
-                                        <img style="width:20px; margin-top:10px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>">
-                                    </a>
-                                    <input style="width:99%" class="gradus_text_large" data-form-part="product_form" name="techspec[<?= $count?>][header][<?= $speccount ?>][name]"
-                                           id="spec_name_".<?= $speccount ?> value="<?= $spec['name'] ?>"/>
-                                    <label class="gradus_label" for="spec_desc_".<?= $speccount ?>>Spec Description</label>
-                            <textarea style="width:99%" class="gradus_text_large" data-form-part="product_form" name="techspec[<?= $count?>][header][<?= $speccount ?>][desc]
-                                                        id="spec_desc_<?= $speccount ?>" value="<?= $spec['desc'] ?>"><?= $spec{'desc'} ?></textarea>
-                                    <a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader('spec_row_<?= $count ?>_<?= $speccount ?>')">
-                                    </a>
-                                </div>
-                                <?php $speccount++ ?>
-                            <?php endif ?>
-                        <?php endforeach ?>
-                    <?php endforeach ?>
-                </td>
-            </tr>
-        </table>
-            <button style="margin-top:10px;" class="action-secondary" onclick="addSpec('header_table_<?= $count ?>')">Add Spec</button>
+                <?php foreach ($head['specs'] as $spec) : ?>
+                <tr id="header_<?= $count ?>_specs_row_<?= $speccount ?>">
+                    <td class="data-grid-draggable-row-cell">
+                    <div class="draggable-handle_specs"></div>
+                    </td>
+                    <td class="posrow">
+                        <?= $speccount ?>
+                    </td>
+                    <td>
+                        <input class="admin__control-text" data-form-part="product_form" name="headers[<?= $count ?>][specs][<?= $speccount ?>][label]"
+                               style="width:100%;" value="<?= $spec['label'] ?>" />
+                    </td>
+                    <td><textarea name="headers[<?= $count ?>][specs][<?= $speccount ?>][value]" data-form-part="product_form" style="width:100%;"><?= $spec['value'] ?></textarea></td>
+                    <td><a onclick="deleteFeature('specs_row_<?= $speccount ?>')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>
+                </tr>
+            <?php endforeach ?>
+                </tbody>
+            </table>
+            <button class="action-secondary" onclick="addSpec('spec_table_<?= $count ?>', <?= $count ?>)">Add spec</button>
         </div>
     </div>
-        <?php $count++ ?>
     <?php endforeach ?>
-    <?php endif ?>
 </div>
+
 <button class="action-secondary" style="margin-right:5px; margin-top:5px" onclick="addHeader()">Add Header</button>
 <div class="select_pad">
     <select class="search_select" id="copy_from_techspecs">
@@ -100,31 +91,15 @@ $count = 1;
         $q('.spec_td').sortable('refresh');
     }
 
-    function copytechspecs()
-    {
-        var theid = $q('#copy_from_techspecs').val();
-        $q.ajax({
-            url: 'http://'+window.location.hostname+"/admin/catalog/product/copy/id/"+theid+"/field/techspecs/",
-            data: {form_key: window.FORM_KEY},
-            context: document.body
-        }).done(function(res) {
-            var q = res.res;
-            $q('#headers_container').html(q);
-            updateaccord();
-            updateaccord();
-        });
-    }
-
     $q( document ).ready(function() {
-        console.log( $q("input[name*='product[tech_specs']").val() );
         $q('[name="product[tech_specs]"]').prev().prev().hide();
 
-        $q('#headers_container').accordion({
+        $q('.techspec_header_container').accordion({
             header: "> div > h3",
             autoHeight: false,
             collapsible: true,
         }).sortable({ handle:
-            '.draggable-handle',
+            '.draggable-handle_headers',
             revert: 300,
             tolerance: "intersect",
             update: function( event, ui ) {
@@ -134,10 +109,10 @@ $count = 1;
                 })
             }
         }).disableSelection();
-        $q('.spec_td').sortable({
-            connectWith: "div.specs_row",
+
+        $q('.spectable > tbody').sortable({
             revert: 300,
-            handle: '.draggable-handle2',
+            handle: '.draggable-handle_specs',
             tolerance: "intersect",
             placeholder: "jqplaceholder",
             update: function( event, ui ) {
@@ -149,57 +124,56 @@ $count = 1;
         }).disableSelection();
     });
 
-    function reinit()
-    {
-    }
-
-    function updateHeader(s, i)
-    {
-        $q('#'+i).html(s);
-    }
-
     function addHeader()
     {
-        var count = $q('div.header_div').length;
-        var lbc = count++;
-        lbc++;
-
-        var template = '<div class="header_div" id="header_div_'+lbc+'">'+
-            '<h3 id="header_title_'+lbc+'">'+
-            '<div class="draggable-handle header_drag"><b>'+lbc+'</b></div>'+
-            '<div style="display:inline-block" id="h_text_'+lbc+'" class="header_txt">N/A</div>' +
-            '<a style="margin-left:8px;" src="javascript:void(0)" onclick="deleteHeader(\'header_div_'+lbc+'\')">'+
+        var headcount = $q('.header_container').length+1;
+        var q = '<div id="header_container_'+headcount+'" class="header_container">'+
+            '<h3>'+
+            '<div class="draggable-handle_headers" />'+
+            '<input style="width:400px;" onclick="event.stopPropagation()" class="admin__control-text" name="headers['+headcount+'][name]"'+
+            'data-form-part="product_form" value="" />'+
+            '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader(\'header_container_'+headcount+'\')">'+
             '<img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>"></a>'+
-            '</h3><div><table class="tech_spec_table" id="header_table_'+lbc+'">'+
-            '<tr class="header_row">'+
-            '<td><label class="gradus_label" for="header_text_'+lbc+'">Header Text</label>'+
-            '<input style="width:85%" class="gradus_text_large" onkeyup="updateHeader(this.value, \'h_text_'+lbc+'\')" id="header_title_'+lbc+'"' +
-            'data-form-part="product_form" name="techspec['+lbc+'][header][header_name]"'+
-            'id="header_text_'+lbc+'" value=""/>'+
-            '</td></tr><tr><td class="spec_td">'+
-            '<div class="specs_row" id ="spec_row_'+lbc+'_0">'+
-            '<div style="display:inline-block; margin-left:-30px;" class="draggable-handle2 specs_drag"><b>1</b></div>'+
-            '<label class="gradus_label" for="spec_name_0">Spec Name</label>'+
-            '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader(\'spec_row'+lbc+'\')">'+
-            '<img style="width:20px; margin-top:10px;" src="<?= $this->getViewFileUrl("Gradus_Catalog::images/trash.png") ?>"></a>'+
-            '<input style="width:99%" class="gradus_text_large" data-form-part="product_form" name="techspec['+lbc+'][header][0][name]"'+
-            '<label class="gradus_label" for="spec_desc_0">Spec Description</label>'+
-            '<textarea style="width:99%" class="gradus_text_large" data-form-part="product_form" name="techspec['+lbc+'][header][0][desc] id="spec_desc_0"'+
-            'value=""></textarea>'+
-            '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader(\'spec_row_'+lbc+'_0\')">'+
-            '</a></div></td> </tr> </table><button class="action-secondary" onclick="addSpec(\'header_table_'+lbc+'\')">Add Spec</button>'+
-            '</div>';
+                '</h3><div>'+
+            '<table id="spec_table_'+headcount+'" style="width:800px;" class="admin__dynamic-rows data-grid spectable">'+
+            '<thead><tr>'+
+            '<th class="data-grid-draggable-row-cell"></th>'+
+            '<th class="data-grid-th position" style="width:30px"><span>Seq</span></th>'+
+            '<th class="data-grid-th"><span>Spec Label</span></th>'+
+            '<th class="data-grid-th"><span>Spec Value</span></th>'+
+            '<th style="width:40px"/></tr></thead>'+
+            '<tbody><tr id="header_'+headcount+'_specs_row_1>">'+
+            '<td class="data-grid-draggable-row-cell">'+
+            '<div class="draggable-handle_specs"></div>'+
+            '</td><td class="posrow"></td><td>'+
+            '<input class="admin__control-text" data-form-part="product_form" name="headers['+headcount+'][specs][1][label]"'+
+            'style="width:100%;" value="" /></td>'+
+            '<td><textarea name="headers['+headcount+'][specs][1][value]" data-form-part="product_form" style="width:100%;"></textarea></td>'+
+            '<td><a onclick="deleteFeature(\'header_'+headcount+'_specs_row_1\')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>'+
+            '</tr></tbody></table>'+
+            '<button class="action-secondary" onclick="addSpec(\'spec_table_'+headcount+'\', '+headcount+')">Add spec</button>' +
+            '</div></div>'+
+        '';
+        $q('#techspecs_container').append(q);
 
-        $q('#headers_container').append(template).accordion("destroy").accordion({
+        $q('.techspec_header_container').accordion('destroy').accordion({
             header: "> div > h3",
             autoHeight: false,
             collapsible: true,
-        }).disableSelection();;
-
-        $q('.spec_td').sortable({
-            connectWith: "div.specs_row",
+        }).sortable({ handle:
+            '.draggable-handle_headers',
             revert: 300,
-            handle: '.draggable-handle2',
+            tolerance: "intersect",
+            update: function( event, ui ) {
+                $q('.header_drag').each(function(i, obj) {
+                    var ii = i+1;
+                    $q(this).html(ii);
+                })
+            }
+        }).disableSelection();
+        $q('.spectable > tbody').sortable({
+            revert: 300,
+            handle: '.draggable-handle_specs',
             tolerance: "intersect",
             placeholder: "jqplaceholder",
             update: function( event, ui ) {
@@ -209,42 +183,26 @@ $count = 1;
                 })
             }
         }).disableSelection();
-        $q('.spec_td').sortable('refresh');
     }
 
-    function addSpec(appendTo)
+    function addSpec(appendTo, count)
     {
-        var count = parseInt(appendTo.split("_")[2]);
-        var counts = $q('div.header_div table tr td div.specs_row').length+1;
-        var template =
-            '<div class="specs_row" id ="spec_row_'+count+'_'+counts+'">'+
-            '<div style="display:inline-block; margin-left:-30px;" class="draggable-handle2 specs_drag"><b>'+counts+'</div>'+
-            '<label class="gradus_label" for="spec_name_"'+counts+'>Spec Name</label>'+
-            '<a style="margin-right: src="javascript:void(0)" onclick="deleteHeader(\'spec_row_'+count+'_'+counts+'\')">'+
-            '<img style="width:20px; margin-top:10px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>"></a>'+
-            '<input style="width:99%" class="gradus_text_large" data-form-part="product_form" name="techspec['+count+'][header]['+counts+'][name]" id="spec_name_'+counts+'" value="">'+
-            '<label class="gradus_label" for="spec_desc_"+count>Spec Description</label>'+
-            '<textarea style="width:99%" class="gradus_text_large" data-form-part="product_form" name="techspec['+count+'][header]['+counts+'][desc]" id="spec_desc_0" value=""/>'+
-            '</div>';
-        console.log(appendTo);
-        $q('#'+appendTo+' tbody tr td.spec_td').append(template);
-
-        $q('.spec_td').sortable({
-            connectWith: "div.specs_row",
-            revert: 300,
-            handle: '.draggable-handle2',
-            tolerance: "intersect",
-            placeholder: "ui-state-highlight myHover"
-        }).disableSelection();
-        $q('#headers_container').accordion({
-            header: "> div > h3",
-            autoHeight: false,
-            collapsible: true,
-        }).disableSelection();
-
-        $q('#headers_container').accordion('refresh');
-        $q('.spec_td').sortable('refresh');
-
+        var counts = $q('.spectable > tbody > tr').length+1;
+        var q = '<tr id="specs_row_'+counts+'">'+
+        '<td class="data-grid-draggable-row-cell">'+
+        '<div class="draggable-handle_specs"></div>'+
+        '</td>'+
+        '<td class="posrow">'+
+        counts+
+        '</td>'+
+        '<td>'+
+        '<input class="admin__control-text" data-form-part="product_form" name="headers[1][specs][1][label]"'+
+        'style="width:100%;" value="" />'+
+        '</td>'+
+        '<td><textarea name="headers['+count+'>][specs]['+counts+'][value]" data-form-part="product_form" style="width:100%;"></textarea></td>'+
+        '<td><a onclick="deleteHeader(\'specs_row_'+counts+'\')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>'+
+        '</tr>';
+        $q('#'+appendTo).append(q);
     }
 
     function deleteHeader(id)

@@ -20,11 +20,11 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
         }
 
         //Clear empty ones
-        if (isset($_POST['techspec'])) {
-            $ts = $_POST['techspec'];
+        if (isset($_POST['headers'])) {
+            $ts = $_POST['headers'];
             $realts = array();
             foreach ($ts as $t) {
-                if ($t['header']['header_name'] != '') {
+                if ($t['name'] != '') {
                     $realts[] = $t;
                 }
             }

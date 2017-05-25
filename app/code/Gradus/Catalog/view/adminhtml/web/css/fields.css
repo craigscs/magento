@@ -156,7 +156,8 @@
     padding:5px;
 }
 
-.draggable-handle, .draggable-handle2, .draggable-handle_features, .draggable-handle_inthebox, .draggable-handle3 {
+.draggable-handle, .draggable-handle2, .draggable-handle_features, .draggable-handle_inthebox, .draggable-handle3,
+.draggable-handle_headers, .draggable-handle_specs{
     display: inline-block;
     cursor: move;
     width: 15px;
