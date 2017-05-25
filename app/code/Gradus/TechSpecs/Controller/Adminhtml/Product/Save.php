@@ -58,6 +58,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
                     $includes[] = $i;
                 }
             }
+            $includes[] = array('has_manual'=>$_POST['manual_check']);
             $this->inthebox = json_encode($includes);
         }
 

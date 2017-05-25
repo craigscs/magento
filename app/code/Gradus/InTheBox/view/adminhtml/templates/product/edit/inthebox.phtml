@@ -2,6 +2,15 @@
 $tech = $this->getProduct()->getData('in_the_box');
 $info = json_decode($tech, true);
 $count = 1;
+$manual = false;
+
+$warranty = $this->getProduct()->getData('warranty');
+if ($warranty < 12) {
+    $warrantyString = $warranty." months.";
+} else {
+    $warrantyString = (int)($warranty/12)." year(s).";
+}
+if ($warranty == null) { $warrantyString = "No warranty"; }
 ?>
 <div style="width:800px;" id="InTheBox_container">
     <table id="InTheBox_table" class="admin__dynamic-rows data-grid">
@@ -17,6 +26,7 @@ $count = 1;
         <tbody>
         <?php if (count($info) > 0) : ?>
         <?php foreach ($info as $i) : ?>
+            <?php if (isset($i['has_manual'])) { $manual = $i['has_manual']; continue; } ?>
             <tr id="inthebox_row_<?= $count ?>">
                 <td class=""data-grid-draggable-row-cell">
                 <div class="draggable-handle_inthebox"></div>
@@ -51,6 +61,10 @@ $count = 1;
     <?php endif ?>
 </div>
 
+<input checked="<?= $manual==1 ?>" name="manual_check" data-form-part="product_form" type="checkbox"/><div style="display:inline-block; margin-left:5px;">Includes manual</div>
+<br>
+<div style="font-size: 1.4rem; font-weight: 600;">Warranty: <?= $warrantyString ?></div>
+<br>
 <button class="action-secondary" style="margin-right:5px; margin-top:5px" onclick="addinthebox()">Add InTheBox</button>
 <div style="display:none;" class="select_pad">
     <select class="search_select" id="copy_from_inthebox">

@@ -21,7 +21,6 @@
         <referenceContainer name="content">
             <uiComponent name="product_listing_mainproducts"/>
             <block class="Magento\Catalog\Block\Adminhtml\Product" name="products_list"/>
-            <block class="Gradus\Catalog\PrBlock\Adminhtml\ProductModal" name="products_list"/>
         </referenceContainer>
     </body>
 </page>
