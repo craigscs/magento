@@ -2,13 +2,13 @@
 $tech = $this->getProduct()->getData('in_the_box');
 $info = json_decode($tech, true);
 $count = 1;
-if (isset($info['has_manual'])) {
-    $manual = $info['has_manual'];
-    unset($info['has_manual']);
-} else {
-    $manual = false;
+$manual = 0;
+foreach ($info as $i) {
+    if (isset($i['has_manual'])) {
+        $manual = (int)$i['has_manual'];
+        unset($i);
+    }
 }
-
 $warranty = $this->getProduct()->getData('warranty');
 if ($warranty < 12) {
     $warrantyString = $warranty." months.";
@@ -66,7 +66,11 @@ if ($warranty == null) { $warrantyString = "No warranty"; }
     <?php endif ?>
 </div>
 
-<input checked="<?= $manual==1 ?>" name="manual_check" data-form-part="product_form" type="checkbox"/><div style="display:inline-block; margin-left:5px;">Includes manual</div>
+<?php if ($manual > 0) : ?>
+<input checked name="manual_check" data-form-part="product_form" type="checkbox"/><div style="display:inline-block; margin-left:5px;">Includes manual</div>
+<?php else : ?>
+    <input name="manual_check" data-form-part="product_form" type="checkbox"/><div style="display:inline-block; margin-left:5px;">Includes manual</div>
+<?php endif ?>
 <br>
 <div style="font-size: 1.4rem; font-weight: 600;">Warranty: <?= $warrantyString ?></div>
 <br>
