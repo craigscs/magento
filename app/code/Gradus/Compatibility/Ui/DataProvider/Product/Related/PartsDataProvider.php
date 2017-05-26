@@ -37,7 +37,21 @@ class PartsDataProvider extends AbstractDataProvider
             $collection->setStore($this->getStore());
         }
 
-        $collection->addAttributeToFilter('gradus_type', '5');
+        if ($_SESSION['prod_type'] == null) {
+            if ($_SESSION['written'] == false) {
+                echo "<p style='font-size:150%; color:#ff0000;'>Please save the product before adding compatible products</p>";
+                $_SESSION['written'] = true;
+            }
+            $collection->addAttributeToFilter('entity_id', 0);
+            return $collection;
+        }
+
+        if ($_SESSION['prod_type'] == '4') {
+            $collection->addAttributeToFilter('gradus_type', '5');
+        }
+        if ($_SESSION['prod_type'] == '5') {
+            $collection->addAttributeToFilter('gradus_type', '4');
+        }
 
         if (!$this->getProduct()) {
             return $collection;
