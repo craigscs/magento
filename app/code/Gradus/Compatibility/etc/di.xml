@@ -23,6 +23,7 @@
         <arguments>
             <argument name="linkTypes" xsi:type="array">
                 <item name="compatibility" xsi:type="const">Gradus\Compatibility\Model\Catalog\Product\Link::LINK_TYPE_COMPATIBILITY</item>
+                <item name="accessories" xsi:type="const">Gradus\Compatibility\Model\Catalog\Product\Link::LINK_TYPE_ACCESSORIES</item>
             </argument>
         </arguments>
     </type>
@@ -31,6 +32,7 @@
         <arguments>
             <argument name="providers" xsi:type="array">
                 <item name="compatibility" xsi:type="object">Gradus\Compatibility\Model\Product\Link\CollectionProvider\Compatibility</item>
+                <item name="accessories" xsi:type="object">Gradus\Compatibility\Model\Product\Link\CollectionProvider\Accessories</item>
             </argument>
         </arguments>
     </type>

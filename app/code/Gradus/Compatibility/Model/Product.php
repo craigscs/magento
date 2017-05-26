@@ -20,6 +20,17 @@ class Product extends \Magento\Catalog\Model\Product
         }
         return $this->getData('compatibility_products');
     }
+    public function getAccessoriesProducts()
+    {
+        if (!$this->hasAccessoriesProducts()) {
+            $products = [];
+            foreach ($this->getAccessoriesProductCollection() as $product) {
+                $products[] = $product;
+            }
+            $this->setAccessoriesProducts($products);
+        }
+        return $this->getData('accessories_products');
+    }
     /**
      * Retrieve custom type products identifiers
      *
@@ -36,6 +47,17 @@ class Product extends \Magento\Catalog\Model\Product
         }
         return $this->getData('compatibility_product_ids');
     }
+    public function getAccessoriesIds()
+    {
+        if (!$this->hasAccessoriesroductIds()) {
+            $ids = [];
+            foreach ($this->getAccessoriesProducts() as $product) {
+                $ids[] = $product->getId();
+            }
+            $this->setAccessoriesProductIds($ids);
+        }
+        return $this->getData('accessories_product_ids');
+    }
     /**
      * Retrieve collection custom type product
      *
@@ -44,6 +66,12 @@ class Product extends \Magento\Catalog\Model\Product
     public function getCompatibilityProductCollection()
     {
         $collection = $this->getLinkInstance()->useCompatibilityLinks()->getProductCollection()->setIsStrongMode();
+        $collection->setProduct($this);
+        return $collection;
+    }
+    public function getAccessoriesProductCollection()
+    {
+        $collection = $this->getLinkInstance()->useAccessoriesLinks()->getProductCollection()->setIsStrongMode();
         $collection->setProduct($this);
         return $collection;
     }
@@ -61,5 +89,13 @@ class Product extends \Magento\Catalog\Model\Product
         $collection->joinAttributes();
         return $collection;
     }
-    
+    public function getAccessoriesLinkCollection()
+    {
+        $collection = $this->getLinkInstance()->useAccessoriesLinks()->getLinkCollection();
+        $collection->setProduct($this);
+        $collection->addLinkTypeIdFilter();
+        $collection->addProductIdFilter();
+        $collection->joinAttributes();
+        return $collection;
+    }
 }

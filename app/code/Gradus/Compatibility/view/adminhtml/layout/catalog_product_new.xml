@@ -22,6 +22,10 @@
                 <argument name="name" xsi:type="string">product-compatibility</argument>
                 <argument name="block" xsi:type="string">product.compatibility</argument>
             </action>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">product-accessories</argument>
+                <argument name="block" xsi:type="string">product.accessories</argument>
+            </action>
         </referenceBlock>
     </body>
 </page>

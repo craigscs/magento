@@ -7,6 +7,7 @@ use Magento\Ui\Component\Form\Fieldset;
 class Related extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Related
 {
     const DATA_SCOPE_COMPATIBILITY = 'compatibility';
+    const DATA_SCOPE_ACCESSORIES = 'accessories';
 
     /**
      * @var string
@@ -31,7 +32,8 @@ class Related extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Rel
                         $this->scopePrefix . static::DATA_SCOPE_RELATED => $this->getRelatedFieldset(),
                         $this->scopePrefix . static::DATA_SCOPE_UPSELL => $this->getUpSellFieldset(),
                         $this->scopePrefix . static::DATA_SCOPE_CROSSSELL => $this->getCrossSellFieldset(),
-                        $this->scopePrefix . static::DATA_SCOPE_COMPATIBILITY => $this->getCompatibilityFieldset()
+                        $this->scopePrefix . static::DATA_SCOPE_COMPATIBILITY => $this->getCompatibilityFieldset(),
+                        $this->scopePrefix . static::DATA_SCOPE_ACCESSORIES => $this->getAccessoriesFieldset()
                     ],
                     'arguments' => [
                         'data' => [
@@ -96,6 +98,40 @@ class Related extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Rel
             ]
         ];
     }
+    protected function getAccessoriesFieldset()
+    {
+        $url = $this->urlBuilder->getUrl('requires/requires/new');
+        $content = __(
+            'Compatibility products are shown to customers in addition to the item the customer is looking at.  <b><a target="_blank" href="'.$url.'">Add a new compatible require</a></b>.'
+        );
+
+        return [
+            'children' => [
+                'button_set' => $this->getButtonSet(
+                    $content,
+                    __('Add Accessories Products'),
+                    $this->scopePrefix . static::DATA_SCOPE_ACCESSORIES
+                ),
+                'modal' => $this->getGenericModal(
+                    __('Add Accessories Products'),
+                    $this->scopePrefix . static::DATA_SCOPE_ACCESSORIES
+                ),
+                static::DATA_SCOPE_ACCESSORIES => $this->getGrid($this->scopePrefix . static::DATA_SCOPE_ACCESSORIES),
+            ],
+            'arguments' => [
+                'data' => [
+                    'config' => [
+                        'additionalClasses' => 'admin__fieldset-section',
+                        'label' => __('Accessories Products'),
+                        'collapsible' => false,
+                        'componentType' => Fieldset::NAME,
+                        'dataScope' => '',
+                        'sortOrder' => 90,
+                    ],
+                ],
+            ]
+        ];
+    }
 
     /**
      * Retrieve all data scopes
@@ -108,7 +144,8 @@ class Related extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Rel
             static::DATA_SCOPE_RELATED,
             static::DATA_SCOPE_CROSSSELL,
             static::DATA_SCOPE_UPSELL,
-            static::DATA_SCOPE_COMPATIBILITY
+            static::DATA_SCOPE_COMPATIBILITY,
+            static::DATA_SCOPE_ACCESSORIES
         ];
     }
 }
