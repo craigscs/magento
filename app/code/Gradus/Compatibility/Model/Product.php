@@ -31,6 +31,17 @@ class Product extends \Magento\Catalog\Model\Product
         }
         return $this->getData('accessories_products');
     }
+    public function getPartsProducts()
+    {
+        if (!$this->hasPartsProducts()) {
+            $products = [];
+            foreach ($this->getPartsProductCollection() as $product) {
+                $products[] = $product;
+            }
+            $this->setPartsProducts($products);
+        }
+        return $this->getData('parts_products');
+    }
     /**
      * Retrieve custom type products identifiers
      *
@@ -58,6 +69,18 @@ class Product extends \Magento\Catalog\Model\Product
         }
         return $this->getData('accessories_product_ids');
     }
+    public function getPartsIds()
+    {
+        if (!$this->hasPartsroductIds()) {
+            $ids = [];
+            foreach ($this->getPartsProducts() as $product) {
+                $ids[] = $product->getId();
+            }
+            $this->setPartsProductIds($ids);
+        }
+        return $this->getData('parts_product_ids');
+    }
+
     /**
      * Retrieve collection custom type product
      *
@@ -75,6 +98,13 @@ class Product extends \Magento\Catalog\Model\Product
         $collection->setProduct($this);
         return $collection;
     }
+    public function getPartsProductCollection()
+    {
+        $collection = $this->getLinkInstance()->usePartsLinks()->getProductCollection()->setIsStrongMode();
+        $collection->setProduct($this);
+        return $collection;
+    }
+
     /**
      * Retrieve collection custom type link
      *
@@ -92,6 +122,15 @@ class Product extends \Magento\Catalog\Model\Product
     public function getAccessoriesLinkCollection()
     {
         $collection = $this->getLinkInstance()->useAccessoriesLinks()->getLinkCollection();
+        $collection->setProduct($this);
+        $collection->addLinkTypeIdFilter();
+        $collection->addProductIdFilter();
+        $collection->joinAttributes();
+        return $collection;
+    }
+    public function getPartsLinkCollection()
+    {
+        $collection = $this->getLinkInstance()->usePartsLinks()->getLinkCollection();
         $collection->setProduct($this);
         $collection->addLinkTypeIdFilter();
         $collection->addProductIdFilter();

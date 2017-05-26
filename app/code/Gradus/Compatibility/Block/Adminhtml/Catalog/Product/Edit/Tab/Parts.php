@@ -85,7 +85,7 @@ class Parts extends Extended
     protected function _construct()
     {
         parent::_construct();
-        $this->setId('accessories_product_grid');
+        $this->setId('parts_product_grid');
         $this->setDefaultSort('entity_id');
         $this->setUseAjax(true);
         if ($this->getProduct() && $this->getProduct()->getId()) {
@@ -165,7 +165,7 @@ class Parts extends Extended
      */
     public function isReadonly()
     {
-        return $this->getProduct() && $this->getProduct()->getAccessoriesReadonly();
+        return $this->getProduct() && $this->getProduct()->getPartsReadonly();
     }
 
     /**
@@ -320,7 +320,7 @@ class Parts extends Extended
         ) ? $this->getData(
             'grid_url'
         ) : $this->getUrl(
-            'catalog/*/accessoriesGrid',
+            'catalog/*/partsGrid',
             ['_current' => true]
         );
     }
@@ -332,9 +332,9 @@ class Parts extends Extended
      */
     protected function _getSelectedProducts()
     {
-        $products = $this->getProductsAccessories();
+        $products = $this->getProductsParts();
         if (!is_array($products)) {
-            $products = array_keys($this->getSelectedAccessoriesProducts());
+            $products = array_keys($this->getSelectedPartsProducts());
         }
         return $products;
     }
@@ -344,10 +344,10 @@ class Parts extends Extended
      *
      * @return array
      */
-    public function getSelectedAccessoriesProducts()
+    public function getSelectedPartsProducts()
     {
         $products = [];
-        foreach ($this->_coreRegistry->registry('current_product')->getAccessoriesProducts() as $product) {
+        foreach ($this->_coreRegistry->registry('current_product')->getPartsProducts() as $product) {
             $products[$product->getId()] = ['position' => $product->getPosition()];
         }
         return $products;

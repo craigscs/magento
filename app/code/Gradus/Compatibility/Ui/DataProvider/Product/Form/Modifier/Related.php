@@ -8,6 +8,7 @@ class Related extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Rel
 {
     const DATA_SCOPE_COMPATIBILITY = 'compatibility';
     const DATA_SCOPE_ACCESSORIES = 'accessories';
+    const DATA_SCOPE_PARTS = 'parts';
 
     /**
      * @var string
@@ -33,12 +34,13 @@ class Related extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Rel
                         $this->scopePrefix . static::DATA_SCOPE_UPSELL => $this->getUpSellFieldset(),
                         $this->scopePrefix . static::DATA_SCOPE_CROSSSELL => $this->getCrossSellFieldset(),
                         $this->scopePrefix . static::DATA_SCOPE_COMPATIBILITY => $this->getCompatibilityFieldset(),
-                        $this->scopePrefix . static::DATA_SCOPE_ACCESSORIES => $this->getAccessoriesFieldset()
+                        $this->scopePrefix . static::DATA_SCOPE_ACCESSORIES => $this->getAccessoriesFieldset(),
+                        $this->scopePrefix . static::DATA_SCOPE_PARTS => $this->getPartsFieldset()
                     ],
                     'arguments' => [
                         'data' => [
                             'config' => [
-                                'label' => __('Related Products, Up-Sells, Cross-Sells, Accessories and Compatibility'),
+                                'label' => __('Related Products, Up-Sells, Cross-Sells, Accessories, Compatibility and Parts'),
                                 'collapsible' => true,
                                 'componentType' => Fieldset::NAME,
                                 'dataScope' => static::DATA_SCOPE,
@@ -100,9 +102,8 @@ class Related extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Rel
     }
     protected function getAccessoriesFieldset()
     {
-        $url = $this->urlBuilder->getUrl('requires/requires/new');
         $content = __(
-            'Compatibility products are shown to customers in addition to the item the customer is looking at.  <b><a target="_blank" href="'.$url.'">Add a new compatible require</a></b>.'
+            'Accessories products are shown to customers in addition to the item the customer is looking at.'
         );
 
         return [
@@ -133,6 +134,40 @@ class Related extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Rel
         ];
     }
 
+    protected function getPartsFieldset()
+    {
+        $content = __(
+            'Parts products are shown to customers in addition to the item the customer is looking at.'
+        );
+
+        return [
+            'children' => [
+                'button_set' => $this->getButtonSet(
+                    $content,
+                    __('Add Parts Products'),
+                    $this->scopePrefix . static::DATA_SCOPE_PARTS
+                ),
+                'modal' => $this->getGenericModal(
+                    __('Add Parts Products'),
+                    $this->scopePrefix . static::DATA_SCOPE_PARTS
+                ),
+                static::DATA_SCOPE_PARTS => $this->getGrid($this->scopePrefix . static::DATA_SCOPE_PARTS),
+            ],
+            'arguments' => [
+                'data' => [
+                    'config' => [
+                        'additionalClasses' => 'admin__fieldset-section',
+                        'label' => __('Parts Products'),
+                        'collapsible' => false,
+                        'componentType' => Fieldset::NAME,
+                        'dataScope' => '',
+                        'sortOrder' => 90,
+                    ],
+                ],
+            ]
+        ];
+    }
+
     /**
      * Retrieve all data scopes
      *
@@ -145,7 +180,8 @@ class Related extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Rel
             static::DATA_SCOPE_CROSSSELL,
             static::DATA_SCOPE_UPSELL,
             static::DATA_SCOPE_COMPATIBILITY,
-            static::DATA_SCOPE_ACCESSORIES
+            static::DATA_SCOPE_ACCESSORIES,
+            static::DATA_SCOPE_PARTS
         ];
     }
 }

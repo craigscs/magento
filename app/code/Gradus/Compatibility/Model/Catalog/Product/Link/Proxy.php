@@ -15,4 +15,8 @@ class Proxy extends \Magento\Catalog\Model\Product\Link\Proxy
     {
         return $this->_getSubject()->useAccessoriesLinks();
     }
+    public function usePartsLinks()
+    {
+        return $this->_getSubject()->usePartsLinks();
+    }
 }

@@ -14,6 +14,7 @@ class ProductLinks
      */
     const TYPE_NAME = 'compatibility';
     const TYPE_NAME2 = 'accessories';
+    const TYPE_NAME3 = 'parts';
     /**
      * @var ProductLinkInterfaceFactory
      */
@@ -93,7 +94,7 @@ class ProductLinks
 
         if(isset($links[self::TYPE_NAME2]) && !$product->getAccessoriesReadonly()) {
 
-            $links = (isset($links[self::TYPE_NAM2E])) ? $links[self::TYPE_NAME2] : $product->getAccessoriesLinkData();
+            $links = (isset($links[self::TYPE_NAME2])) ? $links[self::TYPE_NAME2] : $product->getAccessoriesLinkData();
             if (!is_array($links)) {
                 $links = [];
             }
@@ -117,6 +118,45 @@ class ProductLinks
 
                 $productLink->setSku($product->getSku())
                     ->setLinkType(self::TYPE_NAME2)
+                    ->setLinkedProductSku($linkedProduct->getSku())
+                    ->setLinkedProductType($linkedProduct->getTypeId())
+                    ->setPosition($linkRaw['position'])
+                    ->getExtensionAttributes()
+                    ->setQty($linkRaw['qty']);
+
+                $newLinks[] = $productLink;
+            }
+
+            $existingLinks = $this->removeUnExistingLinks($existingLinks, $newLinks);
+            $product->setProductLinks(array_merge($existingLinks, $newLinks));
+        }
+
+        if(isset($links[self::TYPE_NAME3]) && !$product->getPartsReadOnly()) {
+
+            $links = (isset($links[self::TYPE_NAME3])) ? $links[self::TYPE_NAME3] : $product->getPartsLinkData();
+            if (!is_array($links)) {
+                $links = [];
+            }
+
+            if ($product->gePartsLinkData()) {
+                $links = array_merge($links, $product->getPartsData());
+            }
+            $newLinks = [];
+            $existingLinks = $product->getProductLinks();
+            foreach ($links as $linkRaw) {
+                /** @var \Magento\Catalog\Api\Data\ProductLinkInterface $productLink */
+                $productLink = $this->productLinkFactory->create();
+                if (!isset($linkRaw['id'])) {
+                    continue;
+                }
+                $productId = $linkRaw['id'];
+                if (!isset($linkRaw['qty'])) {
+                    $linkRaw['qty'] = 0;
+                }
+                $linkedProduct = $this->productRepository->getById($productId);
+
+                $productLink->setSku($product->getSku())
+                    ->setLinkType(self::TYPE_NAME3)
                     ->setLinkedProductSku($linkedProduct->getSku())
                     ->setLinkedProductType($linkedProduct->getTypeId())
                     ->setPosition($linkRaw['position'])
@@ -156,6 +196,17 @@ class ProductLinks
                 }
             }
             if ($link->getLinkType() == self::TYPE_NAME2) {
+                $exists = false;
+                foreach ($newLinks as $newLink) {
+                    if ($link->getLinkedProductSku() == $newLink->getLinkedProductSku()) {
+                        $exists = true;
+                    }
+                }
+                if (!$exists) {
+                    unset($result[$key]);
+                }
+            }
+            if ($link->getLinkType() == self::TYPE_NAME3) {
                 $exists = false;
                 foreach ($newLinks as $newLink) {
                     if ($link->getLinkedProductSku() == $newLink->getLinkedProductSku()) {
