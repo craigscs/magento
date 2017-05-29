@@ -126,11 +126,11 @@ $count = 1;
         var headcount = $q('.header_container').length+1;
         var q = '<div id="header_container_'+headcount+'" class="header_container">'+
             '<h3>'+
-            '<div onclick="event.stopPropagation();" class="draggable-handle_headers" />'+
-            '<input style="width:400px;" onclick="event.stopPropagation()" class="admin__control-text" name="headers['+headcount+'][name]"'+
+            '<div style="margin-left:10px;" onclick="event.stopPropagation();" class="draggable-handle_headers" />'+
+            '<input style="width:400px; margin-left:5px;" onclick="event.stopPropagation()" class="admin__control-text" name="headers['+headcount+'][name]"'+
             'data-form-part="product_form" value="" />'+
             '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader(\'header_container_'+headcount+'\')">'+
-            '<img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>"></a>'+
+            '<img style="width:20px; margin-left:5px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>"></a>'+
                 '</h3><div>'+
             '<table id="spec_table_'+headcount+'" style="width:800px;" class="admin__dynamic-rows data-grid spectable">'+
             '<thead><tr>'+
