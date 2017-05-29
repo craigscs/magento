@@ -3,10 +3,12 @@ $tech = $this->getProduct()->getData('in_the_box');
 $info = json_decode($tech, true);
 $count = 1;
 $manual = 0;
-foreach ($info as $i) {
-    if (isset($i['has_manual'])) {
-        $manual = (int)$i['has_manual'];
-        unset($i);
+if (count($info) > 0) {
+    foreach ($info as $i) {
+        if (isset($i['has_manual'])) {
+            $manual = (int)$i['has_manual'];
+            unset($i);
+        }
     }
 }
 $warranty = $this->getProduct()->getData('warranty');

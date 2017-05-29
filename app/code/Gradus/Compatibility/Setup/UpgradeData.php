@@ -39,7 +39,8 @@ class UpgradeData implements UpgradeDataInterface
          */
         $data = [
             ['link_type_id' => \Gradus\Compatibility\Model\Catalog\Product\Link::LINK_TYPE_COMPATIBILITY, 'code' => 'compatibility'],
-            ['link_type_id' => \Gradus\Compatibility\Model\Catalog\Product\Link::LINK_TYPE_ACCESSORIES, 'code' => 'accessories']
+            ['link_type_id' => \Gradus\Compatibility\Model\Catalog\Product\Link::LINK_TYPE_ACCESSORIES, 'code' => 'accessories'],
+            ['link_type_id' => \Gradus\Compatibility\Model\Catalog\Product\Link::LINK_TYPE_PARTS, 'code' => 'parts']
         ];
 
         foreach ($data as $bind) {
@@ -58,6 +59,11 @@ class UpgradeData implements UpgradeDataInterface
             ],
             [
                 'link_type_id' => \Gradus\Compatibility\Model\Catalog\Product\Link::LINK_TYPE_ACCESSORIES,
+                'product_link_attribute_code' => 'position',
+                'data_type' => 'int',
+            ],
+            [
+                'link_type_id' => \Gradus\Compatibility\Model\Catalog\Product\Link::LINK_TYPE_PARTS,
                 'product_link_attribute_code' => 'position',
                 'data_type' => 'int',
             ]

@@ -40,9 +40,11 @@ $count = 1;
                     </td>
                     <td>
                         <input class="admin__control-text" data-form-part="product_form" name="headers[<?= $count ?>][specs][<?= $speccount ?>][label]"
-                               style="width:100%;" value="<?= $spec['label'] ?>" />
+                               style="width:100%;" value="<?php if (isset($spec['label'])) { echo $spec['label']; } ?>" />
                     </td>
-                    <td><textarea name="headers[<?= $count ?>][specs][<?= $speccount ?>][value]" data-form-part="product_form" style="width:100%;"><?= $spec['value'] ?></textarea></td>
+                    <td><textarea name="headers[<?= $count ?>][specs][<?= $speccount ?>][value]" data-form-part="product_form" style="width:100%;">
+                            <?php if (isset($spec['value'])) { echo $spec['value']; } ?>
+                        </textarea></td>
                     <td><a onclick="deleteFeature('specs_row_<?= $speccount ?>')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>
                 </tr>
                     <?php $speccount++ ?>
@@ -191,10 +193,10 @@ $count = 1;
         counts+
         '</td>'+
         '<td>'+
-        '<input class="admin__control-text" data-form-part="product_form" name="headers[1][specs][1][label]"'+
+        '<input class="admin__control-text" data-form-part="product_form" name="headers[1][specs]['+counts+'][label]"'+
         'style="width:100%;" value="" />'+
         '</td>'+
-        '<td><textarea name="headers['+count+'>][specs]['+counts+'][value]" data-form-part="product_form" style="width:100%;"></textarea></td>'+
+        '<td><textarea name="headers['+count+'][specs]['+counts+'][value]" data-form-part="product_form" style="width:100%;"></textarea></td>'+
         '<td><a onclick="deleteHeader(\'specs_row_'+counts+'\')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>'+
         '</tr>';
         $q('#'+appendTo).append(q);

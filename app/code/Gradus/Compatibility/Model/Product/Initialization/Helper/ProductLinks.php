@@ -53,18 +53,17 @@ class ProductLinks
         array $links
     )
     {
-        if(isset($links[self::TYPE_NAME]) && !$product->getCompatibilityReadonly()) {
+        $full = $links;
+        $newLinks = [];
+        if(isset($full[self::TYPE_NAME]) && !$product->getCompatibilityReadonly()) {
 
-            $links = (isset($links[self::TYPE_NAME])) ? $links[self::TYPE_NAME] : $product->getCompatibilityLinkData();
+            $links = (isset($full[self::TYPE_NAME])) ? $full[self::TYPE_NAME] : $product->getCompatibilityLinkData();
             if (!is_array($links)) {
                 $links = [];
             }
-
             if ($product->getCompatibilityLinkData()) {
                 $links = array_merge($links, $product->getCompatibilityLinkData());
             }
-            $newLinks = [];
-            $existingLinks = $product->getProductLinks();
             foreach ($links as $linkRaw) {
                 /** @var \Magento\Catalog\Api\Data\ProductLinkInterface $productLink */
                 $productLink = $this->productLinkFactory->create();
@@ -84,17 +83,13 @@ class ProductLinks
                     ->setPosition($linkRaw['position'])
                     ->getExtensionAttributes()
                     ->setQty($linkRaw['qty']);
-
                 $newLinks[] = $productLink;
             }
+                    }
 
-            $existingLinks = $this->removeUnExistingLinks($existingLinks, $newLinks);
-            $product->setProductLinks(array_merge($existingLinks, $newLinks));
-        }
+        if(isset($full[self::TYPE_NAME2]) && !$product->getAccessoriesReadonly()) {
 
-        if(isset($links[self::TYPE_NAME2]) && !$product->getAccessoriesReadonly()) {
-
-            $links = (isset($links[self::TYPE_NAME2])) ? $links[self::TYPE_NAME2] : $product->getAccessoriesLinkData();
+            $links = (isset($full[self::TYPE_NAME2])) ? $full[self::TYPE_NAME2] : $product->getAccessoriesLinkData();
             if (!is_array($links)) {
                 $links = [];
             }
@@ -102,8 +97,6 @@ class ProductLinks
             if ($product->getAccessoriesLinkData()) {
                 $links = array_merge($links, $product->getAccessoriesLinkData());
             }
-            $newLinks = [];
-            $existingLinks = $product->getProductLinks();
             foreach ($links as $linkRaw) {
                 /** @var \Magento\Catalog\Api\Data\ProductLinkInterface $productLink */
                 $productLink = $this->productLinkFactory->create();
@@ -126,23 +119,18 @@ class ProductLinks
 
                 $newLinks[] = $productLink;
             }
-
-            $existingLinks = $this->removeUnExistingLinks($existingLinks, $newLinks);
-            $product->setProductLinks(array_merge($existingLinks, $newLinks));
         }
 
-        if(isset($links[self::TYPE_NAME3]) && !$product->getPartsReadOnly()) {
+        if(isset($full[self::TYPE_NAME3]) && !$product->getPartsReadOnly()) {
 
-            $links = (isset($links[self::TYPE_NAME3])) ? $links[self::TYPE_NAME3] : $product->getPartsLinkData();
+            $links = (isset($full[self::TYPE_NAME3])) ? $full[self::TYPE_NAME3] : $product->getPartsLinkData();
             if (!is_array($links)) {
                 $links = [];
             }
 
-            if ($product->gePartsLinkData()) {
+            if ($product->getPartsLinkData()) {
                 $links = array_merge($links, $product->getPartsData());
             }
-            $newLinks = [];
-            $existingLinks = $product->getProductLinks();
             foreach ($links as $linkRaw) {
                 /** @var \Magento\Catalog\Api\Data\ProductLinkInterface $productLink */
                 $productLink = $this->productLinkFactory->create();
@@ -165,11 +153,10 @@ class ProductLinks
 
                 $newLinks[] = $productLink;
             }
-
-            $existingLinks = $this->removeUnExistingLinks($existingLinks, $newLinks);
-            $product->setProductLinks(array_merge($existingLinks, $newLinks));
         }
-
+        $existingLinks = $product->getProductLinks();
+        $existingLinks = $this->removeUnExistingLinks($existingLinks, $newLinks);
+        $product->setProductLinks(array_merge($existingLinks, $newLinks));
     }
 
     /**
