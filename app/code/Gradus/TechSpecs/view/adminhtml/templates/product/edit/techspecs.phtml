@@ -121,6 +121,79 @@ $count = 1;
         }).disableSelection();
     });
 
+    function copyHeaders(vals)
+    {
+        $q('#techspecs_container').html("");
+        $q.each(vals, function (i, v) {
+            var headcount = $q('.header_container').length + 1;
+            var q = '<div id="header_container_' + i + '" class="header_container">' +
+                '<h3>' +
+                '<div style="margin-left:10px;" onclick="event.stopPropagation();" class="draggable-handle_headers" />' +
+                '<input style="width:400px; margin-left:5px;" onclick="event.stopPropagation()" class="admin__control-text" name="headers[' + i + '][name]"' +
+                'data-form-part="product_form" value="'+v["name"]+'" />' +
+                '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader(\'header_container_' + i + '\')">' +
+                '<img style="width:20px; margin-left:5px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>"></a>' +
+                '</h3><div>' +
+                '<table id="spec_table_' + i + '" style="width:800px;" class="admin__dynamic-rows data-grid spectable">' +
+                '<thead><tr>' +
+                '<th class="data-grid-draggable-row-cell"></th>' +
+                '<th class="data-grid-th position" style="width:30px"><span>Seq</span></th>' +
+                '<th class="data-grid-th"><span>Spec Label</span></th>' +
+                '<th class="data-grid-th"><span>Spec Value</span></th>' +
+                '<th style="width:40px"/></tr></thead>' +
+                '<tbody>';
+            $q.each(v["specs"], function (ind, val) {
+                q +=  '<tr id="specs_row_'+ind+'">'+
+                    '<td class="data-grid-draggable-row-cell">'+
+                    '<div class="draggable-handle_specs"></div>'+
+                    '</td>'+
+                    '<td class="posrow">'+
+                    ind+
+                    '</td>'+
+                    '<td>'+
+                    '<input class="admin__control-text" data-form-part="product_form" name="headers[1][specs]['+ind+'][label]"'+
+                    'style="width:100%;" value="'+val["label"]+'" />'+
+                    '</td>'+
+                    '<td><textarea name="headers['+i+'][specs]['+ind+'][value]" data-form-part="product_form" style="width:100%;">'+val["value"]+'</textarea></td>'+
+                    '<td><a onclick="deleteHeader(\'specs_row_'+ind+'\')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>'+
+                    '</tr>';
+            })
+              q += '</tbody></table>' +
+                '<button class="action-secondary" onclick="addSpec(\'spec_table_' + i + '\', ' + i + ')">Add spec</button>' +
+                '</div></div>' +
+                '';
+            $q('#techspecs_container').append(q);
+
+            $q('.techspec_header_container').accordion('destroy').accordion({
+                header: "> div > h3",
+                autoHeight: false,
+                collapsible: true,
+            }).sortable({
+                handle: '.draggable-handle_headers',
+                revert: 300,
+                tolerance: "intersect",
+                update: function (event, ui) {
+                    $q('.header_drag').each(function (i, obj) {
+                        var ii = i + 1;
+                        $q(this).html(ii);
+                    })
+                }
+            }).disableSelection();
+            $q('.spectable > tbody').sortable({
+                revert: 300,
+                handle: '.draggable-handle_specs',
+                tolerance: "intersect",
+                placeholder: "jqplaceholder",
+                update: function (event, ui) {
+                    $q('.specs_drag').each(function (i, obj) {
+                        var ii = i + 1;
+                        $q(this).html(ii);
+                    })
+                }
+            }).disableSelection();
+        });
+    }
+
     function addHeader()
     {
         var headcount = $q('.header_container').length+1;
@@ -185,7 +258,8 @@ $count = 1;
     function addSpec(appendTo, count)
     {
         var counts = $q('.spectable > tbody > tr').length+1;
-        var q = '<tr id="specs_row_'+counts+'">'+
+        var q = ''+
+        '<tr id="specs_row_'+counts+'">'+
         '<td class="data-grid-draggable-row-cell">'+
         '<div class="draggable-handle_specs"></div>'+
         '</td>'+

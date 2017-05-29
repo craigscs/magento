@@ -27,6 +27,25 @@
         $q('#highlight_table > tbody').append(q);
     }
 
+    function copyHighlight(vals)
+    {
+        $q('#highlight_table > tbody').html("");
+            $q.each(vals, function (i, v) {
+                var counts = $q('#highlight_table > tbody > tr').length;
+                var clb = counts + 1;
+                var q = '';
+                q += '<tr id="highlight_row_' + clb + '">' +
+                    '<td class="data-grid-draggable-row-cell">' +
+                    '<div class="draggable-handle3"></div></td>' +
+                    '<td class="posrow">' + clb + '</td><td>' +
+                    '<input class="admin__control-text" style="width:100%" data-form-part="product_form" id="highlights[' + clb + ']["value"]" name="highlights[' + clb + ']["value"]"' +
+                    ' style="width:100%; padding:3px;" value="' + v + '" />' +
+                    '</td><td><a href"#" onclick="deleteHighlight(\'highlight_row_' + clb + '\')"><img style="width:20px;" ' +
+                    'src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>"></a></td></tr>';
+                $q('#highlight_table > tbody').append(q);
+            })
+    }
+
     function deleteHighlight(h)
     {
         $q('#'+h).remove();

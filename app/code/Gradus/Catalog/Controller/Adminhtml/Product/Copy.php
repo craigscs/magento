@@ -39,7 +39,7 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
         $prod = $this->pf->load($id);
 
         $result = $this->$field($prod);
-        $res = $this->jf->create()->setData(['res'=>$result['res'], 'mes' => $result['mes']]);
+        $res = $this->jf->create()->setData(['res'=>$result['res'], 'func' => $result['q']]);
         return $res;
     }
 
@@ -67,84 +67,24 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
         return array('res' =>$q, 'mes' => "Includes updated");
     }
 
+    public function description($prod)
+    {
+        $
+        return array('res' => $specs, 'q' => "copyHeaders");
+    }
+
     public function techspecs($prod)
     {
         $spec = $prod->getData('tech_specs');
         $specs = json_decode($spec);
-        $q = '';
-        $count = 1;
-        if (count($specs) > 0) {
-            $q = '';
-            foreach ($specs as $h) {
-                $q .= '<div class="header_div" id="header_div_' . $count . '">';
-                $q .= '<h3 id="header_title_' . $count . '">';
-                $q .= '<div class="draggable-handle header_drag"><b></b>' . $count . '</b></div>';
-                $q .= '<div style="display:inline-block" id="h_text_' . $count . '" class="header_txt">' . $h->header->header_name . '</div>';
-                $q .= '<a class="delete_icon" style="float:right" src="javascript:void(0)" onclick="deleteHeader(\'header_div_' . $count . '\')">';
-                $q .= '<img style="width:20px;" src="' . $this->assets->getUrl("Gradus_Catalog::images/trash.png") . '"></a></h3>';
-
-                $q .= '<div><table class="tech_spec_table" id="header_table_' . $count . '">';
-                $q .= '<tr class="header_row"><td>';
-                $q .= '<label class="gradus_label" for="header_text_' . $count . '">Header Text</label>';
-                $q .= '<input style="width:85%" class="gradus_text_large" onkeyup="updateHeader(this.value, \'h_text_' . $count . '\')" id="header_title_' . $count . '"';
-                $q .= 'data-form-part="product_form" name="techspec[' . $count . '][header][header_name]"';
-                $q .= 'id="header_text_' . $count . '" value="' . $h->header->header_name . '"/>';
-                $q .= '</td></tr>';
-                $q .= '<tr style="height:10px;"></tr>';
-                $q .= '<tr>';
-                $speccount = 1;
-                $q .= '<td class="spec_td">';
-                foreach ($h as $a) {
-                    foreach ($a as $s) {
-                        if (property_exists($s, 'name')) {
-                            $q .= '<div class="specs_row" id ="spec_row_' . $count . '_' . $speccount . '">';
-                            $q .= '<div style="display:inline-block; margin-left:-30px; cursor:move" class="draggable-handle2 specs_drag"><b>' . $speccount . '</b></div>';
-                            $q .= '<label class="gradus_label" for="spec_name_.' . $speccount . '">Spec Name</label>';
-                            $q .= '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader(\'spec_row_' . $count . '_' . $speccount . '\')">';
-                            $q .= '<img style="width:20px;" src="' . $this->assets->getUrl("Gradus_Catalog::images/trash.png") . '"></a>';
-                            $q .= '<input style="width:99%" class="gradus_text_large" data-form-part="product_form" name="techspec[' . $count . '][header][' . $speccount . '][name]" ';
-                            $q .= 'id="spec_name_".' . $speccount . '" value="' . $s->name . '"/>';
-                            $q .= '<label class="gradus_label" for="spec_desc_".' . $speccount . '>Spec Description</label>';
-                            $q .= '<textarea style="width:99%" class="gradus_text_large" data-form-part="product_form" name="techspec[' . $count . '][header][' . $speccount . '][desc]"';
-                            $q .= 'id="spec_desc_' . $speccount . '">' . $s->desc . '</textarea>';
-                            $q .= '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader(\'spec_row_' . $count . '_' . $speccount . '\')"></a>';
-
-                            $q .= '</div>';
-                            $speccount++;
-                        }
-                    }
-                }
-                $q .= '</td></tr>';
-
-
-                $q .= '</table>';
-                $q .= '<button style="margin-top:10px;" class="action-secondary" onclick="addSpec(\'header_table_' . $count . '\')">Add Spec</button></div>';
-                $q .= '</div>';
-                $q .= '</div>';
-                $count++;
-            }
-        }
-        return array('res' =>$q, 'mes' => "Includes updated");
+        return array('res' => $specs, 'q' => "copyHeaders");
     }
 
     public function highlights($prod)
     {
         $highlight = $prod->getData('highlights');
         $highlights = json_decode($highlight);
-        $q = '';
-        $count = 1;
-        if (count($highlights) > 0) {
-            foreach ($highlights as $h) {
-                $q .= '<div style="margin:auto" class="gradus_fields" id="highlight_'.$count.'">';
-                $q .= '<div class="draggable-handle highlight_drag"><b>'.$count.'</b></div>';
-                $q .= '<label class="gradus_label" for="highlight_'.$count.'">Highlight</label>';
-                $q .= '<input data-form-part="product_form" name="highlights['.$count.']" style="margin-left:6px;" class="gradus_text_large" id="hightlight_'.$count.'" value="'.$h.'" />';
-                $q .= ' <a src="javascript:void(0)" onclick="deleteHighlight(\'highlight_'.$count.'\')">';
-                $q .= '<img style="width:20px;" src="'.$this->assets->getUrl("Gradus_Catalog::images/trash.png").'"></a></div>';
-                $count++;
-            }
-        }
-        return array('res' =>$q, 'mes' => "Includes updated");
+        return array('res' =>$highlights, 'q' => 'copyHighlight');
     }
 
     public function features($prod)
