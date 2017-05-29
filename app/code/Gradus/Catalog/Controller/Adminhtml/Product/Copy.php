@@ -66,6 +66,7 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
         }
         return array('res' =>$q, 'mes' => "Includes updated");
     }
+    //test
 
     public function techspecs($prod)
     {
