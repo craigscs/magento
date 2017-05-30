@@ -45,7 +45,7 @@ $count = 1;
                     <td><textarea name="headers[<?= $count ?>][specs][<?= $speccount ?>][value]" data-form-part="product_form" style="width:100%;">
                             <?php if (isset($spec['value'])) { echo $spec['value']; } ?>
                         </textarea></td>
-                    <td><a onclick="deleteFeature('specs_row_<?= $speccount ?>')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>
+                    <td><a onclick="deleteFeature('header_<?= $count ?>_specs_row_<?= $speccount ?>')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>
                 </tr>
                     <?php $speccount++ ?>
             <?php endforeach ?>
@@ -63,34 +63,12 @@ $count = 1;
 
 <script>
     var $q = jQuery.noConflict();
-
-    function updateaccord()
-    {
-        $q('#headers_container').append('').accordion("destroy").accordion({
-            header: "> div > h3",
-            autoHeight: false,
-            collapsible: true,
-        }).disableSelection();;
-
-        $q('.spec_td').sortable({
-            connectWith: "div.specs_row",
-            revert: 300,
-            handle: '.draggable-handle2',
-            tolerance: "intersect",
-            placeholder: "jqplaceholder",
-            update: function( event, ui ) {
-                $q('.specs_drag').each(function(i, obj) {
-                    var ii = i+1;
-                    $q(this).html(ii);
-                })
-            }
-        }).disableSelection();
-        $q('.spec_td').sortable('refresh');
-    }
-
     $q( document ).ready(function() {
-        $q('[name="product[tech_specs]"]').prev().prev().hide();
-
+        initSorting();
+        initMce();
+    });
+    function initSorting()
+    {
         $q('.techspec_header_container').accordion({
             header: "> div > h3",
             autoHeight: false,
@@ -119,7 +97,25 @@ $count = 1;
                 })
             }
         }).disableSelection();
-    });
+    }
+    function tinyMce()
+    {
+        console.log("Initing MCE");
+        tinyMCE.init({
+            mode: "textareas",
+            elements: "wysiwyg",
+            theme_advanced_toolbar_align: "left",
+            theme_advanced_path_location: "bottom",
+            extended_valid_elements: "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
+            theme_advanced_resize_horizontal: 'true',
+            theme_advanced_resizing: 'true',
+            apply_source_formatting: 'true',
+            convert_urls: 'true',
+            force_br_newlines: 'true',
+            width: '100%',
+            min_width: 0
+        });
+    }
 
     function copyHeaders(vals)
     {
@@ -155,7 +151,7 @@ $count = 1;
                     'style="width:100%;" value="'+val["label"]+'" />'+
                     '</td>'+
                     '<td><textarea name="headers['+i+'][specs]['+ind+'][value]" data-form-part="product_form" style="width:100%;">'+val["value"]+'</textarea></td>'+
-                    '<td><a onclick="deleteHeader(\'specs_row_'+ind+'\')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>'+
+                    '<td><a onclick="deleteHeader(\'header_'+i+'_specs_row_'+ind+'\')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>'+
                     '</tr>';
             })
               q += '</tbody></table>' +
@@ -163,6 +159,7 @@ $count = 1;
                 '</div></div>' +
                 '';
             $q('#techspecs_container').append(q);
+            tinyMce();
 
             $q('.techspec_header_container').accordion('destroy').accordion({
                 header: "> div > h3",
@@ -219,13 +216,13 @@ $count = 1;
             '<input class="admin__control-text" data-form-part="product_form" name="headers['+headcount+'][specs][1][label]"'+
             'style="width:100%;" value="" /></td>'+
             '<td><textarea name="headers['+headcount+'][specs][1][value]" data-form-part="product_form" style="width:100%;"></textarea></td>'+
-            '<td><a onclick="deleteFeature(\'header_'+headcount+'_specs_row_1\')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>'+
+            '<td><a onclick="deleteHeader(\'header_'+headcount+'_specs_row_1\')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>'+
             '</tr></tbody></table>'+
             '<button class="action-secondary" onclick="addSpec(\'spec_table_'+headcount+'\', '+headcount+')">Add spec</button>' +
             '</div></div>'+
         '';
         $q('#techspecs_container').append(q);
-
+        initMce();
         $q('.techspec_header_container').accordion('destroy').accordion({
             header: "> div > h3",
             autoHeight: false,
@@ -257,9 +254,10 @@ $count = 1;
 
     function addSpec(appendTo, count)
     {
-        var counts = $q('.spectable > tbody > tr').length+1;
+        var hcount = appendTo.split("_")[2]
+;        var counts = $q('.spectable > tbody > tr').length+1;
         var q = ''+
-        '<tr id="specs_row_'+counts+'">'+
+        '<tr id="header_'+hcount+'_specs_row_'+counts+'">'+
         '<td class="data-grid-draggable-row-cell">'+
         '<div class="draggable-handle_specs"></div>'+
         '</td>'+
@@ -271,9 +269,10 @@ $count = 1;
         'style="width:100%;" value="" />'+
         '</td>'+
         '<td><textarea name="headers['+count+'][specs]['+counts+'][value]" data-form-part="product_form" style="width:100%;"></textarea></td>'+
-        '<td><a onclick="deleteHeader(\'specs_row_'+counts+'\')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>'+
+        '<td><a onclick="deleteHeader(\'header_'+hcount+'_specs_row_'+counts+'\')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>'+
         '</tr>';
         $q('#'+appendTo).append(q);
+        initMce();
     }
 
     function deleteHeader(id)

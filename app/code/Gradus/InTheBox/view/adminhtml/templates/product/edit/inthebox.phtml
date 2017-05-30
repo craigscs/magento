@@ -90,14 +90,38 @@ if ($warranty == null) { $warrantyString = "No warranty"; }
 <script>
     var $q = jQuery.noConflict();
     $q( document ).ready(function() {
+        initSortable();
+        initMce();
+    });
+    function initSortable()
+    {
         $q('#InTheBox_table > tbody').sortable({
             handle: '.draggable-handle_inthebox',
             revert: 300,
             placeholder: "ui-state-in_the_box myHover",
             tolerance: "intersect",
         }).disableSelection();
-    });
-    function addinthebox()
+    }
+    function initMce()
+    {
+        console.log("Initing MCE");
+        tinyMCE.init({
+            mode: "textareas",
+            elements: "wysiwyg",
+            theme_advanced_toolbar_align: "left",
+            theme_advanced_path_location: "bottom",
+            extended_valid_elements: "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
+            theme_advanced_resize_horizontal: 'true',
+            theme_advanced_resizing: 'true',
+            apply_source_formatting: 'true',
+            convert_urls: 'true',
+            force_br_newlines: 'true',
+            width: '100%',
+            min_width: 0
+        });
+    }
+
+    function addinthebox(qty, value)
     {
         var counts = $q('#InTheBox_table > tbody > tr').length;
         var clb = counts+1;
@@ -105,10 +129,11 @@ if ($warranty == null) { $warrantyString = "No warranty"; }
             '<td class="data-grid-draggable-row-cell">'+
             '<div class="draggable-handle_inthebox"></div></td>'+
             '<td class="posrow">'+clb+'</td><td>'+
-            '<input class="admin__control-text" name="inthebox['+clb+'][count]" data-form-part="product_form" id="inthebox[' + clb + '][count]" style="width:100%;" value="" /></td>'+
-            '<td><textarea name="inthebox['+clb+'][value]" data-form-part="product_form" style="width:100%;"></textarea></td>'+
+            '<input class="admin__control-text" name="inthebox['+clb+'][count]" data-form-part="product_form" id="inthebox[' + clb + '][count]" style="width:100%;" value="'+qty+'" /></td>'+
+            '<td><textarea name="inthebox['+clb+'][value]" data-form-part="product_form" style="width:100%;">'+value+'</textarea></td>'+
             '</td><td><a href"#" onclick="deleteinthebox(\'inthebox_row_'+clb+'\')"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td></tr>';
         $q('#InTheBox_table > tbody').append(q);
+        initMce();
     }
 
     function deleteinthebox(h)
@@ -116,18 +141,11 @@ if ($warranty == null) { $warrantyString = "No warranty"; }
         $q('#'+h).remove();
     }
 
-    function copyinthebox()
+    function copyinthebox(res)
     {
-        var theid = $q('#copy_from_inthebox').val();
-        $q.ajax({
-            url: 'http://'+window.location.hostname+"/admin/catalog/product/copy/id/"+theid+"/field/inthebox/",
-            data: {form_key: window.FORM_KEY},
-            context: document.body
-        }).done(function(res) {
-            var q = res.res;
-            $q('#InTheBox_container').html(q);
-            updateaccord();
-            updateaccord();
+        $q.each(vals, function(i, v) {
+            addinthebox(i,v);
         });
+        initMce();
     }
 </script>

@@ -27,9 +27,9 @@ $count = 1;
                 </td>
                 <td>
                     <input class="admin__control-text" name="features[<?= $count ?>][name]" data-form-part="product_form" name="features[<?= $count ?>[name]"
-                           style="width:100%; padding:3px;" value="<?= $i["name"] ?>" />
+                           style="width:100%; padding:3px;" value="<?php if (isset($i["name"])) { echo $i['name']; } ?>" />
                 </td>
-                <td><textarea name="features[<?= $count?>][desc]" data-form-part="product_form" style="width:100%;"><?= $i['desc'] ?></textarea></td>
+                <td><textarea class="wysiwyg" name="features[<?= $count?>][desc]" data-form-part="product_form" style="width:100%;"><?php if (isset($i['desc'])) { echo $i['desc']; } ?></textarea></td>
                 <td><a onclick="deleteFeature('features_row_<?= $count ?>')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>
             </tr>
             <?php $count++ ?>
@@ -47,13 +47,13 @@ $count = 1;
             <td>
                 <input class="admin__control-text" name="features[<?= $count ?>][name]" data-form-part="product_form" name="features[<?= $count ?>[name]" style="width:100%;" value="" />
             </td>
-            <td><textarea id="qwerty" name="features[<?= $count?>][desc]" data-form-part="product_form" style="width:100%;"></textarea></td>
+            <td><textarea class="wysiwyg" name="features[<?= $count?>][desc]" data-form-part="product_form" style="width:100%;"></textarea></td>
             <td><a onclick="deleteFeature('features_row_<?= $count ?>')" href"#"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td>
         </tr>
     <?php endif ?>
 </div>
 
-<button class="action-secondary" style="margin-right:5px; margin-bottom: 5px;" onclick="addFeature()">Add Feature</button>
+<button class="action-secondary" style="margin-right:5px; margin-bottom: 5px;" onclick="addFeature('', '')">Add Feature</button>
 <div style="display:none" class="select_pad">
     <select class="search_select" id="copy_from_feature">
         <option value="-1">SKU | Name</option>
@@ -67,28 +67,38 @@ $count = 1;
 <script>
     var $q = jQuery.noConflict();
 
-    function copy()
-    {
-        var theid = $q('#copy_from').val();
-        $q.ajax({
-            url: 'http://'+window.location.hostname+"/admin/catalog/product/copy/id/"+theid+"/field/features/",
-            data: {form_key: window.FORM_KEY},
-            context: document.body
-        }).done(function(res) {
-            var q = res.res;
-            $q('#features_container').html(q);
+    $q( document ).ready(function() {
+        initMce();
+        initSortable();
+    });
+
+    function initMce() {
+        console.log("Initing MCE");
+        tinyMCE.init({
+            mode: "textareas",
+            elements: "wysiwyg",
+            theme_advanced_toolbar_align: "left",
+            theme_advanced_path_location: "bottom",
+            extended_valid_elements: "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
+            theme_advanced_resize_horizontal: 'true',
+            theme_advanced_resizing: 'true',
+            apply_source_formatting: 'true',
+            convert_urls: 'true',
+            force_br_newlines: 'true',
+            width: '100%',
+            min_width: 0
         });
     }
-
-    $q( document ).ready(function() {
+    function initSortable()
+    {
         $q('#features_table > tbody').sortable({
             handle: '.draggable-handle_features',
             revert: 300,
             placeholder: "jqplaceholder",
             tolerance: "intersect",
         }).disableSelection();
-    });
-    function addFeature()
+    }
+    function addFeature(label, value)
     {
         var counts = $q('#features_table > tbody > tr').length;
         var clb = counts+1;
@@ -96,10 +106,18 @@ $count = 1;
             '<td class="data-grid-draggable-row-cell">'+
             '<div class="draggable-handle_features"></div></td>'+
             '<td class="posrow">'+clb+'</td><td>'+
-            '<input class="admin__control-text" name="features['+clb+'][name]" data-form-part="product_form" id="features[' + clb + '][name]" style="width:100%;" value="" /></td>'+
-                '<td><textarea id="qwerty" name="features['+clb+'][desc]" data-form-part="product_form" style="width:100%;"></textarea></td>'+
+            '<input class="admin__control-text" name="features['+clb+'][name]" data-form-part="product_form" id="features[' + clb + '][name]" style="width:100%;" value="'+label+'" /></td>'+
+                '<td><textarea class="wysiwyg" name="features['+clb+'][desc]" data-form-part="product_form" style="width:100%;">'+value+'</textarea></td>'+
             '</td><td><a href"#" onclick="deleteFeature(\'features_row_'+clb+'\')"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td></tr>';
         $q('#features_table > tbody').append(q);
+    }
+
+    function copyFeatures(vals)
+    {
+        $q.each(vals, function(i, v) {
+        addFeature(i,v);
+    });
+        initMce();
     }
 
     function deleteFeature(h)

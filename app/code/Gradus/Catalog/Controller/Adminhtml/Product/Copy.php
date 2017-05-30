@@ -47,37 +47,23 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
     {
         $box = $prod->getData('in_the_box');
         $inbox = json_decode($box);
-        $q = '';
-        $count = 1;
-        if (count($inbox) > 0) {
-            foreach ($inbox as $h) {
-                $q .= '<div style="margin:auto" class="gradus_fields" id="in_the_box_'.$count.'">';
-                $q .= '<div class="draggable-handle inthebox_drag"><b>'.$count.'</b></div>';
-                $q .= '<label class="gradus_label" for="in_the_box_amount_'.$count.'">Amount</label>';
-                $q .= '<input name="in_the_box['.$count.'][count]" data-form-part="product_form" style="margin-left:6px;" class="gradus_text_mini"';
-                $q .= 'id="in_the_box_amount_'.$count.'" value="'.$h->count.'" />';
-                $q .= '<label class="gradus_label" for="in_the_box_value_'.$count.'">Item</label>';
-                $q .= '<input name="in_the_box['.$count.'][value]" data-form-part="product_form" style="margin-left:6px; width:70%"';
-                $q .= 'class="gradus_text_medium" style="width:70%" id="in_the_box_value_'.$count.'" value="'.$h->value.'" />';
-                $q .= '<a src="javascript:void(0)" style="margin-left:6px;" onclick="deleteinthebox(\'in_the_box_'.$count.'\')">';
-                $q .= '<img style="width:20px;" src="'.$this->assets->getUrl("Gradus_Catalog::images/trash.png").'"></a></div>';
-                $count++;
-            }
-        }
-        return array('res' =>$q, 'mes' => "Includes updated");
+        return array('res' =>$inbox, 'q' => "");
     }
 
-    public function description($prod)
-    {
-        $
-        return array('res' => $specs, 'q' => "copyHeaders");
-    }
 
     public function techspecs($prod)
     {
         $spec = $prod->getData('tech_specs');
         $specs = json_decode($spec);
         return array('res' => $specs, 'q' => "copyHeaders");
+    }
+
+    public function description($prod)
+    {
+        return array(
+            'res' => array('description'=>$prod->getData('description'), 'short_description' => $prod->getgDatagetData('short_description'), 'overview_note' => $prod->getData('overview_note')),
+            'q' => 'setFields'
+        );
     }
 
     public function highlights($prod)
@@ -91,21 +77,6 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
     {
         $feat = $prod->getData('features');
         $feats = json_decode($feat);
-        $q='';
-        $count = 1;
-        if (count($feats) > 0) {
-            foreach ($feats as $f) {
-                $q .= '<div class="specs_row" id="features_'.$count.'">';
-                $q .= '<div class="draggable-handle"></div>';
-                $q .= '<label for="feat_n_'.$count.'">Label '.$count.'</label>';
-                $q .=  '<input style="width:15%; margin-left:5px;" id="feat_n_'.$count.'" data-form-part="product_form" value="'.$f->name.'" name="features['.$count.'][name]" />';
-                $q .= '<label for="feat_d_'.$count.'">Feature '.$count.'</label>';
-                $q .= '<textarea id="feat_d_'.$count.'" style="width:50%;" data-form-part="product_form" name="features['.$count.'][desc]">'.$f->desc.'</textarea>';
-                $q .= ' <a class="delete_icon" src="javascript:void(0)" onclick="deleteFeature(\'features_'.$count.'\')"></a>';
-                $q .= '</div>';
-                $count++;
-            }
-        }
-        return array('res' =>$q, 'mes' => "Includes updated");
+        return array('res' =>$feats, 'q' => "copyFeatures");
     }
 }

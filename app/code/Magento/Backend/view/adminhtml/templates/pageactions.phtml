@@ -80,6 +80,14 @@
     });
     }
 
+    function setFields(vals)
+    {
+        $q.each(vals, function (i, v) {
+            $q('#product_form_'+i).html(v);
+            $q('#product_form_'+i).val(v);
+        });
+    }
+
     function copyitem(id, mfr)
     {
         $q('#searchPicked').val(id);
