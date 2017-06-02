@@ -13,7 +13,7 @@ $count = 1;
         <h3>
             <div onclick="event.stopPropagation();" class="draggable-handle_headers" />
             <input style="width:400px;" onclick="event.stopPropagation()" class="admin__control-text" name="headers[<?= $count ?>][name]"
-                   data-form-part="product_form" value="<?= $head['name'] ?>" />
+                   data-form-part="product_form" value="<?php if (isset($head['name'])) { echo $head['name']; } ?>" />
             <a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader('header_container_<?= $count ?>')">
                 <img style="width:20px;" src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png') ?>"></a>
         </h3>
@@ -30,6 +30,7 @@ $count = 1;
                 </thead>
                 <tbody>
                 <?php $speccount = 1 ?>
+                <?php if (isset($head['specs'])) : ?>
                 <?php foreach ($head['specs'] as $spec) : ?>
                 <tr id="header_<?= $count ?>_specs_row_<?= $speccount ?>">
                     <td class="data-grid-draggable-row-cell">
@@ -54,9 +55,10 @@ $count = 1;
             <button class="action-secondary" onclick="addSpec('spec_table_<?= $count ?>', <?= $count ?>)">Add spec</button>
         </div>
     </div>
-            <?php $count++ ?>
-    <?php endforeach ?>
+<?php $count++ ?>
     <?php endif ?>
+<?php endforeach ?>
+<?php endif ?>
 </div>
 
 <button class="action-secondary" style="margin-right:5px; margin-top:5px" onclick="addHeader()">Add Header</button>

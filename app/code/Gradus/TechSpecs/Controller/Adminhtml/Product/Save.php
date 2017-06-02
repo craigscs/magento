@@ -11,8 +11,6 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
     private $storeManager;
     public function execute()
     {
-        highlight_string("<?php\n\$data =\n" . var_export($_POST, true) . ";\n?>");
-
         if (isset($_POST['in_the_box'])) {
             $h = $_POST['in_the_box'];
             $hs = json_encode($h);
