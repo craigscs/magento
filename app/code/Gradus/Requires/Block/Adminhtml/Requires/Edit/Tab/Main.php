@@ -55,92 +55,49 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
         $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Requires')]);
         if ($model->getId()) {
             $fieldset->addField('id', 'hidden', ['name' => 'id']);
-            $fieldset->addField(
-                'entity_id',
-                'select',
-                [
-                    'name' => 'entity_id',
-                    'class' => 'select2_input',
-                    'multiple' => '',
-                    'label' => __('Product'),
-                    'title' => __('Product'),
-                    'required' => true,
-                    'disabled' => $isElementDisabled,
-                    'options' => array($model->getData('entity_id') => $model->getData('entity_id')),
-                ]
-            );
-            $fieldset->addField(
-                'secondary_id',
-                'select',
-                [
-                    'name' => 'secondary_id',
-                    'class' => 'select2_input',
-                    'multiple' => '',
-                    'label' => __('Secondary Product'),
-                    'title' => __('Secondary Product'),
-                    'required' => true,
-                    'disabled' => $isElementDisabled,
-                    'options' => array($model->getData('secondary_id') => $model->getData('secondary_id')),
-                ]
-            );
-            $fieldset->addField(
-                'requirement',
-                'select',
-                [
-                    'name' => 'requirement',
-                    'class' => 'select2_input',
-                    'multiple' => '',
-                    'label' => __('Required Product'),
-                    'title' => __('Required Product'),
-                    'required' => true,
-                    'disabled' => $isElementDisabled,
-                    'options' => array($model->getData('requirement') => $model->getData('requirement')),
-                ]
-            );
-        } else {
-            $fieldset->addField(
-                'entity_id',
-                'select',
-                [
-                    'name' => 'entity_id',
-                    'class' => 'select2_input',
-                    'multiple' => '',
-                    'label' => __('Product'),
-                    'title' => __('Product'),
-                    'required' => true,
-                    'disabled' => $isElementDisabled,
-                    'options' => array('0' => "Please select one"),
-                ]
-            );
-            $fieldset->addField(
-                'secondary_id',
-                'select',
-                [
-                    'name' => 'secondary_id',
-                    'class' => 'select2_input',
-                    'multiple' => '',
-                    'label' => __('Secondary Product'),
-                    'title' => __('Secondary Product'),
-                    'required' => true,
-                    'disabled' => $isElementDisabled,
-                    'options' => array('0' => "Please select one"),
-                ]
-            );
-            $fieldset->addField(
-                'requirement',
-                'select',
-                [
-                    'name' => 'requirement',
-                    'class' => 'select2_input',
-                    'multiple' => '',
-                    'label' => __('Required Product'),
-                    'title' => __('Required Product'),
-                    'required' => true,
-                    'disabled' => $isElementDisabled,
-                    'options' => array('0' => "Please select one"),
-                ]
-            );
         }
+            $fieldset->addField(
+                'entity_id',
+                'select',
+                [
+                    'name' => 'entity_id[]',
+                    'class' => 'select2_input',
+                    'multiple',
+                    'label' => __('Product'),
+                    'title' => __('Product'),
+                    'required' => true,
+                    'disabled' => $isElementDisabled,
+                    'options' => $this->buildOptions('entity_id'),
+                ]
+            );
+            $fieldset->addField(
+                'secondary_id',
+                'select',
+                [
+                    'name' => 'secondary_id[]',
+                    'class' => 'select2_input',
+                    'multiple' => 'multiple',
+                    'label' => __('Secondary Product'),
+                    'title' => __('Secondary Product'),
+                    'required' => true,
+                    'disabled' => $isElementDisabled,
+                    'options' => $this->buildOptions('secondary_id'),
+                ]
+            );
+            $fieldset->addField(
+                'requirement',
+                'select',
+                [
+                    'name' => 'requirement[]',
+                    'class' => 'select2_input',
+                    'multiple' => 'multiple',
+                    'label' => __('Required Product'),
+                    'title' => __('Required Product'),
+                    'required' => true,
+                    'disabled' => $isElementDisabled,
+                    'options' => $this->buildOptions('requirement'),
+                ]
+            );
 
         $form->setValues($model->getData());
         $this->setForm($form);
@@ -148,15 +105,16 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
         return parent::_prepareForm();
     }
 
-    protected function getFiles()
+    protected function buildOptions($field)
     {
-        $collection = $this->_productCollectionFactory->create()->getCollection()->addAttributeToSelect('*');
-//        $collection->addAttributeToFilter('gradus_type', 'Product');
-        $op = array('Sku | Name');
-        foreach ($collection as $c) {
-            $op[$c->getSku()] = $c->getSku().' | '.$c->getData('name');
+        $model = $this->_coreRegistry->registry('requires');
+        $data = $model->getData($field);
+        $data = explode(",", $data);
+        $ops = array();
+        foreach ($data as $d) {
+            $ops[$d] = $d;
         }
-        return $op;
+        return $ops;
     }
 
     /**

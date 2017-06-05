@@ -42,6 +42,9 @@ class Save extends \Magento\Backend\App\Action
             if ($id) {
                 $model->load($id);
             }
+            $data['entity_id'] = implode(",", $data['entity_id']);
+            $data['requirement'] = implode(",", $data['requirement']);
+            $data['secondary_id'] = implode(",", $data['secondary_id']);
             $model->setData($data);
             try {
                 $model->save();

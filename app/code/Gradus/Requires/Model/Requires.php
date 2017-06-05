@@ -12,10 +12,4 @@ class Requires extends \Magento\Framework\Model\AbstractModel
     {
         $this->_init('Gradus\Requires\Model\ResourceModel\Requires');
     }
-
-    public function load($modelId, $field = null)
-    {
-        return $this->getCollection()->addFieldToSelect('*')
-            ->addFieldToFilter('entity_id', array('finset'=>$modelId));
-    }
 }

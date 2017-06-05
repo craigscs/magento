@@ -53,56 +53,55 @@
         }
     </style>
 <script>
-    var $q = jQuery.noConflict();
 
     function toggleCopy()
     {
-        $q('#copy_from_div').toggle();
+        jQuery('#copy_from_div').toggle();
     }
 
     function runCopy()
     {
-    var fields = $q('#copy_items').val();
-    var item = $q('#searchPicked').val();
+    var fields = jQuery('#copy_items').val();
+    var item = jQuery('#searchPicked').val();
     if (item == "") {
     alert("Please choose an item to copy from!");
     return;
     }
-    $q('#copy_items').val().each(function (i, obj) {
-    $q.ajax({
+    jQuery('#copy_items').val().each(function (i, obj) {
+    jQuery.ajax({
     url: 'http://'+window.location.hostname+"/admin/catalog/product/copy/id/"+item+"/field/"+i+"/",
     data: {form_key: window.FORM_KEY},
     context: document.body
     }).done(function(res) {
         window[res.func](res.res);
-        $q('#copy_messages').append("<div class='copy_success'>"+res.mes+"</div>");
+        jQuery('#copy_messages').append("<div class='copy_success'>"+res.mes+"</div>");
     })
     });
     }
 
     function setFields(vals)
     {
-        $q.each(vals, function (i, v) {
-            $q('#product_form_'+i).html(v);
-            $q('#product_form_'+i).val(v);
+        jQuery.each(vals, function (i, v) {
+            jQuery('#product_form_'+i).html(v);
+            jQuery('#product_form_'+i).val(v);
         });
     }
 
     function copyitem(id, mfr)
     {
-        $q('#searchPicked').val(id);
-        $q('#picked_mfr').html(mfr);
+        jQuery('#searchPicked').val(id);
+        jQuery('#picked_mfr').html(mfr);
     }
 
     function getHighlightSearch() {
-        var qid = $q('#highlight_search').val();
+        var qid = jQuery('#highlight_search').val();
         if (qid.length >= 3) {
-            $q.ajax({
+            jQuery.ajax({
                 url: 'http://' + window.location.hostname + "/admin/catalog/product/search/text/" + qid,
                 data: {form_key: window.FORM_KEY},
                 context: document.body
             }).done(function (res) {
-                $q('#highlight_results').html(res.res);
+                jQuery('#highlight_results').html(res.res);
             });
         }
     }

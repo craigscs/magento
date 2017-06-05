@@ -32,7 +32,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             'ID'
         )->addColumn(
             'entity_id',
-            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             null,
             array('nullable' => false),
             'Entity ID'
