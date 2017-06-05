@@ -1,6 +1,8 @@
 require(['jquery'],function(q) {
-    q( "input[value='product[in_the_box]']" ).hide();
-    q( "input[value='product[features]']" ).hide();
-    q( "input[value='product[highlights]']" ).hide();
-    q( "input[value='product[techspecs]']" ).hide();
+    q( document ).ready(function() {
+        q('[name="product[in_the_box]"]').parent().parent().hide();
+        q('[name="product[features]"]').parent().parent().hide();
+        q('[name="product[techspecs]"]').parent().parent().hide();
+        q('[name="product[highlights]"]').parent().parent().hide();
+    })
 });

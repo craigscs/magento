@@ -2,5 +2,6 @@
     <head>
         <link src="Gradus_Catalog::css/chosen.min.css"/>
         <link src="Gradus_Catalog::css/fields.css"/>
+        <link src="Gradus_Catalog::js/hide.js"/>
     </head>
     </page>
