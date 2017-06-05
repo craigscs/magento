@@ -125,6 +125,12 @@ if ($warranty == null) { $warrantyString = "No warranty"; }
     {
         var counts = $q('#InTheBox_table > tbody > tr').length;
         var clb = counts+1;
+        if (value == undefined) {
+            value = '';
+        }
+        if (qty == undefined) {
+            qty = '';
+        }
         q = '<tr id="inthebox_row_'+clb+'">'+
             '<td class="data-grid-draggable-row-cell">'+
             '<div class="draggable-handle_inthebox"></div></td>'+

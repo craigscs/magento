@@ -110,6 +110,7 @@ $count = 1;
                 '<td><textarea class="wysiwyg" name="features['+clb+'][desc]" data-form-part="product_form" style="width:100%;">'+value+'</textarea></td>'+
             '</td><td><a href"#" onclick="deleteFeature(\'features_row_'+clb+'\')"><img src="<?= $this->getViewFileUrl('Gradus_Catalog::images/trash.png'); ?>" style="width:20px"></a></td></tr>';
         $q('#features_table > tbody').append(q);
+        initMce();
     }
 
     function copyFeatures(vals)

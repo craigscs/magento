@@ -18,6 +18,9 @@
         var counts = $q('#highlight_table > tbody > tr').length;
         var clb = counts+1;
         var q = '';
+        if (value == undefined) {
+            value = '';
+        }
 
         q += '<tr id="highlight_row_'+clb+'">'+
             '<td class="data-grid-draggable-row-cell">'+
