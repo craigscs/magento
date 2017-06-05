@@ -35,29 +35,21 @@ class Search extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
 
     public function execute()
     {
-       $searchtext = $this->getRequest()->getParam('text');
-        $t = 'Found 0 results.';
+       $searchtext = $this->getRequest()->getParam('q');
         $col = $this->pc->create();
         $col->addFieldToSelect('*')
             ->addFieldToFilter('mfr_num', array('like' => '%'.$searchtext.'%'));
 
-        if (count($col) > 0) {
-            $t = "<div>Found " . count($col) . " item(s).</div>";
-            $t .= "<table style='width:700px;' border='1px; max-height:350px;'><thead><tr><th style='padding:3px;'>Mfr</th><th style='padding:3px;'>Name</th><th style='width:30px;'></th>";
-            $t .= "</tr></thead>";
-            $t .= "<tbody>";
-
-            foreach ($col as $c) {
-                $t .= "<tr id='row_".$c->getId()."'><td style='padding:5px;'>" . $c->getData('mfr_num') . "</td>";
-                $t .= "<td style='padding:5px;'>" . $c->getData('name') . "</td>";
-                $t .= "<td style='padding:5px;'><a href='javascript:void(0)'";
-                $t .= " onclick=\"copyitem('".$c->getId()."', '".$c->getData('mfr_num')."')\"";
-                $t .= ">Select</a></td>";
-                $t .= "</tr>";
-            }
-            $t .= "</tbody></table>";
+        $jsonres = array();
+        foreach ($col as $c) {
+            $p['id'] = $c->getId();
+            $p['mfr_num'] = $c->getData('mfr_num');
+            $p['product_name'] = $c->getName();
+            $p['sku'] = $c->getData('sku');
+            $jsonres[] = $p;
         }
-        $res = $this->jf->create()->setData(['res'=>$t]);
+
+        $res = $this->jf->create()->setData(['items'=>$jsonres, 'total_count' => count($col)]);
         return $res;
     }
 }

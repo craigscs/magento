@@ -36,19 +36,19 @@ class InstallSchema implements InstallSchemaInterface
             array('nullable' => false),
             'Entity ID'
         )->addColumn(
-            'entity_sku',
-            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-            null,
-            array('nullable' => false),
-            'Entity SKU'
-        )->addColumn(
-            'require_skus',
+            'secondary_id',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             '2M',
             array('nullable' => false),
-            'Require SKUs'
+            'Secondary Id'
+        )->addColumn(
+            'requirement',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            '2M',
+            array('nullable' => false),
+            'Requirement'
         )->setComment(
-            'Imports Table'
+            'Requires Table'
         );
         $installer->getConnection()->createTable($table);
 

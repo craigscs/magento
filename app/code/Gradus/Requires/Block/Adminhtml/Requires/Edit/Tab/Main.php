@@ -55,29 +55,92 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
         $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Requires')]);
         if ($model->getId()) {
             $fieldset->addField('id', 'hidden', ['name' => 'id']);
+            $fieldset->addField(
+                'entity_id',
+                'select',
+                [
+                    'name' => 'entity_id',
+                    'class' => 'select2_input',
+                    'multiple' => '',
+                    'label' => __('Product'),
+                    'title' => __('Product'),
+                    'required' => true,
+                    'disabled' => $isElementDisabled,
+                    'options' => array($model->getData('entity_id') => $model->getData('entity_id')),
+                ]
+            );
+            $fieldset->addField(
+                'secondary_id',
+                'select',
+                [
+                    'name' => 'secondary_id',
+                    'class' => 'select2_input',
+                    'multiple' => '',
+                    'label' => __('Secondary Product'),
+                    'title' => __('Secondary Product'),
+                    'required' => true,
+                    'disabled' => $isElementDisabled,
+                    'options' => array($model->getData('secondary_id') => $model->getData('secondary_id')),
+                ]
+            );
+            $fieldset->addField(
+                'requirement',
+                'select',
+                [
+                    'name' => 'requirement',
+                    'class' => 'select2_input',
+                    'multiple' => '',
+                    'label' => __('Required Product'),
+                    'title' => __('Required Product'),
+                    'required' => true,
+                    'disabled' => $isElementDisabled,
+                    'options' => array($model->getData('requirement') => $model->getData('requirement')),
+                ]
+            );
+        } else {
+            $fieldset->addField(
+                'entity_id',
+                'select',
+                [
+                    'name' => 'entity_id',
+                    'class' => 'select2_input',
+                    'multiple' => '',
+                    'label' => __('Product'),
+                    'title' => __('Product'),
+                    'required' => true,
+                    'disabled' => $isElementDisabled,
+                    'options' => array('0' => "Please select one"),
+                ]
+            );
+            $fieldset->addField(
+                'secondary_id',
+                'select',
+                [
+                    'name' => 'secondary_id',
+                    'class' => 'select2_input',
+                    'multiple' => '',
+                    'label' => __('Secondary Product'),
+                    'title' => __('Secondary Product'),
+                    'required' => true,
+                    'disabled' => $isElementDisabled,
+                    'options' => array('0' => "Please select one"),
+                ]
+            );
+            $fieldset->addField(
+                'requirement',
+                'select',
+                [
+                    'name' => 'requirement',
+                    'class' => 'select2_input',
+                    'multiple' => '',
+                    'label' => __('Required Product'),
+                    'title' => __('Required Product'),
+                    'required' => true,
+                    'disabled' => $isElementDisabled,
+                    'options' => array('0' => "Please select one"),
+                ]
+            );
         }
-        $fieldset->addField(
-            'entity_sku',
-            'select',
-            [
-                'name' => 'entity_sku',
-                'label' => __('Compatible Product'),
-                'title' => __('Compatible Product'),
-                'required' => true,
-                'disabled' => $isElementDisabled,
-                'options' => $this->getFiles()
-            ]
-        );
-
-        $fieldset->addField(
-            'require_skus',
-            'hidden',
-            [
-                'name' => 'require_skus',
-                'label' => __('Required Ids'),
-                'title' => __('Required Ids')
-            ]
-        );
 
         $form->setValues($model->getData());
         $this->setForm($form);

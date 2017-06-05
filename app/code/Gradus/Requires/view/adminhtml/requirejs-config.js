@@ -1,10 +1,10 @@
 var config = {
     map: {
         '*': {
-            chosen: 'Gradus_Requires/js/chosen.jquery',
+            select2: 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
         }
     },
     paths: {
-        'chosen': 'Gradus_Requires/js/chosen.jquery',
+        'select2': 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
     },
 };

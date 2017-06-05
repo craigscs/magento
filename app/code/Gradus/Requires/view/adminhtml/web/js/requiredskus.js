@@ -1,53 +1,50 @@
-require(['jquery','chosen'],function(q){
-    var val = [];
-q( document ).ready(function() {
-    q('#page_entity_sku').chosen({width: "100%"});
-    var vals =  q('#page_require_skus').val();
-    if (vals != '') {
-        val = vals.split(',');
-    }
-});
-q(document).on('click', ':checkbox', function(){
-    var vall = q(this).val();
-    var ch = q(this).is(':checked');
-    if (ch) {
-        if (val.indexOf(q(this).val()) == -1) {
-            val.push(vall);
-        }
-    } else {
-        if (val.indexOf(q(this).val()) != -1) {
-            var index = val.indexOf(vall);
-            if (index >= 0) {
-                val.splice( index, 1 );
-            }
-        }
-    }
-    val.sort(sortNumber);
-    q('#page_require_skus').val(val.toString());
-});
+require(['jquery','select2'],function(q){
+    q( ".select2_input" ).select2({
+        ajax: {
+            url: "/admin/catalog/product/search/",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, // search term
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+                // parse the results into the format expected by Select2
+                // since we are using custom formatting functions we do not need to
+                // alter the remote JSON data, except to indicate that infinite
+                // scrolling can be used
+                params.page = params.page || 1;
 
-q(document).ajaxStop(function () {
-    var vals =  q('#page_require_skus').val();
-    var ar = vals.split(',');
+                return {
+                    results: data.items,
+                    pagination: {
+                        more: (params.page * 30) < data.total_count
+                    }
+                };
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+        minimumInputLength: 2,
+        templateResult: formatRepo, // omitted for brevity, see the source of this page
+        templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+    });
 
-    setTimeout(ar.forEach(function(element) {
-        q("input:checkbox[value="+element+"]").attr("checked", true);
-    }), 6000);
-});
+    function formatRepo (repo) {
+        if (repo.loading) return repo.text;
 
-function sortNumber(a,b) {
-    return a - b;
-}
+        var markup = "<div class='select2-result-repository clearfix'>" +
+            "<div class='select2-result-repository__meta'>" +
+            "<div class='select2-result-repository__title'>" + repo.mfr_num + "</div>";
+            "</div></div>";
 
-function waitforChecked(selector, time) {
-    if(document.querySelector(selector)!=null) {
-        alert("The element is displayed, you can put your code instead of this alert.")
-        return;
+        return markup;
     }
-    else {
-        setTimeout(function() {
-            waitforChecked(selector, time);
-        }, time);
+
+    function formatRepoSelection (repo) {
+        return repo.mfr_num;
     }
-}
+
 });
