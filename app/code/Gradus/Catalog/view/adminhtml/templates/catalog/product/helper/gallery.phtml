@@ -72,8 +72,7 @@ $elementToggleCode = $element->getToggleCode() ? $element->getToggleCode() : 'to
     <script id="<?php /* @escapeNotVerified */ echo $block->getHtmlId() ?>-template" data-template="image" type="text/x-magento-template">
         <div class="image item <% if (data.disabled == 1) { %>hidden-for-front<% } %>  <% if (data.video_url) { %>video-item<% } %>"
              data-role="image">
-            Position
-            <input type="input"
+            <input type="hidden"
                    class="admin__control-text"
                    onclick="event.stopPropagation();"
                    name="<?php /* @escapeNotVerified */ echo $elementName ?>[<%- data.file_id %>][position]"
@@ -103,9 +102,10 @@ $elementToggleCode = $element->getToggleCode() ? $element->getToggleCode() : 'to
                    name="<?php /* @escapeNotVerified */ echo $elementName ?>[<%- data.file_id %>][value_id]"
                    value="<%- data.value_id %>"
                    data-form-part="<?php /* @escapeNotVerified */ echo $formName ?>"/>
-            Title
+            <b>Title</b>
             <input type="input"
                    class="admin__control-text"
+                   style="margin-bottom:10px;"
                    onclick="event.stopPropagation();"
                    name="<?php /* @escapeNotVerified */ echo $elementName ?>[<%- data.file_id %>][label]"
                    value="<%- data.label %>"
@@ -179,7 +179,6 @@ $elementToggleCode = $element->getToggleCode() ? $element->getToggleCode() : 'to
 
             <div class="item-description">
                 <% if (data.media_type !== 'external-video') {%>
-                <div class="item-title" data-role="img-title"><%- data.label %></div>
                 <div class="item-size">
                     <span data-role="image-dimens"></span>, <span data-role="image-size"><%- data.sizeLabel %></span>
                 </div>

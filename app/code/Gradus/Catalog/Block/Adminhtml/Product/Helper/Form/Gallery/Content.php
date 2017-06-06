@@ -52,7 +52,6 @@ class Content extends \Magento\Backend\Block\Widget
         \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
         array $data = []
     ) {
-        var_dump("IN OUR CONST"); die();
         $this->_jsonEncoder = $jsonEncoder;
         $this->_mediaConfig = $mediaConfig;
         parent::__construct($context, $data);

@@ -37,7 +37,7 @@ require(['jquery','select2'],function(q){
 
         var markup = "<div class='select2-result-repository clearfix'>" +
             "<div class='select2-result-repository__meta'>" +
-            "<div class='select2-result-repository__title'>" + repo.mfr_num + "</div>";
+            "<div class='select2-result-repository__title'>" + repo.mfr_num + " | " + repo.product_name+"</div>";
             "</div></div>";
 
         return markup;

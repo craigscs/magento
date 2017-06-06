@@ -62,7 +62,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
                 [
                     'name' => 'entity_id[]',
                     'class' => 'select2_input',
-                    'multiple',
+                    'multiple' => 'multiple',
                     'label' => __('Product'),
                     'title' => __('Product'),
                     'required' => true,
@@ -76,7 +76,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
                 [
                     'name' => 'secondary_id[]',
                     'class' => 'select2_input',
-                    'multiple' => 'multiple',
+                    'multiple' => '',
                     'label' => __('Secondary Product'),
                     'title' => __('Secondary Product'),
                     'required' => true,
@@ -90,7 +90,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
                 [
                     'name' => 'requirement[]',
                     'class' => 'select2_input',
-                    'multiple' => 'multiple',
+                    'multiple' => '',
                     'label' => __('Required Product'),
                     'title' => __('Required Product'),
                     'required' => true,

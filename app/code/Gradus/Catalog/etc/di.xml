@@ -4,4 +4,6 @@
     <preference for="Magento\Ui\Model\Export\ConvertToXml" type="Gradus\Catalog\Ui\ConvertToXml" />
     <preference for="Magento\Ui\Controller\Adminhtml\Export\GridToCsv" type="Gradus\Catalog\Ui\GridToCsv" />
     <preference for="Magento\Ui\Controller\Adminhtml\Export\GridToXml" type="Gradus\Catalog\Ui\GridToXml" />
+    <preference for="Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery\Content" type="Gradus\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery\Content" />
+    <preference for="Magento\ProductVideo\Observer\ChangeTemplateObserver" type="Gradus\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery\ChangeTemplateObserver" />
 </config>
