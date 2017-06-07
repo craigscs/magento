@@ -4,11 +4,12 @@
  * See COPYING.txt for license details.
  */
 namespace Gradus\Catalog\Block\Adminhtml\Product\Edit\Button;
+use Magento\Catalog\Block\Adminhtml\Product\Attribute\Button\Generic;
 
 /**
  * Class AddAttribute
  */
-class Copy extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Button\Generic
+class Copy extends Generic
 {
     /**
      * {@inheritdoc}
@@ -16,9 +17,9 @@ class Copy extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Button\Generic
     public function getButtonData()
     {
         return [
-            'label' => __('Copy From'),
+            'label' => __('Copy Data'),
             'class' => 'action-secondary',
-            'on_click' => 'toggleCopy()',
+            'on_click' => 'openCopyModal',
             'sort_order' => 20
         ];
     }
