@@ -147,10 +147,25 @@ if ($warranty == null) { $warrantyString = "No warranty"; }
         $q('#'+h).remove();
     }
 
-    function copyinthebox(res)
+    function copyinthebox(vals)
     {
+        jQuery('#InTheBox_table > tbody').empty();
         $q.each(vals, function(i, v) {
-            addinthebox(i,v);
+            var vals = [];
+            $q.each(v, function(ii, vv) {
+                if (ii == 'count') {
+                    vals['c'] = vv;
+                }
+                if (ii == 'value') {
+                    vals['v'] = vv;
+                }
+                if (ii == 'has_manual') {
+                    jQuery('#has_manual').attr('checked', vv);
+                }
+            })
+            if (typeof(vals['c']) != "undefined" && vals['c'] !== null) {
+                addinthebox(vals['c'], vals['v']);
+            }
         });
         initMce();
     }

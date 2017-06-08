@@ -39,20 +39,25 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
         $prod = $this->pf->load($id);
 
         $result = $this->$field($prod);
-        $res = $this->jf->create()->setData(['res'=>$result['res'], 'func' => $result['q'], 'field'=>$result['field']]);
+        $res = $this->jf->create()->setData(['res'=>$result['res'], 'field_type' => $result['field_type'],'func' => $result['q'], 'field'=>$result['field']]);
         return $res;
     }
 
     public function name($prod)
     {
-        return array('res'=>$prod->getName(), 'q'=>'copyname', 'field'=>'name');
+        return array('res'=>$prod->getName(), 'q'=>'copyname', 'field'=>'product[name]', 'field_type'=>"byName");
     }
 
     public function InTheBox($prod)
     {
         $box = $prod->getData('in_the_box');
         $inbox = json_decode($box);
-        return array('res' =>$inbox, 'q' => "");
+        return array(
+            'res' =>$inbox,
+            'field_type' => 'dynamic',
+            'field' => 'inthebox',
+            'q' => 'copyinthebox'
+        );
     }
 
     public function categories($prod)
@@ -64,14 +69,62 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
     {
         $spec = $prod->getData('tech_specs');
         $specs = json_decode($spec);
-        return array('res' => $specs, 'q' => "copyHeaders");
+        return array('field_type' => "dynamic", 'field' => 'techspecs', 'res' => $specs, 'q' => "copyHeaders");
     }
 
     public function description($prod)
     {
         return array(
-            'res' => array('description'=>$prod->getData('description'), 'short_description' => $prod->getgDatagetData('short_description'), 'overview_note' => $prod->getData('overview_note')),
-            'q' => 'setFields'
+            'res' => $prod->getData('description'),
+            'q' => 'setFields',
+            'field_type' => "byName",
+            'field' => 'description'
+        );
+    }
+    public function short_description($prod)
+    {
+        return array(
+            'res' => $prod->getData('short_description'),
+            'q' => 'setFields',
+            'field_type' => "byName",
+            'field' => 'short_description'
+        );
+    }
+    public function overview_note($prod)
+    {
+        return array(
+            'res' => $prod->getData('overview_note'),
+            'q' => 'setFields',
+            'field_type' => "byName",
+            'field' => 'overview_note'
+        );
+    }
+
+    public function metaTitle($prod)
+    {
+        return array(
+            'q' => 'setFields',
+            'res' => $prod->getData('meta_title'),
+            'field_type' => 'byName',
+            'field' => 'product[meta_title]'
+        );
+    }
+    public function metaKeywords($prod)
+    {
+        return array(
+            'q' => 'setFields',
+            'res' => $prod->getData('meta_keyword'),
+            'field_type' => 'byName',
+            'field' => 'product[meta_keyword]'
+        );
+    }
+    public function metaDescription($prod)
+    {
+        return array(
+            'q' => 'setFields',
+            'res' => $prod->getData('meta_description'),
+            'field_type' => 'byName',
+            'field' => 'product[meta_description]'
         );
     }
 
@@ -79,13 +132,18 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
     {
         $highlight = $prod->getData('highlights');
         $highlights = json_decode($highlight);
-        return array('res' =>$highlights, 'q' => 'copyHighlight', 'field'=>'highlights');
+        return array('res' =>$highlights, 'q' => 'copyHighlight', 'field'=>'highlights', 'field_type' => "dynamic");
     }
 
     public function features($prod)
     {
         $feat = $prod->getData('features');
         $feats = json_decode($feat);
-        return array('res' =>$feats, 'q' => "copyFeatures");
+        return array(
+            'res' =>$feats,
+            'q' => "copyFeatures",
+            'field' => 'features',
+            'field_type' => 'dynamic'
+        );
     }
 }

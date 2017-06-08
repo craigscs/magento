@@ -115,9 +115,20 @@ $count = 1;
 
     function copyFeatures(vals)
     {
+        jQuery('#features_table > tbody').empty();
         $q.each(vals, function(i, v) {
-        addFeature(i,v);
-    });
+            $q.each(v, function(ii, vv) {
+                if (ii == 'name') {
+                    vals['c'] = vv;
+                }
+                if (ii == 'desc') {
+                    vals['v'] = vv;
+                }
+            })
+            if (typeof(vals['c']) != "undefined" && vals['c'] !== null) {
+                addFeature(vals['c'], vals['v']);
+            }
+        });
         initMce();
     }
 

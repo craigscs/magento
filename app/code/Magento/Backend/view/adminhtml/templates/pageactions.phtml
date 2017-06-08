@@ -31,10 +31,14 @@
             <option value="highlights">Highlights</option>
             <option value="techspecs">Specifications</option>
             <option value="description">Description</option>
+            <option value="short_description">Short Description</option>
+            <option value="overview_note">Overview Note</option>
             <option value="InTheBox">Includes</option>
             <option value="features">Features</option>
             <option value="images">Images & Videos</option>
-            <option value="seo">Seo Information</option>
+            <option value="metaKeywords">Meta Keywords</option>
+            <option value="metaTitle">Meta Title</option>
+            <option value="metaDescription">Meta Description</option>
             <option value="related">Related Products</option>
             <option value="accessories">Accessories</option>
             <option value="compatibility">Compatibility</option>
@@ -71,18 +75,34 @@
                 data: {form_key: window.FORM_KEY},
                 context: document.body
             }).done(function(res) {
-                if (!res.res.isArray) {
-                    copyfield(res.field, res.res);
-                } else {
-                    copyfields(n, v);
+                if (res.field_type == "byName") {
+                    copyfieldName(res.field, res.res);
+                }
+                if (res.field_type == "byId")
+                {
+                    copyfieldId(res.field, res.res);
+                }
+                if (res.field_type == "dynamic")
+                {
+                    copyfieldDynamic(res.func, res.res);
                 }
             })
         });
     }
 
-    function copyfield(n, v)
+    function copyfieldId(n, v)
     {
-        jQuery('[name="product['+n+']"]').val(v);
+        jQuery('#'+n).html(v);
+    }
+
+    function copyfieldName(n, v)
+    {
+        jQuery('[name="'+n+'"]').val(v);
+    }
+
+    function copyfieldDynamic(n, v)
+    {
+        copyFeatures(v);
     }
 
     function setFields(vals)

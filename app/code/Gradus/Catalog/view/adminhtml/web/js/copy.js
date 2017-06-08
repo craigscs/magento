@@ -10,6 +10,7 @@ require(['jquery', 'Magento_Ui/js/modal/modal', 'select2'],function(q, modal) {
         ajax: {
             url: "/admin/catalog/product/search/",
             dataType: 'json',
+            closeOnSelect: false,
             delay: 250,
             data: function (params) {
                 return {
