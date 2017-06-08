@@ -1,10 +1,10 @@
 var config = {
     map: {
         '*': {
-            multiselect: 'Gradus_Requires/js/jquery.multi-select.js',
+            select2: 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
         }
     },
     paths: {
-        'multiselect': 'Gradus_Requires/js/jquery.multi-select.js',
+        'select2': 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
     },
 };

@@ -19,7 +19,7 @@ class Copy extends Generic
         return [
             'label' => __('Copy Data'),
             'class' => 'action-secondary',
-            'on_click' => 'openCopyModal',
+            'on_click' => 'openCopyModal()',
             'sort_order' => 20
         ];
     }

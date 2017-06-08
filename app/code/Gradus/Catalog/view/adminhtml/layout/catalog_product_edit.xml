@@ -2,6 +2,7 @@
     <head>
         <link src="Gradus_Catalog::css/chosen.min.css"/>
         <link src="Gradus_Catalog::css/fields.css"/>
+        <link src="Gradus_Requires::css/select/select2.min.css"/>
         <link src="Gradus_Catalog::js/hide.js"/>
         <link src="Gradus_Catalog::js/copy.js"/>
     </head>

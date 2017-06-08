@@ -15,11 +15,16 @@
 
 
 <div id="copy_from_div" style="display:none;">
-    <div id="searchContainer" style="border:1px solid; width:750px; padding:10px;">
+    <div id="searchContainer" style="padding:10px;">
         <div class="admin__action-multiselect-search-wrap" style="width:400px; display:inline-block">
-            <input onkeyup="getHighlightSearch()" id="highlight_search" class="admin__control-text admin__action-multiselect-search" type="text">
+            <b>Search for an item</b>
+            <select id="highlight_search">
+            </select>
             <label class="admin__action-multiselect-search-label"></label>
         </div>
+        <br>
+        <b>Choose fields to copy</b>
+        <br>
         <select multiple style="display: inline-block; max-height:250px; overflow:auto;" id="copy_items">
             <option value="name">Name</option>
             <option value="categories">Categories</option>
@@ -35,19 +40,10 @@
             <option value="compatibility">Compatibility</option>
             <option values="downloads">Downloadable Files</option>
         </select>
-        <button type="button" class="action-secondary" onclick="runCopy()" style="display:inline-block; float:right;">Copy fields</button>
-        <div  style="display:none;">
-            <input id="searchPicked" />
-        </div>
+        <button type="button" class="action-secondary" onclick="runCopy()" style="display:inline-block; float:right; margin-top:10px;">Copy fields</button>
         <br>
-        Selected MFR <div style="display:inline-block; margin-left:5px; font-weight:bold;" id="picked_mfr"></div>
         <div id="copy_messages"></div>
-        <h3>Search Results</h3>
-        <div id="highlight_results" style="max-height:250px; overflow:auto;">
-
-        </div>
     </div>
-</div>
 </div>
 <style>
     .copy_success {
@@ -55,16 +51,16 @@
     }
 </style>
 <script>
-
-    function toggleCopy()
+    function openCopyModal()
     {
-        jQuery('#copy_from_div').toggle();
+        jQuery('#copy_from_div').modal();
+        jQuery('#copy_from_div').modal("openModal");
     }
 
     function runCopy()
     {
         var fields = jQuery('#copy_items').val();
-        var item = jQuery('#searchPicked').val();
+        var item = jQuery('#highlight_search').val();
         if (item == "") {
             alert("Please choose an item to copy from!");
             return;
@@ -75,10 +71,18 @@
                 data: {form_key: window.FORM_KEY},
                 context: document.body
             }).done(function(res) {
-                window[res.func](res.res);
-                jQuery('#copy_messages').append("<div class='copy_success'>"+res.mes+"</div>");
+                if (!res.res.isArray) {
+                    copyfield(res.field, res.res);
+                } else {
+                    copyfields(n, v);
+                }
             })
         });
+    }
+
+    function copyfield(n, v)
+    {
+        jQuery('[name="product['+n+']"]').val(v);
     }
 
     function setFields(vals)
@@ -93,18 +97,5 @@
     {
         jQuery('#searchPicked').val(id);
         jQuery('#picked_mfr').html(mfr);
-    }
-
-    function getHighlightSearch() {
-        var qid = jQuery('#highlight_search').val();
-        if (qid.length >= 3) {
-            jQuery.ajax({
-                url: 'http://' + window.location.hostname + "/admin/catalog/product/search/text/" + qid,
-                data: {form_key: window.FORM_KEY},
-                context: document.body
-            }).done(function (res) {
-                jQuery('#highlight_results').html(res.res);
-            });
-        }
     }
 </script>

@@ -39,8 +39,13 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
         $prod = $this->pf->load($id);
 
         $result = $this->$field($prod);
-        $res = $this->jf->create()->setData(['res'=>$result['res'], 'func' => $result['q']]);
+        $res = $this->jf->create()->setData(['res'=>$result['res'], 'func' => $result['q'], 'field'=>$result['field']]);
         return $res;
+    }
+
+    public function name($prod)
+    {
+        return array('res'=>$prod->getName(), 'q'=>'copyname', 'field'=>'name');
     }
 
     public function InTheBox($prod)
@@ -50,6 +55,10 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
         return array('res' =>$inbox, 'q' => "");
     }
 
+    public function categories($prod)
+    {
+        $cats = $prod->getCategoryIds();
+    }
 
     public function techspecs($prod)
     {
@@ -70,7 +79,7 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
     {
         $highlight = $prod->getData('highlights');
         $highlights = json_decode($highlight);
-        return array('res' =>$highlights, 'q' => 'copyHighlight');
+        return array('res' =>$highlights, 'q' => 'copyHighlight', 'field'=>'highlights');
     }
 
     public function features($prod)
