@@ -27,7 +27,7 @@
         <br>
         <select multiple style="display: inline-block; max-height:250px; overflow:auto;" id="copy_items">
             <option value="name">Name</option>
-            <option value="categories">Categories</option>
+            <option class="error_message" value="categories">Categories</option>
             <option value="highlights">Highlights</option>
             <option value="techspecs">Specifications</option>
             <option value="description">Description</option>
@@ -35,25 +35,22 @@
             <option value="overview_note">Overview Note</option>
             <option value="InTheBox">Includes</option>
             <option value="features">Features</option>
-            <option value="images">Images & Videos</option>
+            <option class="error_message" value="images">Images & Videos</option>
             <option value="metaKeywords">Meta Keywords</option>
             <option value="metaTitle">Meta Title</option>
             <option value="metaDescription">Meta Description</option>
             <option value="related">Related Products</option>
             <option value="accessories">Accessories</option>
             <option value="compatibility">Compatibility</option>
-            <option values="downloads">Downloadable Files</option>
+            <option class="error_message" values="downloads">Downloadable Files</option>
         </select>
-        <button type="button" class="action-secondary" onclick="runCopy()" style="display:inline-block; float:right; margin-top:10px;">Copy fields</button>
+        <div style="clear:both"></div>
+        <button type="button" class="action-secondary" onclick="runCopy()" style="display:inline-block; margin-top:10px;">Copy fields</button>
         <br>
         <div id="copy_messages"></div>
     </div>
 </div>
-<style>
-    .copy_success {
-        color:#00aa00;
-    }
-</style>
+
 <script>
     function openCopyModal()
     {
@@ -69,25 +66,35 @@
             alert("Please choose an item to copy from!");
             return;
         }
-        jQuery('#copy_items').val().each(function (i, obj) {
-            jQuery.ajax({
-                url: 'http://'+window.location.hostname+"/admin/catalog/product/copy/id/"+item+"/field/"+i+"/",
-                data: {form_key: window.FORM_KEY},
-                context: document.body
-            }).done(function(res) {
-                if (res.field_type == "byName") {
-                    copyfieldName(res.field, res.res);
-                }
-                if (res.field_type == "byId")
-                {
-                    copyfieldId(res.field, res.res);
-                }
-                if (res.field_type == "dynamic")
-                {
-                    copyfieldDynamic(res.func, res.res);
-                }
-            })
-        });
+        if (fields != null) {
+            jQuery('#copy_items').val().each(function (i, obj) {
+                jQuery.ajax({
+                    url: 'http://' + window.location.hostname + "/admin/catalog/product/copy/id/" + item + "/field/" + i + "/",
+                    data: {form_key: window.FORM_KEY},
+                    context: document.body
+                }).success(function (res) {
+                    if (res.dataindex != null &&
+                        jQuery('[data-index="'+res.dataindex+'"] > div').attr('data-state-collapsible') != "open") {
+                        jQuery('[data-index="'+res.dataindex+'"] > div').click();
+                    }
+                    if (res.field_type == "byName") {
+                        copyfieldName(res.field, res.res);
+                    }
+                    if (res.field_type == "byId") {
+                        copyfieldId(res.field, res.res);
+                    }
+                    if (res.field_type == "dynamic") {
+                        window[res.func](res.res);
+//                    copyfieldDynamic(res.func, res.res);
+                    }
+                    jQuery.each(res.messages, function(k, v) {
+                       jQuery('#copy_messages').append("<div class='"+k+"'>"+v+"</div>");
+                    });
+                })
+            });
+        } else {
+            jQuery('#copy_messages').append("<div class='error_message'>Please select options above before running copy.");
+        }
     }
 
     function copyfieldId(n, v)
@@ -98,11 +105,6 @@
     function copyfieldName(n, v)
     {
         jQuery('[name="'+n+'"]').val(v);
-    }
-
-    function copyfieldDynamic(n, v)
-    {
-        copyFeatures(v);
     }
 
     function setFields(vals)

@@ -1,3 +1,9 @@
+.success_message {
+    color:#00aa00;
+}
+.error_message {
+    color:#aa0000;
+}
 .admin__fieldset > .admin__field.admin__field-wide[class] > .admin__field-control, .admin__field-row[class] > .admin__field-control, .address-item-edit-content .admin__field[class] > .admin__field-control, .image-panel .admin__fieldset .admin__field:not(.admin__field-inline)[class] > .admin__field-control, .page-layout-admin-login .admin__field[class] > .admin__field-control, .affected-attribute-set .admin__fieldset .admin__field[class] > .admin__field-control, .gift-options-popup .admin__field[class] > .admin__field-control, .admin__page-section .admin__field[class] > .admin__field-control {
     max-width:800px;
 }

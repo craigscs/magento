@@ -39,13 +39,22 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
         $prod = $this->pf->load($id);
 
         $result = $this->$field($prod);
-        $res = $this->jf->create()->setData(['res'=>$result['res'], 'field_type' => $result['field_type'],'func' => $result['q'], 'field'=>$result['field']]);
+        $res = $this->jf->create()->setData(
+            ['dataindex' => $result['data-index'], 'messages' => $result['messages'],'res'=>$result['res'], 'field_type' => $result['field_type'],'func' => $result['q'], 'field'=>$result['field']]);
         return $res;
     }
 
     public function name($prod)
     {
-        return array('res'=>$prod->getName(), 'q'=>'copyname', 'field'=>'product[name]', 'field_type'=>"byName");
+        return array(
+            'res'=>$prod->getName(),
+            'q'=>'copyname',
+            'field'=>'product[name]',
+            'field_type'=>"byName",
+            'messages' => array(
+                'success_message' => 'Name field successfully copied'
+            )
+        );
     }
 
     public function InTheBox($prod)
@@ -56,20 +65,33 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
             'res' =>$inbox,
             'field_type' => 'dynamic',
             'field' => 'inthebox',
-            'q' => 'copyinthebox'
+            'q' => 'copyinthebox',
+            'data-index' => 'block_inthebox.tab',
+            'messages' => array(
+                'success_message' => 'Includes field successfully copied'
+            )
         );
     }
 
     public function categories($prod)
     {
         $cats = $prod->getCategoryIds();
+        var_dump($cats); die();
     }
 
     public function techspecs($prod)
     {
         $spec = $prod->getData('tech_specs');
         $specs = json_decode($spec);
-        return array('field_type' => "dynamic", 'field' => 'techspecs', 'res' => $specs, 'q' => "copyHeaders");
+        return array('field_type' => "dynamic",
+            'field' => 'techspecs',
+            'res' => $specs,
+            'q' => "copyHeaders",
+            'data-index' => 'block_techspecs.tab',
+            'messages' => array(
+                'success_message' => 'Tech Specs field successfully copied'
+            )
+            );
     }
 
     public function description($prod)
@@ -78,7 +100,10 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
             'res' => $prod->getData('description'),
             'q' => 'setFields',
             'field_type' => "byName",
-            'field' => 'description'
+            'field' => 'description',
+            'messages' => array(
+                'success_message' => 'Description field successfully copied'
+            )
         );
     }
     public function short_description($prod)
@@ -87,7 +112,10 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
             'res' => $prod->getData('short_description'),
             'q' => 'setFields',
             'field_type' => "byName",
-            'field' => 'short_description'
+            'field' => 'short_description',
+            'messages' => array(
+                'success_message' => 'Short Description field successfully copied'
+            )
         );
     }
     public function overview_note($prod)
@@ -96,7 +124,10 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
             'res' => $prod->getData('overview_note'),
             'q' => 'setFields',
             'field_type' => "byName",
-            'field' => 'overview_note'
+            'field' => 'overview_note',
+            'messages' => array(
+                'success_message' => 'Overview Note field successfully copied'
+            )
         );
     }
 
@@ -106,7 +137,10 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
             'q' => 'setFields',
             'res' => $prod->getData('meta_title'),
             'field_type' => 'byName',
-            'field' => 'product[meta_title]'
+            'field' => 'product[meta_title]',
+            'messages' => array(
+                'success_message' => 'Meta Title field successfully copied'
+            )
         );
     }
     public function metaKeywords($prod)
@@ -115,7 +149,10 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
             'q' => 'setFields',
             'res' => $prod->getData('meta_keyword'),
             'field_type' => 'byName',
-            'field' => 'product[meta_keyword]'
+            'field' => 'product[meta_keyword]',
+            'messages' => array(
+                'success_message' => 'Meta Keyword field successfully copied'
+            )
         );
     }
     public function metaDescription($prod)
@@ -124,7 +161,10 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
             'q' => 'setFields',
             'res' => $prod->getData('meta_description'),
             'field_type' => 'byName',
-            'field' => 'product[meta_description]'
+            'field' => 'product[meta_description]',
+            'messages' => array(
+                'success_message' => 'Meta Description field successfully copied'
+            )
         );
     }
 
@@ -132,7 +172,16 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
     {
         $highlight = $prod->getData('highlights');
         $highlights = json_decode($highlight);
-        return array('res' =>$highlights, 'q' => 'copyHighlight', 'field'=>'highlights', 'field_type' => "dynamic");
+        return array(
+            'res' =>$highlights,
+            'q' => 'copyHighlight',
+            'field'=>'highlights',
+            'field_type' => "dynamic",
+            'data-index' => 'block_highlights.tab',
+            'messages' => array(
+                'success_message' => 'Highlights field successfully copied'
+            )
+        );
     }
 
     public function features($prod)
@@ -143,7 +192,11 @@ class Copy extends \Magento\Catalog\Controller\Adminhtml\Product\Edit
             'res' =>$feats,
             'q' => "copyFeatures",
             'field' => 'features',
-            'field_type' => 'dynamic'
+            'field_type' => 'dynamic',
+            'data-index' => 'block_features.tab',
+            'messages' => array(
+                'success_message' => 'Features field successfully copied'
+            )
         );
     }
 }
