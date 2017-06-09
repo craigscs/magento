@@ -1,0 +1,1 @@
+sudo git stash && sudo git pull && sudo php bin/magento setup:upgrade && sudo php bin/magento setup:di:compile && sudo php bin/magento setup:static-content:deploy --force && cd .. && sudo chmod -R 777 mage2.gradusgroup.com && cd mage2.gradusgroup,com
