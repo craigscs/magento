@@ -73,6 +73,10 @@
                     data: {form_key: window.FORM_KEY},
                     context: document.body
                 }).success(function (res) {
+                    if (res.res == null) {
+                        jQuery('#copy_messages').append("<div class='error_message'>Nothing was found for "+res.field);
+                        return;
+                    }
                     if (res.dataindex != null &&
                         jQuery('[data-index="'+res.dataindex+'"] > div').attr('data-state-collapsible') != "open") {
                         jQuery('[data-index="'+res.dataindex+'"] > div').click();
@@ -87,9 +91,11 @@
                         window[res.func](res.res);
 //                    copyfieldDynamic(res.func, res.res);
                     }
-                    jQuery.each(res.messages, function(k, v) {
-                       jQuery('#copy_messages').append("<div class='"+k+"'>"+v+"</div>");
-                    });
+                    if (res.messages != null) {
+                        jQuery.each(res.messages, function (k, v) {
+                            jQuery('#copy_messages').append("<div class='" + k + "'>" + v + "</div>");
+                        });
+                    }
                 })
             });
         } else {
